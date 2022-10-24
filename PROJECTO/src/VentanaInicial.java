@@ -15,7 +15,7 @@ public class VentanaInicial {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		System.out.println("hola");
+		System.out.println(" hola");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
