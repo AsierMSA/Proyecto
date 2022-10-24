@@ -15,6 +15,7 @@ public class VentanaInicial {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println("hola");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -48,5 +49,7 @@ public class VentanaInicial {
 		JLabel lblNewLabel = new JLabel("TodoCoches");
 		panel.add(lblNewLabel);
 	}
+	
+	
 
 }
