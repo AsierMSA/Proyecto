@@ -40,7 +40,6 @@ public class VentanaInicial extends JFrame {
 	private JLabel lblDni;
 	private JTextField txtDni;
 	private JLabel lblNombre;
-	private JTextField txtNombre;
 	private JLabel lblFechaNac;
 	private JTextField txtFechaNacimiento;
 	private JLabel lblContrasenia;
@@ -51,10 +50,8 @@ public class VentanaInicial extends JFrame {
 	private JTextField txtDNIInicioSesion;
 	private JLabel lblContraseniaInicioSesion;
 	private JPasswordField txtContraseniaInicioSesion;
-	private JLabel lblNumero;
 	private JTextField txtNumero;
 	private JLabel lblCiudad;
-	private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
@@ -147,39 +144,26 @@ public class VentanaInicial extends JFrame {
 		lblNombre = new JLabel("NOMBRE");
 		panelIzda.add(lblNombre);
 		
-		txtNombre = new JTextField();
-		panelIzda.add(txtNombre);
-		txtNombre.setColumns(10);
-		
 		lblFechaNac = new JLabel("FECHA NACIMIENTO");
 		panelIzda.add(lblFechaNac);
+		
+		lblContrasenia = new JLabel("CONTRASEÑA");
+		
+		panelIzda.add(lblContrasenia);
 		
 		txtFechaNacimiento = new JTextField();
 		panelIzda.add(txtFechaNacimiento);
 		txtFechaNacimiento.setColumns(10);
 		
-<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
+
 		lblContrasenia = new JLabel("CONTRASENIA");
-=======
-		lblContrasenia = new JLabel("CONTRASEÑA");
->>>>>>> a3d5625 Menu
-		panelIzda.add(lblContrasenia);
+		
+		lblCiudad = new JLabel("CIUDAD");
+		panelIzda.add(lblCiudad);
 		
 		txtContrasenia = new JPasswordField();
 		panelIzda.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
-		
-<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
-		lblCiudad = new JLabel("CIUDAD");
-		panelIzda.add(lblCiudad);
-=======
-		lblNumero = new JLabel("Introduce un número:;");
-		panelIzda.add(lblNumero);
->>>>>>> a3d5625 Menu
-		
-		textField = new JTextField();
-		panelIzda.add(textField);
-		textField.setColumns(10);
 		
 		panelDcha = new JPanel();
 		panelCentro.add(panelDcha);
@@ -192,11 +176,11 @@ public class VentanaInicial extends JFrame {
 		panelDcha.add(txtDNIInicioSesion);
 		txtDNIInicioSesion.setColumns(10);
 		
-<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
+
 		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
-=======
+
 		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
->>>>>>> a3d5625 Menu
+
 		panelDcha.add(lblContraseniaInicioSesion);
 		
 		txtContraseniaInicioSesion = new JPasswordField();
