@@ -71,7 +71,7 @@ public class VentanaInicial extends JFrame {
 		
 		setTitle("INICIO SESIÓN");
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -82,7 +82,7 @@ public class VentanaInicial extends JFrame {
 		panelSur = new JPanel();
 		contentPane.add(panelSur, BorderLayout.SOUTH);
 		
-		btnInicioSesion = new JButton("INICIO SESIÓN");
+		btnInicioSesion = new JButton("INICIO SESION");
 	
 		btnInicioSesion.setBackground(Color.CYAN);
 		btnInicioSesion.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
@@ -94,7 +94,7 @@ public class VentanaInicial extends JFrame {
 		btnRegistro.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 		panelSur.add(btnRegistro);
 		
-		btnSalir = new JButton("CERRAR SESIÓN");
+		btnSalir = new JButton("CERRAR SESION");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -112,7 +112,7 @@ public class VentanaInicial extends JFrame {
 		lblRegistro = new JLabel("REGISTRO");
 		panelNorte.add(lblRegistro);
 		
-		lblInicioSesion = new JLabel("INICIO SESIÓN");
+		lblInicioSesion = new JLabel("INICIO SESION");
 		panelNorte.add(lblInicioSesion);
 		
 		panelOeste = new JPanel();
@@ -150,14 +150,14 @@ public class VentanaInicial extends JFrame {
 		panelIzda.add(txtFechaNacimiento);
 		txtFechaNacimiento.setColumns(10);
 		
-		lblContrasenia = new JLabel("CONTRASEÑA");
+		lblContrasenia = new JLabel("CONTRASENIA");
 		panelIzda.add(lblContrasenia);
 		
 		txtContrasenia = new JPasswordField();
 		panelIzda.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
 		
-		lblNumero = new JLabel("Introduce un número:;");
+		lblNumero = new JLabel("Introduce un numero:;");
 		panelIzda.add(lblNumero);
 		
 		txtNumero = new JTextField();
@@ -175,7 +175,7 @@ public class VentanaInicial extends JFrame {
 		panelDcha.add(txtDNIInicioSesion);
 		txtDNIInicioSesion.setColumns(10);
 		
-		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
+		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
 		panelDcha.add(lblContraseniaInicioSesion);
 		
 		txtContraseniaInicioSesion = new JPasswordField();
