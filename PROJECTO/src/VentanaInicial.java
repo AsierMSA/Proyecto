@@ -158,24 +158,24 @@ public class VentanaInicial extends JFrame {
 		panelIzda.add(txtFechaNacimiento);
 		txtFechaNacimiento.setColumns(10);
 		
-<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
-		lblContrasenia = new JLabel("CONTRASENIA");
-=======
-		lblContrasenia = new JLabel("CONTRASEÑA");
->>>>>>> a3d5625 Menu
-		panelIzda.add(lblContrasenia);
+//<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
+//		lblContrasenia = new JLabel("CONTRASENIA");
+//=======
+//		lblContrasenia = new JLabel("CONTRASEÑA");
+//>>>>>>> a3d5625 Menu
+//		panelIzda.add(lblContrasenia);
 		
 		txtContrasenia = new JPasswordField();
 		panelIzda.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
 		
-<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
-		lblCiudad = new JLabel("CIUDAD");
-		panelIzda.add(lblCiudad);
-=======
+//<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
+//		lblCiudad = new JLabel("CIUDAD");
+//		panelIzda.add(lblCiudad);
+//=======
 		lblNumero = new JLabel("Introduce un número:;");
 		panelIzda.add(lblNumero);
->>>>>>> a3d5625 Menu
+//>>>>>>> a3d5625 Menu
 		
 		textField = new JTextField();
 		panelIzda.add(textField);
@@ -192,12 +192,12 @@ public class VentanaInicial extends JFrame {
 		panelDcha.add(txtDNIInicioSesion);
 		txtDNIInicioSesion.setColumns(10);
 		
-<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
-		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
-=======
-		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
->>>>>>> a3d5625 Menu
-		panelDcha.add(lblContraseniaInicioSesion);
+//<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
+//		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
+//=======
+//		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
+//>>>>>>> a3d5625 Menu
+//		panelDcha.add(lblContraseniaInicioSesion);
 		
 		txtContraseniaInicioSesion = new JPasswordField();
 		panelDcha.add(txtContraseniaInicioSesion);

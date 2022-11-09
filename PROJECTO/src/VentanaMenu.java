@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 
 public class VentanaMenu {
 
-	private JFrame frame;
+	JFrame frame;
 	private ImageIcon imagen;
 	private ImageIcon icono;
 	private JTextField textField;
