@@ -51,6 +51,11 @@ public class Coche {
 	public void setPotencia(int potencia) {
 		this.potencia = potencia;
 	}
+	@Override
+	public String toString() {
+		return "Coche [modelo=" + modelo + ", marca=" + marca + ", puertas=" + puertas + ", kilometros=" + kilometros
+				+ ", anio=" + anio + ", potencia=" + potencia + "]";
+	}
 	
 	
 }

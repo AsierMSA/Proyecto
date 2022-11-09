@@ -43,6 +43,11 @@ public class Usuario{
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
+	@Override
+	public String toString() {
+		return "Usuario [dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", nombre=" + nombre + ", contrasenia="
+				+ contrasenia + ", admin=" + admin + ", ciudad=" + ciudad + "]";
+	}
 	
 	
 }
