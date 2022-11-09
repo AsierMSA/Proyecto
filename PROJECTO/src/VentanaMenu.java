@@ -2,28 +2,14 @@ import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JMenuBar;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Color;
-import javax.swing.JMenu;
-import java.awt.Dimension;
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.border.MatteBorder;
-
-import rsscalelabel.RSScaleLabel;
-
 import javax.swing.ImageIcon;
-import java.awt.Button;
 
 public class VentanaMenu {
 
@@ -31,6 +17,7 @@ public class VentanaMenu {
 	private ImageIcon imagen;
 	private ImageIcon icono;
 	private JTextField textField;
+	private JTextField txtPerfil;
 
 	/**
 	 * Launch the application.
@@ -78,6 +65,17 @@ public class VentanaMenu {
 		imagenb(btnNewButton,"C:\\Users\\Estudiar\\OneDrive\\Im\u00E1genes\\menu_icon-icons.com_69502.png");
 		frame.getContentPane().add(btnNewButton);
 		
+		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(btnNewButton, popupMenu);
+		
+		txtPerfil = new JTextField();
+		txtPerfil.setText("Perfil\r\n");
+		popupMenu.add(txtPerfil);
+		txtPerfil.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Todo\r\n");
+		popupMenu.add(lblNewLabel_4);
+		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\Estudiar\\OneDrive\\Im\u00E1genes\\fondo.jpg"));
 		lblNewLabel_1.setBounds(130, 60, 431, 243);
@@ -108,5 +106,22 @@ public class VentanaMenu {
 		this.imagen=new ImageIcon(ruta);
 		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance(l.getWidth(), l.getHeight(), Image.SCALE_DEFAULT));
 		l.setIcon(this.icono);
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }
