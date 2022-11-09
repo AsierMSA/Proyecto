@@ -160,11 +160,25 @@ public class VentanaInicial extends JFrame {
 		
 		lblCiudad = new JLabel("CIUDAD");
 		panelIzda.add(lblCiudad);
+
 		
 		txtContrasenia = new JPasswordField();
 		panelIzda.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
 		
+
+
+		lblCiudad = new JLabel("CIUDAD");
+		panelIzda.add(lblCiudad);
+
+		//lblNumero = new JLabel("Introduce un número:;");
+		//panelIzda.add(lblNumero);
+
+		
+		//textField = new JTextField();
+		//panelIzda.add(textField);
+		//textField.setColumns(10);
+
 		panelDcha = new JPanel();
 		panelCentro.add(panelDcha);
 		panelDcha.setLayout(new GridLayout(2, 2, 0, 0));
@@ -177,11 +191,13 @@ public class VentanaInicial extends JFrame {
 		txtDNIInicioSesion.setColumns(10);
 		
 
+
 		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
 
 		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
 
 		panelDcha.add(lblContraseniaInicioSesion);
+
 		
 		txtContraseniaInicioSesion = new JPasswordField();
 		panelDcha.add(txtContraseniaInicioSesion);
