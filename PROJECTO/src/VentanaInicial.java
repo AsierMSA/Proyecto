@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
 public class VentanaInicial extends JFrame {
-	private int mordekaiser;
+
 	private JPanel contentPane;
 	private JPanel panelSur;
 	private JPanel panelNorte;
@@ -47,6 +47,8 @@ public class VentanaInicial extends JFrame {
 	private JPasswordField txtContraseniaInicioSesion;
 	private JLabel lblNumero;
 	private JTextField txtNumero;
+	private JLabel lblCiudad;
+	private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +71,7 @@ public class VentanaInicial extends JFrame {
 	public VentanaInicial() {
 		
 		
-		setTitle("INICIO SESIÓN");
+		setTitle("INICIO SESION");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -157,12 +159,12 @@ public class VentanaInicial extends JFrame {
 		panelIzda.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
 		
-		lblNumero = new JLabel("Introduce un numero:;");
-		panelIzda.add(lblNumero);
+		lblCiudad = new JLabel("CIUDAD");
+		panelIzda.add(lblCiudad);
 		
-		txtNumero = new JTextField();
-		panelIzda.add(txtNumero);
-		txtNumero.setColumns(10);
+		textField = new JTextField();
+		panelIzda.add(textField);
+		textField.setColumns(10);
 		
 		panelDcha = new JPanel();
 		panelCentro.add(panelDcha);
