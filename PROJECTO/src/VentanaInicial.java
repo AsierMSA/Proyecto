@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
 public class VentanaInicial extends JFrame {
-
+	private int mordekaiser;
 	private JPanel contentPane;
 	private JPanel panelSur;
 	private JPanel panelNorte;
