@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -20,6 +22,10 @@ import java.awt.Toolkit;
 
 public class VentanaInicial extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panelSur;
 	private JPanel panelNorte;
@@ -66,7 +72,7 @@ public class VentanaInicial extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Crear el frame
 	 */
 	public VentanaInicial() {
 		
@@ -152,15 +158,24 @@ public class VentanaInicial extends JFrame {
 		panelIzda.add(txtFechaNacimiento);
 		txtFechaNacimiento.setColumns(10);
 		
+<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
 		lblContrasenia = new JLabel("CONTRASENIA");
+=======
+		lblContrasenia = new JLabel("CONTRASEÑA");
+>>>>>>> a3d5625 Menu
 		panelIzda.add(lblContrasenia);
 		
 		txtContrasenia = new JPasswordField();
 		panelIzda.add(txtContrasenia);
 		txtContrasenia.setColumns(10);
 		
+<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
 		lblCiudad = new JLabel("CIUDAD");
 		panelIzda.add(lblCiudad);
+=======
+		lblNumero = new JLabel("Introduce un número:;");
+		panelIzda.add(lblNumero);
+>>>>>>> a3d5625 Menu
 		
 		textField = new JTextField();
 		panelIzda.add(textField);
@@ -170,19 +185,24 @@ public class VentanaInicial extends JFrame {
 		panelCentro.add(panelDcha);
 		panelDcha.setLayout(new GridLayout(2, 2, 0, 0));
 		
-		lblDNIInicioSesion = new JLabel("Introduce tu dni: ");
+		lblDNIInicioSesion = new JLabel("Introduce tu DNI: ");
 		panelDcha.add(lblDNIInicioSesion);
 		
 		txtDNIInicioSesion = new JTextField();
 		panelDcha.add(txtDNIInicioSesion);
 		txtDNIInicioSesion.setColumns(10);
 		
+<<<<<<< Upstream, based on branch 'master' of https://github.com/AsierMSA/Proyecto.git
 		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
+=======
+		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
+>>>>>>> a3d5625 Menu
 		panelDcha.add(lblContraseniaInicioSesion);
 		
 		txtContraseniaInicioSesion = new JPasswordField();
 		panelDcha.add(txtContraseniaInicioSesion);
 		txtContraseniaInicioSesion.setColumns(10);
+		
 	}
 
 }
