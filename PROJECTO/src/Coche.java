@@ -6,7 +6,8 @@ public class Coche {
 	private int kilometros;
 	private int anio;
 	private int potencia;
-	public Coche(String modelo, String marca, int puertas, int kilometros, int anio, int potencia) {
+	private String foto;
+	public Coche(String modelo, String marca, int puertas, int kilometros, int anio, int potencia, String foto) {
 		super();
 		this.modelo = modelo;
 		this.marca = marca;
@@ -14,7 +15,17 @@ public class Coche {
 		this.kilometros = kilometros;
 		this.anio = anio;
 		this.potencia = potencia;
+		this.foto=foto;
 	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
 	public String getModelo() {
 		return modelo;
 	}
