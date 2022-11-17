@@ -21,5 +21,24 @@ public class Venta extends JLabel {
 		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance(100, this.getHeight(), Image.SCALE_DEFAULT));
 		this.setIcon(this.icono);
 		this.setText(u.getNombre());
+		
+	}
+	public ImageIcon getImagen() {
+		return imagen;
+	}
+	public void setImagen(ImageIcon imagen) {
+		this.imagen = imagen;
+	}
+	public Coche getC() {
+		return c;
+	}
+	public void setC(Coche c) {
+		this.c = c;
+	}
+	public Usuario getU() {
+		return u;
+	}
+	public void setU(Usuario u) {
+		this.u = u;
 	}
 }
