@@ -4,7 +4,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
@@ -108,11 +111,12 @@ public class VentanaVenta extends JFrame {
 		
 		JPanel pnl_sur = new JPanel();
 		contentPane.add(pnl_sur, BorderLayout.SOUTH);
+		JLabel jl=new JLabel("SIN IMAGEN");
 		
 		JButton btn_cancelar = new JButton("CANCELAR");
 		btn_cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				dispose();
 			}
 		});
 		pnl_sur.add(btn_cancelar);
@@ -122,6 +126,32 @@ public class VentanaVenta extends JFrame {
 		
 		JPanel pnl_este = new JPanel();
 		contentPane.add(pnl_este, BorderLayout.EAST);
+		JButton btnNewButton = new JButton("Aniadir Foto");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		pnl_sur.add(btnNewButton);
+		pnl_sur.add(jl);
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jf= new JFileChooser();
+				JFileChooser chooser = new JFileChooser();
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			        "JPG & GIF Images", "jpg", "gif");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(jf);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       System.out.println("You chose to open this file: " +
+			            chooser.getSelectedFile().getName());
+			       	jl.setText(chooser.getSelectedFile().getName());
+			    }
+			    
+				
+			}
+		});
 	}
 
 }

@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -39,11 +43,19 @@ public class VentanaMenu {
 	private JTextField textField;
 	private JTextField txtPerfil;
 	private JTable table;
-	private Venta v;
 	private int fila=-1;
 	private int col=-1;
-	private VentanaCompra vc;
+	private VentanaVenta2 vc;
 	private static Venta vactual;
+	static Coche c=new Coche("R8","Audi",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
+	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo");
+	static Coche cu=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
+	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
+	static Venta v=new Venta(c,u);
+	static Venta vv=new Venta(cu,uc);
+	private static Venta[] lista= {v,vv};
+	private static int i;
+	private static int ch=-1;
 	/**
 	 * Launch the application.
 	 */
@@ -82,29 +94,27 @@ public class VentanaMenu {
 		table = new JTable();
 		table.setCellSelectionEnabled(true);
 		table.setShowVerticalLines(false);
-		Coche c=new Coche("R8","Audi",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
-		Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo");
-		Coche cu=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
-		Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
-		v=new Venta(c,u);
-		Venta vv=new Venta(cu,uc);
+
 		class Renderer extends DefaultTableCellRenderer {
 			/**
 			 * 
 			 */
+			
 
-			Venta[] lista= {v,vv};
 			private static final long serialVersionUID = 1L;
 			 //ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
 
 			 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 			  boolean hasFocus, int row, int column) {
-				 int i=row;
+				i=row;
 			if(col==column && fila==row) {
 				i=row;
 				vactual=lista[i];
 				
-				System.out.println(vactual.getU());
+//				System.out.println(vactual.getU());
+			}
+			if(ch!=-1) {
+				return lista[ch];
 			}
 			
 
@@ -157,7 +167,7 @@ public class VentanaMenu {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vc= new VentanaCompra(vactual);
+				vc= new VentanaVenta2(vactual);
 				
 				vc.setVisible(true);
 				
@@ -224,10 +234,11 @@ public class VentanaMenu {
 
 		
 		DefaultTableModel dtm=new DefaultTableModel();
-		Venta[] lista= {v};
-		Venta[] listab= {vv};
-		dtm.addRow(lista);
-		dtm.addRow(listab);
+		for(int i=0;i<lista.length;i++) {
+			Venta[] v= {lista[i]};
+			dtm.addRow(v);
+		}
+		
 		dtm.addColumn("");
 
 		table.setModel(dtm);
@@ -252,6 +263,10 @@ public class VentanaMenu {
 		lblNewLabel_1.setIcon(new ImageIcon("src\\FOTOS\\fondo.jpg"));
 		lblNewLabel_1.setBounds(120, 59, 431, 243);
 		frame.getContentPane().add(lblNewLabel_1);
+		
+		JButton btnNewButton_1 = new JButton("VENDER\r\n");
+		btnNewButton_1.setBounds(10, 259, 89, 23);
+		frame.getContentPane().add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		
@@ -280,6 +295,49 @@ public class VentanaMenu {
 		textField.setBounds(439, 25, 96, 19);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		textField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					DefaultTableModel dfnew=new DefaultTableModel();
+					dfnew.addColumn("");
+//					System.out.println(textField.getText());
+					
+					String buscar=new String(textField.getText());
+					textField.setText("");
+					
+					for(int i=0;i<lista.length;i++) {
+						
+						if(lista[i].getU().getNombre().equals(buscar)) {
+							System.out.println(lista[i].getU().getNombre());
+							Venta[] enc= {lista[i]};
+							dfnew.addRow(enc);
+							table.setModel(dfnew);
+							ch=i;
+							table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
+							table.getColumnModel().getColumn(0).setPreferredWidth(288);
+							table.getColumnModel().getColumn(0).setMinWidth(36);
+							table.getColumnModel().getColumn(0).setMaxWidth(303);
+						}
+					}
+					table.repaint();
+				}
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		JLabel lblNewLabel_2 = new JLabel("Buscar:");
 		lblNewLabel_2.setBounds(409, 10, 45, 13);
@@ -291,7 +349,15 @@ public class VentanaMenu {
 		lblNewLabel_3.setBounds(0, 60, 129, 243);
 		frame.getContentPane().add(lblNewLabel_3);
 		JLabel foto= new JLabel("esto es una foto");
-
+		btnNewButton_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaVenta vco=new VentanaVenta();
+				vco.setVisible(true);
+				
+			}
+		});
 		
 	}
 	
