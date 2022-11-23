@@ -12,8 +12,11 @@ import javax.swing.JList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 
 public class VentanaVenta2 extends JFrame {
 
@@ -82,6 +85,7 @@ public class VentanaVenta2 extends JFrame {
 				dispose();
 			}
 		});
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		pnl_abajo.add(btn_salir);
 		
 		JButton btnNewButton = new JButton("COMPRAR\r\n\r\n");

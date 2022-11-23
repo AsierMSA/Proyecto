@@ -51,11 +51,16 @@ public class VentanaMenu {
 	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo");
 	static Coche cu=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
 	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
+	static Coche ucc=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
+	static Usuario ucv=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
 	static Venta v=new Venta(c,u);
 	static Venta vv=new Venta(cu,uc);
-	private static Venta[] lista= {v,vv};
+	static Venta vvv=new Venta(ucc,ucv);
+	private static Venta[] lista= {v,vv,vvv};
+	ArrayList<Venta> nuevalista;
 	private static int i;
 	private static int ch=-1;
+	private static Usuario UsuarioActual;
 	/**
 	 * Launch the application.
 	 */
@@ -63,7 +68,7 @@ public class VentanaMenu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaMenu window = new VentanaMenu();
+					VentanaMenu window = new VentanaMenu(null);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,7 +80,8 @@ public class VentanaMenu {
 	/**
 	 * Create the application.
 	 */
-	public VentanaMenu() {
+	public VentanaMenu(Usuario u) {
+		UsuarioActual=u;
 		initialize();
 	}
 
@@ -108,13 +114,17 @@ public class VentanaMenu {
 			  boolean hasFocus, int row, int column) {
 				i=row;
 			if(col==column && fila==row) {
+				if(ch!=-1) {
+					vactual= nuevalista.get(i);
+				}else {
 				i=row;
 				vactual=lista[i];
+				}
 				
 //				System.out.println(vactual.getU());
 			}
 			if(ch!=-1) {
-				return lista[ch];
+				return nuevalista.get(i);
 			}
 			
 
@@ -130,6 +140,7 @@ public class VentanaMenu {
 			public void mouseMoved(MouseEvent e) {
 				fila=table.rowAtPoint(e.getPoint());
 				col=table.columnAtPoint(e.getPoint());
+			
 				
 			}
 			
@@ -312,21 +323,24 @@ public class VentanaMenu {
 					
 					String buscar=new String(textField.getText());
 					textField.setText("");
+					nuevalista = new ArrayList<Venta>();
 					
 					for(int i=0;i<lista.length;i++) {
 						
 						if(lista[i].getU().getNombre().equals(buscar)) {
 							System.out.println(lista[i].getU().getNombre());
 							Venta[] enc= {lista[i]};
+							nuevalista.add(lista[i]);
 							dfnew.addRow(enc);
 							table.setModel(dfnew);
 							ch=i;
-							table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
-							table.getColumnModel().getColumn(0).setPreferredWidth(288);
-							table.getColumnModel().getColumn(0).setMinWidth(36);
-							table.getColumnModel().getColumn(0).setMaxWidth(303);
+							
 						}
 					}
+					table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
+					table.getColumnModel().getColumn(0).setPreferredWidth(288);
+					table.getColumnModel().getColumn(0).setMinWidth(36);
+					table.getColumnModel().getColumn(0).setMaxWidth(303);
 					table.repaint();
 				}
 				

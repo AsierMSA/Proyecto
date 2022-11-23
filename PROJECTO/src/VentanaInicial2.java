@@ -5,7 +5,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -16,11 +19,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-public class VentanaInicial extends JFrame {
+public class VentanaInicial2 extends JFrame {
 
 	/**
 	 * 
@@ -40,8 +44,7 @@ public class VentanaInicial extends JFrame {
 	private JLabel lblDni;
 	private JTextField txtDni;
 	private JLabel lblNombre;
-	private JLabel lblFechaNac;
-	private JTextField txtFechaNacimiento;
+	private JTextField txtCiudad;
 	private JLabel lblContrasenia;
 	private JPasswordField txtContrasenia;
 	private JLabel lblRegistro;
@@ -52,6 +55,9 @@ public class VentanaInicial extends JFrame {
 	private JPasswordField txtContraseniaInicioSesion;
 	private JTextField txtNumero;
 	private JLabel lblCiudad;
+	private JTextField textField_1;
+	private static ArrayList<Usuario> lu;
+	private JButton btnNewButton;
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +65,7 @@ public class VentanaInicial extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaInicial frame = new VentanaInicial();
+					VentanaInicial2 frame = new VentanaInicial2();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +77,7 @@ public class VentanaInicial extends JFrame {
 	/**
 	 * Crear el frame
 	 */
-	public VentanaInicial() {
+	public VentanaInicial2() {
 		
 		
 		setTitle("INICIO SESION");
@@ -87,17 +93,17 @@ public class VentanaInicial extends JFrame {
 		panelSur = new JPanel();
 		contentPane.add(panelSur, BorderLayout.SOUTH);
 		
-		btnInicioSesion = new JButton("INICIO SESION");
-	
-		btnInicioSesion.setBackground(Color.CYAN);
-		btnInicioSesion.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
-		panelSur.add(btnInicioSesion);
-		
 		btnRegistro = new JButton("REGISTRO");
 		
 		btnRegistro.setBackground(Color.GREEN);
 		btnRegistro.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 		panelSur.add(btnRegistro);
+		
+		btnInicioSesion = new JButton("INICIO SESION");
+	
+		btnInicioSesion.setBackground(Color.CYAN);
+		btnInicioSesion.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+		panelSur.add(btnInicioSesion);
 		
 		btnSalir = new JButton("CERRAR SESION");
 		btnSalir.addActionListener(new ActionListener() {
@@ -144,32 +150,36 @@ public class VentanaInicial extends JFrame {
 		lblNombre = new JLabel("NOMBRE");
 		panelIzda.add(lblNombre);
 		
-		lblFechaNac = new JLabel("FECHA NACIMIENTO");
-		panelIzda.add(lblFechaNac);
+		textField_1 = new JTextField();
+		panelIzda.add(textField_1);
+		textField_1.setColumns(10);
 		
 		lblContrasenia = new JLabel("CONTRASEÑA");
 		
 		panelIzda.add(lblContrasenia);
 		
-		txtFechaNacimiento = new JTextField();
-		panelIzda.add(txtFechaNacimiento);
-		txtFechaNacimiento.setColumns(10);
+				
+				txtContrasenia = new JPasswordField();
+				panelIzda.add(txtContrasenia);
+				txtContrasenia.setColumns(10);
 		
 
 		lblContrasenia = new JLabel("CONTRASENIA");
 		
 		lblCiudad = new JLabel("CIUDAD");
 		panelIzda.add(lblCiudad);
-
 		
-		txtContrasenia = new JPasswordField();
-		panelIzda.add(txtContrasenia);
-		txtContrasenia.setColumns(10);
+		txtCiudad = new JTextField();
+		panelIzda.add(txtCiudad);
+		txtCiudad.setColumns(10);
 		
 
 
-		lblCiudad = new JLabel("CIUDAD");
+		lblCiudad = new JLabel("FOTO(opcional)\r\n");
 		panelIzda.add(lblCiudad);
+		
+		btnNewButton = new JButton("SELECCIONAR\r\n\r\n");
+		panelIzda.add(btnNewButton);
 
 		//lblNumero = new JLabel("Introduce un número:;");
 		//panelIzda.add(lblNumero);
@@ -183,7 +193,7 @@ public class VentanaInicial extends JFrame {
 		panelCentro.add(panelDcha);
 		panelDcha.setLayout(new GridLayout(2, 2, 0, 0));
 		
-		lblDNIInicioSesion = new JLabel("Introduce tu DNI: ");
+		lblDNIInicioSesion = new JLabel("DNI\r\n");
 		panelDcha.add(lblDNIInicioSesion);
 		
 		txtDNIInicioSesion = new JTextField();
@@ -194,7 +204,7 @@ public class VentanaInicial extends JFrame {
 
 		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
 
-		lblContraseniaInicioSesion = new JLabel("Introduce tu contraseña:");
+		lblContraseniaInicioSesion = new JLabel("CONTRASE\u00D1A\r\n");
 
 		panelDcha.add(lblContraseniaInicioSesion);
 
@@ -203,15 +213,66 @@ public class VentanaInicial extends JFrame {
 		panelDcha.add(txtContraseniaInicioSesion);
 		txtContraseniaInicioSesion.setColumns(10);
 		
-		
-		
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jf= new JFileChooser();
+				JFileChooser chooser = new JFileChooser();
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			        "JPG & GIF Images", "jpg", "gif");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(jf);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       System.out.println("You chose to open this file: " +
+			            chooser.getSelectedFile().getName());
+			       btnNewButton.setText(chooser.getSelectedFile().getName());
+			    }
+			    
+				
+			}
+		});
+		btnRegistro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String c="";
+				for(int j=0;j<txtContrasenia.getPassword().length;j++) {
+					c=c.concat(String.valueOf(txtContrasenia.getPassword()[j]));
+				}
+				if(!textField_1.getText().equals("") && !txtDni.getText().equals("") && !c.equals("") && !txtCiudad.getText().equals("")) {
+					System.out.println("hecho");
+					
+				}else {
+					JOptionPane.showMessageDialog(rootPane, "Rellena todos los campos obligatorios");
+				}
+				
+			}
+		});
 		btnInicioSesion.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if() {
-//					
-//				}
+			if(txtContraseniaInicioSesion.getPassword().length!=0 && !txtDNIInicioSesion.getText().equals("") ) {
+				String c="";
+				for(int j=0;j<txtContraseniaInicioSesion.getPassword().length;j++) {
+					c=c.concat(String.valueOf(txtContraseniaInicioSesion.getPassword()[j]));
+				}
+				System.out.println(c);
+				for(int i=0;i<lu.size();i++) {
+					if(c.equals(lu.get(i).getContrasenia()) && txtDNIInicioSesion.getText().equals(lu.get(i).getDni())) {
+						dispose();
+						VentanaMenu v=new VentanaMenu(lu.get(i));
+						
+					}
+				}
+				
+					
+				
+				}else {
+					JOptionPane.showMessageDialog(rootPane, "Rellena todos los campos");
+					
+				}
 				
 			}
 		});
