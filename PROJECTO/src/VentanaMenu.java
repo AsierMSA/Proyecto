@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Window;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -47,6 +48,7 @@ public class VentanaMenu {
 	private int col=-1;
 	private VentanaVenta2 vc;
 	private static Venta vactual;
+	private static JButton btnNewButton_2;
 	static Coche c=new Coche("R8","Audi",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
 	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo");
 	static Coche cu=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
@@ -57,10 +59,12 @@ public class VentanaMenu {
 	static Venta vv=new Venta(cu,uc);
 	static Venta vvv=new Venta(ucc,ucv);
 	private static Venta[] lista= {v,vv,vvv};
-	ArrayList<Venta> nuevalista;
+	Venta[] nuevalista;
 	private static int i;
 	private static int ch=-1;
 	private static Usuario UsuarioActual;
+	private static JLabel lblNewLabel_4;
+	static int pos;
 	/**
 	 * Launch the application.
 	 */
@@ -101,38 +105,6 @@ public class VentanaMenu {
 		table.setCellSelectionEnabled(true);
 		table.setShowVerticalLines(false);
 
-		class Renderer extends DefaultTableCellRenderer {
-			/**
-			 * 
-			 */
-			
-
-			private static final long serialVersionUID = 1L;
-			 //ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
-
-			 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-			  boolean hasFocus, int row, int column) {
-				i=row;
-			if(col==column && fila==row) {
-				if(ch!=-1) {
-					vactual= nuevalista.get(i);
-				}else {
-				i=row;
-				vactual=lista[i];
-				}
-				
-//				System.out.println(vactual.getU());
-			}
-			if(ch!=-1) {
-				return nuevalista.get(i);
-			}
-			
-
-			return lista[i];
-			
-			}
-			 
-			}
 
 		table.addMouseMotionListener(new MouseMotionListener() {
 			
@@ -243,36 +215,15 @@ public class VentanaMenu {
 			}
 		});
 
-		
-		DefaultTableModel dtm=new DefaultTableModel();
-		for(int i=0;i<lista.length;i++) {
-			Venta[] v= {lista[i]};
-			dtm.addRow(v);
-		}
-		
-		dtm.addColumn("");
+		cambModel(lista);
 
-		table.setModel(dtm);
-		
-			   
-			table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
-			table.getColumnModel().getColumn(0).setPreferredWidth(288);
-			table.getColumnModel().getColumn(0).setMinWidth(36);
-			table.getColumnModel().getColumn(0).setMaxWidth(303);
-			
-			
-			table.setRowHeight(50);
-			
-			
-				table.setBounds(221, 85, 295, 197);
-				
-				frame.getContentPane().add(table);
+		frame.getContentPane().add(table);
 
 				
 			
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setIcon(new ImageIcon("src\\FOTOS\\fondo.jpg"));
-		lblNewLabel_1.setBounds(120, 59, 431, 243);
+		lblNewLabel_1.setBounds(110, 60, 431, 243);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JButton btnNewButton_1 = new JButton("VENDER\r\n");
@@ -323,25 +274,23 @@ public class VentanaMenu {
 					
 					String buscar=new String(textField.getText());
 					textField.setText("");
-					nuevalista = new ArrayList<Venta>();
+					nuevalista = new Venta[50];
+					pos=0;
 					
 					for(int i=0;i<lista.length;i++) {
 						
 						if(lista[i].getU().getNombre().equals(buscar)) {
 							System.out.println(lista[i].getU().getNombre());
-							Venta[] enc= {lista[i]};
-							nuevalista.add(lista[i]);
-							dfnew.addRow(enc);
-							table.setModel(dfnew);
+							nuevalista[pos]=lista[i];
+							pos++;
 							ch=i;
+							
 							
 						}
 					}
-					table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
-					table.getColumnModel().getColumn(0).setPreferredWidth(288);
-					table.getColumnModel().getColumn(0).setMinWidth(36);
-					table.getColumnModel().getColumn(0).setMaxWidth(303);
-					table.repaint();
+				btnNewButton_2.setVisible(true);
+				cambModel(nuevalista);
+				lblNewLabel_4.setText(pos+" articulos encontrados");
 				}
 				
 			}
@@ -354,7 +303,7 @@ public class VentanaMenu {
 		});
 		
 		JLabel lblNewLabel_2 = new JLabel("Buscar:");
-		lblNewLabel_2.setBounds(409, 10, 45, 13);
+		lblNewLabel_2.setBounds(439, 0, 45, 13);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
@@ -362,6 +311,16 @@ public class VentanaMenu {
 		lblNewLabel_3.setIcon(new ImageIcon("src\\FOTOS\\images.jpeg"));
 		lblNewLabel_3.setBounds(0, 60, 129, 243);
 		frame.getContentPane().add(lblNewLabel_3);
+		
+		lblNewLabel_4 = new JLabel("\r\n");
+		lblNewLabel_4.setBounds(368, 44, 181, 13);
+		frame.getContentPane().add(lblNewLabel_4);
+		
+		btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.setBounds(407, 23, 22, 23);
+		frame.getContentPane().add(btnNewButton_2);
+		imagenb(btnNewButton_2,"src\\FOTOS\\93634.png");
+		btnNewButton_2.setVisible(false);
 		JLabel foto= new JLabel("esto es una foto");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			
@@ -372,9 +331,75 @@ public class VentanaMenu {
 				
 			}
 		});
-		
+		btnNewButton_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ch=-1;
+				cambModel(lista);
+				btnNewButton_2.setVisible(false);
+				lblNewLabel_4.setText("");
+				
+			}
+		} );
 	}
 	
+	
+	private void cambModel(Venta[] listad) {
+		// TODO Auto-generated method stub
+		DefaultTableModel dtm=new DefaultTableModel();
+		for(int i=0;i<listad.length;i++) {
+			if(listad[i]!=null) {
+			Venta[] v= {listad[i]};
+			dtm.addRow(v);
+			System.out.println(i);
+			}
+		}
+
+		class Renderer extends DefaultTableCellRenderer {
+			/**
+			 * 
+			 */
+
+			private static final long serialVersionUID = 1L;
+			 //ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
+
+			 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+			  boolean hasFocus, int row, int column) {
+				i=row;
+			if(col==column && fila==row) {
+				if(ch!=-1) {
+					vactual= nuevalista[i];
+				}else {
+				i=row;
+				vactual=lista[i];
+				}
+				
+//				System.out.println(vactual.getU());
+			}
+			if(ch!=-1) {
+				return nuevalista[i];
+			}
+			return lista[i];
+			}	 
+			}
+		
+			dtm.addColumn("");
+
+			table.setModel(dtm);
+		
+			   
+			table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
+			table.getColumnModel().getColumn(0).setPreferredWidth(288);
+			table.getColumnModel().getColumn(0).setMinWidth(36);
+			table.getColumnModel().getColumn(0).setMaxWidth(303);
+			
+			
+			table.setRowHeight(50);
+			table.setBounds(221, 85, 295, 197);
+		
+	}
+
 	private void imagen(JLabel l , String ruta) {
 		this.imagen=new ImageIcon(ruta);
 		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance(l.getWidth(), l.getHeight(), Image.SCALE_DEFAULT));
