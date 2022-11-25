@@ -3,7 +3,7 @@ public class Usuario{
 	private String fechaNacimiento;
 	private String nombre;
 	private String contrasenia;
-	private boolean admin;
+	//private boolean admin;
 	private String ciudad;
 	public Usuario(String dni, String fechaNacimiento, String nombre, String contrasenia, String ciudad) {
 		super();
@@ -46,7 +46,7 @@ public class Usuario{
 	@Override
 	public String toString() {
 		return "Usuario [dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", nombre=" + nombre + ", contrasenia="
-				+ contrasenia + ", admin=" + admin + ", ciudad=" + ciudad + "]";
+				+ contrasenia + ", admin="  + ", ciudad=" + ciudad + "]";
 	}
 	
 	

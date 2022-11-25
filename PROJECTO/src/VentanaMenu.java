@@ -23,10 +23,14 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.event.CellEditorListener;
@@ -36,7 +40,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
-public class VentanaMenu {
+
+
+
+public class VentanaMenu extends JFrame{
 
 	private JFrame frame;
 	private ImageIcon imagen;
@@ -64,6 +71,8 @@ public class VentanaMenu {
 	private static int ch=-1;
 	private static Usuario UsuarioActual;
 	private static JLabel lblNewLabel_4;
+	private JMenuBar barraMenu;
+	private JFrame ventanaActual;
 	static int pos;
 	/**
 	 * Launch the application.
@@ -156,6 +165,18 @@ public class VentanaMenu {
 				
 			}
 		});
+		
+		barraMenu = new JMenuBar();
+		barraMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		JMenu mFicheros = new JMenu("Ficheros");
+		JMenu mSalir = new JMenu("Salir");
+		barraMenu.add(mFicheros);
+		barraMenu.add(mSalir);
+		
+		
+		add(barraMenu);
+		setVisible(true);
+		
 		
 		table.setDefaultEditor( Object.class, new TableCellEditor() {
 			
@@ -426,5 +447,9 @@ public class VentanaMenu {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	
 	}
+	
+	
+	
 }
