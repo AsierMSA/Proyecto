@@ -53,6 +53,31 @@ public class BD {
 			e.printStackTrace();
 		}
 	}
+	public static void insertarCoche(Connection con, String modelo, String marca, int puertas, int kilometros, int potencia, String foto) {
+		String sql = "INSERT INTO Coche VALUES('"+modelo+"','"+marca+"','"+puertas+"','"+kilometros+"','"+potencia+"','"+foto+"')";
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void UsuarioRegular(Connection con, String dni, String fechaNacimiento, String nombre, String contraseña, String ciudad) {
+		String sql = "INSERT INTO Usuario VALUES('"+dni+"','"+fechaNacimineto+"','"+nombre+"','"+contraseña+"','"+ciudad+"')";
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
 }
 	
 	
