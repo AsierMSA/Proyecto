@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -66,7 +65,7 @@ public class BD {
 	}
 	
 	public static void UsuarioRegular(Connection con, String dni, String fechaNacimiento, String nombre, String contraseña, String ciudad) {
-		String sql = "INSERT INTO Usuario VALUES('"+dni+"','"+fechaNacimineto+"','"+nombre+"','"+contraseña+"','"+ciudad+"')";
+		String sql = "INSERT INTO Usuario VALUES('"+dni+"','"+fechaNacimiento+"','"+nombre+"','"+contraseña+"','"+ciudad+"')";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);

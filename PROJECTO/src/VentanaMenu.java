@@ -39,6 +39,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 
 
@@ -108,9 +110,9 @@ public class VentanaMenu extends JFrame{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 575, 340);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
 		table = new JTable();
+		table.setBounds(221, 85, 295, 197);
 		table.setCellSelectionEnabled(true);
 		table.setShowVerticalLines(false);
 
@@ -174,7 +176,7 @@ public class VentanaMenu extends JFrame{
 		barraMenu.add(mSalir);
 		
 		
-		add(barraMenu);
+		getContentPane().add(barraMenu);
 		setVisible(true);
 		
 		
@@ -238,33 +240,23 @@ public class VentanaMenu extends JFrame{
 
 		cambModel(lista);
 
-		frame.getContentPane().add(table);
-
 				
 			
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setIcon(new ImageIcon("src\\FOTOS\\fondo.jpg"));
 		lblNewLabel_1.setBounds(110, 60, 431, 243);
-		frame.getContentPane().add(lblNewLabel_1);
+		lblNewLabel_1.setIcon(new ImageIcon("src\\FOTOS\\fondo.jpg"));
 		
 		JButton btnNewButton_1 = new JButton("VENDER\r\n");
 		btnNewButton_1.setBounds(10, 259, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		
 		lblNewLabel.setBounds(24, 0, 66, 69);
 		
 		imagen(lblNewLabel, "src\\FOTOS\\74472.png");
 		
-
-		frame.getContentPane().add(lblNewLabel);
-		
 		JButton btnNewButton = new JButton("New button");
-		
 		btnNewButton.setBounds(100, 20, 29, 29);
 		imagenb(btnNewButton,"src\\FOTOS\\menu_icon-icons.com_69502.png");
-		frame.getContentPane().add(btnNewButton);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(btnNewButton, popupMenu);
@@ -276,7 +268,6 @@ public class VentanaMenu extends JFrame{
 		
 		textField = new JTextField();
 		textField.setBounds(439, 25, 96, 19);
-		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		textField.addKeyListener(new KeyListener() {
 			
@@ -291,7 +282,6 @@ public class VentanaMenu extends JFrame{
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 					DefaultTableModel dfnew=new DefaultTableModel();
 					dfnew.addColumn("");
-//					System.out.println(textField.getText());
 					
 					String buscar=new String(textField.getText());
 					textField.setText("");
@@ -325,22 +315,29 @@ public class VentanaMenu extends JFrame{
 		
 		JLabel lblNewLabel_2 = new JLabel("Buscar:");
 		lblNewLabel_2.setBounds(439, 0, 45, 13);
-		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
+		lblNewLabel_3.setBounds(0, 60, 129, 243);
 		lblNewLabel_3.setForeground(new Color(0, 0, 255));
 		lblNewLabel_3.setIcon(new ImageIcon("src\\FOTOS\\images.jpeg"));
-		lblNewLabel_3.setBounds(0, 60, 129, 243);
-		frame.getContentPane().add(lblNewLabel_3);
 		
 		lblNewLabel_4 = new JLabel("\r\n");
 		lblNewLabel_4.setBounds(368, 44, 181, 13);
-		frame.getContentPane().add(lblNewLabel_4);
 		
 		btnNewButton_2 = new JButton("New button");
 		btnNewButton_2.setBounds(407, 23, 22, 23);
-		frame.getContentPane().add(btnNewButton_2);
 		imagenb(btnNewButton_2,"src\\FOTOS\\93634.png");
+		frame.getContentPane().setLayout(null);
+		frame.getContentPane().add(table);
+		frame.getContentPane().add(lblNewLabel_1);
+		frame.getContentPane().add(btnNewButton_1);
+		frame.getContentPane().add(lblNewLabel);
+		frame.getContentPane().add(btnNewButton);
+		frame.getContentPane().add(textField);
+		frame.getContentPane().add(lblNewLabel_2);
+		frame.getContentPane().add(lblNewLabel_3);
+		frame.getContentPane().add(lblNewLabel_4);
+		frame.getContentPane().add(btnNewButton_2);
 		btnNewButton_2.setVisible(false);
 		JLabel foto= new JLabel("esto es una foto");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -373,7 +370,6 @@ public class VentanaMenu extends JFrame{
 			if(listad[i]!=null) {
 			Venta[] v= {listad[i]};
 			dtm.addRow(v);
-			System.out.println(i);
 			}
 		}
 
@@ -417,7 +413,6 @@ public class VentanaMenu extends JFrame{
 			
 			
 			table.setRowHeight(50);
-			table.setBounds(221, 85, 295, 197);
 		
 	}
 
