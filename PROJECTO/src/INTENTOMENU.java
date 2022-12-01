@@ -27,7 +27,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -44,10 +43,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
 
 public class INTENTOMENU {
 
@@ -70,18 +67,20 @@ public class INTENTOMENU {
 	private static int i;
 	private static int ch=-1;
 	private VentanaVenta2 vc;
-	private static Venta vactual;
-	static Coche c=new Coche("R8","Audi",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
+	
+	static Coche c=new Coche("R8","AUDI",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
 	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo");
-	static Coche cu=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
+	static Coche cu=new Coche("R8","Tesla",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
 	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
-	static Coche ucc=new Coche("R8","Audo",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
-	static Usuario ucv=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
+	static Coche ucc=new Coche("Arona","Seat",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
+	static Usuario ucv=new Usuario("16097385F","2002/03/11","Speed","Teresa00","Getxo");
 	static Venta v=new Venta(c,u);
 	static Venta vv=new Venta(cu,uc);
 	static Venta vvv=new Venta(ucc,ucv);
 	private static Venta[] lista= {v,vv,vvv,vvv};
 	Venta[] nuevalista;
+	private static Venta vactual;
+	private static Usuario uactual=u;
 	private JTable table;
 	private JButton Volver;
 	private JScrollPane js=null;
@@ -93,8 +92,8 @@ public class INTENTOMENU {
 	private JSlider precioSlider;
 	private JLabel precioRango;
 	private JLabel precioRango_1;
-	private JLabel lblNewLabel_3;
 	private JPanel panel_4;
+	private JLabel Perfil;
 
 	/**
 	 * Launch the application.
@@ -125,10 +124,8 @@ public class INTENTOMENU {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
-		Connection con = BD.initBD("todoCoches.db");
-		BD.crearTablas(con);
-		BD.closeBD(con);
-		
+
+		cargarListaBD();
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 627, 476);
@@ -140,6 +137,8 @@ public class INTENTOMENU {
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		PanelSuperior = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) PanelSuperior.getLayout();
+		flowLayout.setHgap(10);
 		PanelSuperior.setBackground(Color.WHITE);
 		panel.add(PanelSuperior, BorderLayout.NORTH);
 		
@@ -168,7 +167,9 @@ public class INTENTOMENU {
 		PanelInferior = new JPanel();
 		panel.add(PanelInferior, BorderLayout.SOUTH);
 		
-		lblNewLabel_1 = new JLabel("      Buscar:");
+		lblNewLabel_1 = new JLabel("Buscar:  ");
+		lblNewLabel_1.setSize(20, lblNewLabel_1.getHeight());
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel_1.setBackground(Color.WHITE);
 		lblNewLabel_1.setOpaque(true);
 		panel_1.add(lblNewLabel_1);
@@ -176,6 +177,16 @@ public class INTENTOMENU {
 		textField = new JTextField();
 		panel_1.add(textField);
 		textField.setColumns(10);
+		
+		Perfil = new JLabel();
+		Perfil.setHorizontalAlignment(SwingConstants.RIGHT);
+		Image img1 = ImageIO.read(new File("src\\\\FOTOS\\\\74472.png"));
+		Image dimg1 = img1.getScaledInstance(65, 45,
+		        Image.SCALE_SMOOTH);
+		ImageIcon logo1=new ImageIcon(dimg1);
+		Perfil.setIcon(logo1);
+		Perfil.setText(uactual.getNombre());
+		PanelSuperior.add(Perfil);
 		
 		lblNewLabel_2 = new JLabel("");
 		PanelInferior.add(lblNewLabel_2);
@@ -284,7 +295,15 @@ public class INTENTOMENU {
 				System.exit(0);
 			}
 		});
-		
+		filtrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buscarLista(comboModel.getSelectedItem());
+				System.out.println(comboModel.getSelectedItem());
+				
+			}
+		});
 		btnNewButton_2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -425,27 +444,9 @@ public class INTENTOMENU {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-				DefaultTableModel dfnew=new DefaultTableModel();
-				dfnew.addColumn("");
-				
 				String buscar=new String(textField.getText());
 				textField.setText("");
-				nuevalista = new Venta[50];
-				pos=0;
-				
-				for(int i=0;i<lista.length;i++) {
-					
-					if(lista[i].getU().getNombre().equals(buscar)) {
-						nuevalista[pos]=lista[i];
-						pos++;
-						ch=i;
-						
-						
-					}
-				}
-			Volver.setVisible(true);
-			cambModel(nuevalista);
-			lblNewLabel_2.setText(pos+" articulos encontrados");
+				buscarLista(buscar);
 			}
 			
 			
@@ -457,11 +458,33 @@ public class INTENTOMENU {
 			
 		}
 	});
-		cambModel(lista);
+	cambModel(lista);
 	}
+		//Metodo para buscar un elemento de la lista y cambiar la tabla
+	
+		private void buscarLista(Object igual) {
+			nuevalista = new Venta[50];
+			pos=0;
+			for(int i=0;i<lista.length;i++) {
+				
+				if(lista[i].getU().getNombre().equals(igual) || lista[i].getC().getMarca().equals(igual)) {
+					nuevalista[pos]=lista[i];
+					pos++;
+					ch=i;
+					
+				}
+				}
+			Volver.setVisible(true);
+			cambModel(nuevalista);
+			lblNewLabel_2.setText(pos+" articulos encontrados");
+		}
+		
+		//Metodo para cambiar el DefaultTableModel de la tabla
+		 
 		private void cambModel(Venta[] listad) {
 			// TODO Auto-generated method stub
 			DefaultTableModel dtm=new DefaultTableModel();
+			dtm.addColumn("");
 			for(int i=0;i<listad.length;i++) {
 				if(listad[i]!=null) {
 				Venta[] v= {listad[i]};
@@ -518,13 +541,11 @@ public class INTENTOMENU {
 				  PanelC = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, panel_2, panel_3);
 					panel.add(PanelC, BorderLayout.CENTER);
 				}
-				
-
-
-		
-	
-
 
 	}
-
+			private void cargarListaBD() {
+				Connection con = BD.initBD("todoCoches.db");
+				BD.crearTablas(con);
+				BD.closeBD(con);
+			}
 }
