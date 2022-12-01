@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.EventObject;
 
 import javax.swing.JPanel;
@@ -19,22 +20,34 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.BoxLayout;
 
 public class INTENTOMENU {
 
@@ -48,10 +61,8 @@ public class INTENTOMENU {
 	private JTextField textField;
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_1;
-	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JPanel panel_2;
-	private JLabel lblNewLabel_2;
 	private JPanel panel_3;
 	private int fila=-1;
 	private int col=-1;
@@ -73,6 +84,17 @@ public class INTENTOMENU {
 	Venta[] nuevalista;
 	private JTable table;
 	private JButton Volver;
+	private JScrollPane js=null;
+	private JMenuBar barraMenu;
+	private JComboBox<String> comboBoxFiltrar;
+	private JComboBox<String> comboBoxFiltrar_1;
+	private JSplitPane PanelC;
+	private JLabel lblNewLabel_2;
+	private JSlider precioSlider;
+	private JLabel precioRango;
+	private JLabel precioRango_1;
+	private JLabel lblNewLabel_3;
+	private JPanel panel_4;
 
 	/**
 	 * Launch the application.
@@ -103,9 +125,13 @@ public class INTENTOMENU {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
+		Connection con = BD.initBD("todoCoches.db");
+		BD.crearTablas(con);
+		BD.closeBD(con);
+		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.setBounds(100, 100, 627, 376);
+		frame.setBounds(100, 100, 627, 476);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -132,8 +158,15 @@ public class INTENTOMENU {
 		btnNewButton = new JButton("New button");
 		panel_1.add(btnNewButton);
 		
-		btnNewButton_1 = new JButton("New button");
-		panel_1.add(btnNewButton_1);
+		
+		String [] marca= {"MARCA","BMW","AUDI"};
+		DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<String>(marca);
+		
+		
+		String[] km= {"MaxKm","10000","20000"};
+		DefaultComboBoxModel<String> comboModel2 = new DefaultComboBoxModel<String>(km);
+		PanelInferior = new JPanel();
+		panel.add(PanelInferior, BorderLayout.SOUTH);
 		
 		lblNewLabel_1 = new JLabel("      Buscar:");
 		lblNewLabel_1.setBackground(Color.WHITE);
@@ -144,11 +177,12 @@ public class INTENTOMENU {
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
-		PanelInferior = new JPanel();
-		panel.add(PanelInferior, BorderLayout.SOUTH);
-		
-		btnNewButton_2 = new JButton("New button");
+		lblNewLabel_2 = new JLabel("");
+		PanelInferior.add(lblNewLabel_2);
+		btnNewButton_2 = new JButton("Vender");
 		PanelInferior.add(btnNewButton_2);
+		
+
 		
 		Volver = new JButton("");
 		Volver.setIcon(new ImageIcon(INTENTOMENU.class.getResource("/FOTOS/back.png")));
@@ -160,19 +194,107 @@ public class INTENTOMENU {
 		PanelCentral.setLayout(new BorderLayout(0, 0));
 		
 		panel_2 = new JPanel();
-		PanelCentral.add(panel_2);
-		
-		lblNewLabel_2 = new JLabel("New label");
-		panel_2.add(lblNewLabel_2);
-		
-		panel_3 = new JPanel();
+		PanelCentral.add(panel_2, BorderLayout.CENTER);
+						
+						precioRango = new JLabel("New label");
+						panel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+						
+						panel_4 = new JPanel();
+						panel_2.add(panel_4);
+														panel_4.setLayout(new GridLayout(0, 1, 1, 0));
+										
+												
+												comboBoxFiltrar = new JComboBox<String>(comboModel);
+												panel_4.add(comboBoxFiltrar);
+										
+												
+												
+												comboBoxFiltrar_1 = new JComboBox<String>(comboModel2);
+												panel_4.add(comboBoxFiltrar_1);
+										
+										precioSlider = new JSlider(0,100000);
+										panel_4.add(precioSlider);
+										precioSlider.setPaintTicks(true);
+										precioSlider.setSnapToTicks(true);
+										precioSlider.setMinorTickSpacing(1000);
+										precioSlider.setMajorTickSpacing(1000);
+										precioSlider.setToolTipText("Precio\r\n");
+										
+												
+
+										
+
+										precioSlider.addChangeListener(new ChangeListener() {
+											
+											@Override
+											public void stateChanged(ChangeEvent e) {
+												precioRango.setText(precioSlider.getValue()+"€");
+												
+											}
+										});
+						
+										
+										precioRango_1 = new JLabel("50000\u20AC");
+										precioRango_1.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_4.add(precioRango_1);
+						
+						JButton filtrar = new JButton("Filtrar");
+						panel_4.add(filtrar);
+						filtrar.setVerticalAlignment(SwingConstants.BOTTOM);
+						panel_3=new JPanel();
+		panel_3.setLayout(new BorderLayout(0, 0));
 		PanelCentral.add(panel_3, BorderLayout.EAST);
 		
 		table = new JTable();
+		table.setShowVerticalLines(false);
 		panel_3.add(table);
 		table.setCellSelectionEnabled(true);
-		table.setShowVerticalLines(false);
-
+		barraMenu = new JMenuBar();
+		barraMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		JMenu mFicheros = new JMenu("Ficheros");
+		JMenu mSalir = new JMenu("Salir");
+		barraMenu.add(mFicheros);
+		barraMenu.add(mSalir);
+		JMenuItem mFicherosCargarFichero = new JMenuItem("Cargar Fichero");
+		mFicherosCargarFichero.setMnemonic(KeyEvent.VK_C);
+		JMenuItem mFicherosGuardarFicheros = new JMenuItem("Guardar Fichero");
+		JMenuItem mSalirCerrarSesion = new JMenuItem("Cerrar Sesion");
+		mFicheros.add(mFicherosCargarFichero);
+		mFicheros.add(mFicherosGuardarFicheros);
+		mSalir.add(mSalirCerrarSesion);
+		mFicherosCargarFichero.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		mFicherosGuardarFicheros.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mSalirCerrarSesion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		btnNewButton_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaVenta v=new VentanaVenta();
+				v.setVisible(true);
+				
+			}
+		});
+		frame.setJMenuBar(barraMenu);
 		table.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
@@ -230,7 +352,7 @@ public class INTENTOMENU {
 				ch=-1;
 				cambModel(lista);
 				Volver.setVisible(false);
-				lblNewLabel_1.setText("      Buscar:");
+				lblNewLabel_2.setText("");
 				
 			}
 		} );
@@ -314,7 +436,6 @@ public class INTENTOMENU {
 				for(int i=0;i<lista.length;i++) {
 					
 					if(lista[i].getU().getNombre().equals(buscar)) {
-						System.out.println(lista[i].getU().getNombre());
 						nuevalista[pos]=lista[i];
 						pos++;
 						ch=i;
@@ -324,7 +445,7 @@ public class INTENTOMENU {
 				}
 			Volver.setVisible(true);
 			cambModel(nuevalista);
-			lblNewLabel_1.setText(pos+" articulos encontrados");
+			lblNewLabel_2.setText(pos+" articulos encontrados");
 			}
 			
 			
@@ -345,7 +466,6 @@ public class INTENTOMENU {
 				if(listad[i]!=null) {
 				Venta[] v= {listad[i]};
 				dtm.addRow(v);
-				System.out.println(i);
 				}
 			}
 
@@ -385,16 +505,22 @@ public class INTENTOMENU {
 				table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
 				table.getColumnModel().getColumn(0).setPreferredWidth((int) (frame.getWidth()*0.65));
 				table.getColumnModel().getColumn(0).setMaxWidth((int) (frame.getWidth()*0.65));
-				panel_3.setLayout(new BorderLayout(0, 0));
+				
 				
 				
 				table.setRowHeight((int) (frame.getHeight()*0.20));
-		
-			JScrollPane js=new JScrollPane(table);
-			  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				panel_3.add(js);
+				if(js==null) {
+				js=new JScrollPane(table);
+				  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+				  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				  panel_3.add(js);
+				  PanelC = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, panel_2, panel_3);
+					panel.add(PanelC, BorderLayout.CENTER);
+				}
+				
+
+
 		
 	
 

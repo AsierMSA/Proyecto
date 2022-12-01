@@ -42,10 +42,12 @@ public class BD {
 	public static void crearTablas(Connection con) {
 		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (dni String, nom String, con String, fechaNacimiento String, ciudad String)";
 		String sql2 = "CREATE TABLE IF NOT EXISTS Coche (marca String, modelo String, puertas Integer, kms Integer, anio Integer, potencia Integer)";
+		String sql3 = "CREATE TABLE IF NOT EXISTS MarcaModelo (marca String, modelo String)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql1);
 			st.executeUpdate(sql2);
+			st.executeUpdate(sql3);
 			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

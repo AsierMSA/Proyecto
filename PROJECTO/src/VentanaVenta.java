@@ -16,6 +16,10 @@ import javax.swing.JTextField;
 
 public class VentanaVenta extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txt_modelo;
 	private JTextField txt_marca;
