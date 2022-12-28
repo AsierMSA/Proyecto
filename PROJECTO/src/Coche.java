@@ -4,18 +4,18 @@ public class Coche {
 	private String marca;
 	private int puertas;
 	private int kilometros;
-	private int anio;
 	private int potencia;
+	private int anio;
 	private String foto;
-	public Coche(String modelo, String marca, int puertas, int kilometros, int anio, int potencia, String foto) {
+	public Coche(String modelo, String marca, int puertas, int kilometros,int anio,int potencia, String foto) {
 		super();
 		this.modelo = modelo;
 		this.marca = marca;
 		this.puertas = puertas;
 		this.kilometros = kilometros;
-		this.anio = anio;
 		this.potencia = potencia;
 		this.foto=foto;
+		this.anio=anio;
 	}
 	
 	public String getFoto() {
@@ -50,12 +50,7 @@ public class Coche {
 	public void setKilometros(int kilometros) {
 		this.kilometros = kilometros;
 	}
-	public int getAnio() {
-		return anio;
-	}
-	public void setAnio(int anio) {
-		this.anio = anio;
-	}
+
 	public int getPotencia() {
 		return potencia;
 	}
@@ -65,7 +60,15 @@ public class Coche {
 	@Override
 	public String toString() {
 		return "Coche [modelo=" + modelo + ", marca=" + marca + ", puertas=" + puertas + ", kilometros=" + kilometros
-				+ ", anio=" + anio + ", potencia=" + potencia + "]";
+				+", potencia=" + potencia + "]";
+	}
+
+	public int getAnio() {
+		return anio;
+	}
+
+	public void setAnio(int anio) {
+		this.anio = anio;
 	}
 	
 	

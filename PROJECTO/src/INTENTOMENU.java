@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.EventObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +38,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GraphicsEnvironment;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -47,9 +51,9 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
 public class INTENTOMENU {
-
-	private JFrame frame;
-	private JPanel panel;
+	final Logger LOG = Logger.getLogger("paquete.NombreClase");
+	private static JFrame frame;
+	private static JPanel panel;
 	private JPanel PanelSuperior;
 	private JPanel PanelInferior;
 	private JPanel PanelCentral;
@@ -59,35 +63,39 @@ public class INTENTOMENU {
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_1;
 	private JButton btnNewButton_2;
-	private JPanel panel_2;
-	private JPanel panel_3;
-	private int fila=-1;
-	private int col=-1;
+	private static JPanel panel_2;
+	private static JPanel panel_3;
+	private static int fila=-1;
+	private static int col=-1;
 	static int pos;
 	private static int i;
 	private static int ch=-1;
 	private VentanaVenta2 vc;
 	
-	static Coche c=new Coche("R8","AUDI",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
-	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo");
-	static Coche cu=new Coche("R8","Tesla",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
-	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo");
-	static Coche ucc=new Coche("Arona","Seat",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
-	static Usuario ucv=new Usuario("16097385F","2002/03/11","Speed","Teresa00","Getxo");
-	static Venta v=new Venta(c,u);
-	static Venta vv=new Venta(cu,uc);
-	static Venta vvv=new Venta(ucc,ucv);
-	private static Venta[] lista= {v,vv,vvv,vvv};
-	Venta[] nuevalista;
+//	static Coche c=new Coche("R8","AUDI",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
+	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo","",true);
+//	static Coche cu=new Coche("R8","Tesla",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
+//	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo","");
+//	static Coche ucc=new Coche("Arona","Seat",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
+//	static Usuario ucv=new Usuario("16097385F","2002/03/11","Speed","Teresa00","Getxo","");
+//	
+//	static Venta v=new Venta(c,u, "Se vende Audi barato");
+//	static Venta vv=new Venta(cu,uc, null);
+//	static Venta vvv=new Venta(ucc,ucv, null);
+	private static Venta[] lista;
+	
+	
+	
+	static Venta[] nuevalista;
 	private static Venta vactual;
 	private static Usuario uactual=u;
 	private JTable table;
 	private JButton Volver;
-	private JScrollPane js=null;
+	private static JScrollPane js=null;
 	private JMenuBar barraMenu;
 	private JComboBox<String> comboBoxFiltrar;
 	private JComboBox<String> comboBoxFiltrar_1;
-	private JSplitPane PanelC;
+	private static JSplitPane PanelC;
 	private JLabel lblNewLabel_2;
 	private JSlider precioSlider;
 	private JLabel precioRango;
@@ -115,20 +123,29 @@ public class INTENTOMENU {
 	 * Create the application.
 	 * @throws IOException 
 	 */
-	public INTENTOMENU() throws IOException {
-		initialize();
-	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 * @throws IOException 
 	 */
-	private void initialize() throws IOException {
-
+	INTENTOMENU() throws IOException {
+		Connection con = BD.initBD("newton.db");
+		BD.crearTablas(con);
 		cargarListaBD();
+		
+		
 		frame = new JFrame();
+		LOG.log(Level.INFO, uactual.getNombre()+" sesion iniciada");
+		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
+		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
+		
+		frame.setSize(anchoP, altoP);
+		//frame.MAXIMIZED_BOTH;
+		//frame.setResizable(false);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.setBounds(100, 100, 627, 476);
+	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -256,10 +273,7 @@ public class INTENTOMENU {
 		panel_3.setLayout(new BorderLayout(0, 0));
 		PanelCentral.add(panel_3, BorderLayout.EAST);
 		
-		table = new JTable();
-		table.setShowVerticalLines(false);
-		panel_3.add(table);
-		table.setCellSelectionEnabled(true);
+		
 		barraMenu = new JMenuBar();
 		barraMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		JMenu mFicheros = new JMenu("Ficheros");
@@ -300,7 +314,6 @@ public class INTENTOMENU {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buscarLista(comboModel.getSelectedItem());
-				System.out.println(comboModel.getSelectedItem());
 				
 			}
 		});
@@ -313,6 +326,10 @@ public class INTENTOMENU {
 				
 			}
 		});
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		panel_3.add(table);
+		table.setCellSelectionEnabled(true);
 		frame.setJMenuBar(barraMenu);
 		table.addMouseMotionListener(new MouseMotionListener() {
 			
@@ -330,32 +347,8 @@ public class INTENTOMENU {
 				
 			}
 		});
-		table.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+		table.addMouseListener(new MouseAdapter() {
+		
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				vc= new VentanaVenta2(vactual);
@@ -369,7 +362,7 @@ public class INTENTOMENU {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ch=-1;
-				cambModel(lista);
+				cambModel(lista, table);
 				Volver.setVisible(false);
 				lblNewLabel_2.setText("");
 				
@@ -433,6 +426,20 @@ public class INTENTOMENU {
 			}
 			
 		});
+	Perfil.addMouseListener(new MouseAdapter() {
+	
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			try {
+				VentanaPerfil vp=new VentanaPerfil(uactual);
+				vp.setVisible(true);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+	});
 	textField.addKeyListener(new KeyListener() {
 		
 		@Override
@@ -458,7 +465,7 @@ public class INTENTOMENU {
 			
 		}
 	});
-	cambModel(lista);
+	cambModel(lista, table);
 	}
 		//Metodo para buscar un elemento de la lista y cambiar la tabla
 	
@@ -475,18 +482,18 @@ public class INTENTOMENU {
 				}
 				}
 			Volver.setVisible(true);
-			cambModel(nuevalista);
+			cambModel(nuevalista, table);
 			lblNewLabel_2.setText(pos+" articulos encontrados");
 		}
 		
 		//Metodo para cambiar el DefaultTableModel de la tabla
 		 
-		private void cambModel(Venta[] listad) {
+		static void cambModel(Venta[] listad,JTable table) {
 			// TODO Auto-generated method stub
 			DefaultTableModel dtm=new DefaultTableModel();
 			dtm.addColumn("");
 			for(int i=0;i<listad.length;i++) {
-				if(listad[i]!=null) {
+				if(listad[i]!=null) {	
 				Venta[] v= {listad[i]};
 				dtm.addRow(v);
 				}
@@ -511,7 +518,6 @@ public class INTENTOMENU {
 					vactual=lista[i];
 					}
 					
-//					System.out.println(vactual.getU());
 				}
 				if(ch!=-1) {
 					return nuevalista[i];
@@ -545,7 +551,12 @@ public class INTENTOMENU {
 	}
 			private void cargarListaBD() {
 				Connection con = BD.initBD("todoCoches.db");
+				BD.borrarTabla(con, "Coche");
+				BD.borrarTabla(con, "Usuario");
+				BD.borrarTabla(con, "Venta");
 				BD.crearTablas(con);
+				BD.rellenarTablas(con);
+				lista=BD.BDaMapa(con);
 				BD.closeBD(con);
 			}
 }

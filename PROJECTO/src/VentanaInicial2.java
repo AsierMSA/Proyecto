@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -262,7 +263,12 @@ public class VentanaInicial2 extends JFrame {
 				for(int i=0;i<lu.size();i++) {
 					if(c.equals(lu.get(i).getContrasenia()) && txtDNIInicioSesion.getText().equals(lu.get(i).getDni())) {
 						dispose();
-						VentanaMenu v=new VentanaMenu(lu.get(i));
+						try {
+							INTENTOMENU v=new INTENTOMENU();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						
 					}
 				}

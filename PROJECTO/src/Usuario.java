@@ -3,15 +3,19 @@ public class Usuario{
 	private String fechaNacimiento;
 	private String nombre;
 	private String contrasenia;
-	//private boolean admin;
 	private String ciudad;
-	public Usuario(String dni, String fechaNacimiento, String nombre, String contrasenia, String ciudad) {
+	protected String foto;
+	private Boolean admin;
+	public Usuario(String dni, String fechaNacimiento, String nombre, String contrasenia, String ciudad,String foto,Boolean admin) {
 		super();
 		this.dni = dni;
 		this.fechaNacimiento = fechaNacimiento;
 		this.nombre = nombre;
 		this.contrasenia = contrasenia;
 		this.ciudad = ciudad;
+		this.foto=foto;
+		this.setAdmin(admin);
+
 	}
 	public String getDni() {
 		return dni;
@@ -48,6 +52,19 @@ public class Usuario{
 		return "Usuario [dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", nombre=" + nombre + ", contrasenia="
 				+ contrasenia + ", admin="  + ", ciudad=" + ciudad + "]";
 	}
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	public Boolean getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
 	
 	
 }

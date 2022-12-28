@@ -1,7 +1,9 @@
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class Venta extends JLabel {
 
@@ -14,16 +16,19 @@ public class Venta extends JLabel {
 	private Coche c;
 	private Usuario u;
 	private int x=350;
-	private int y=100;
-	public Venta(Coche c, Usuario u) {
+	private int y=185;
+	private String titulo;
+	public Venta(Coche c, Usuario u,String d) {
 		this.c=c;
 		this.u=u;
+		this.setTitulo(d);
 		this.setSize(x,y);
 		this.imagen=new ImageIcon(c.getFoto());
-		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance((int) (this.getWidth()*0.50), this.getHeight(), Image.SCALE_DEFAULT));
+		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance((int) (this.getWidth()), (int) (this.getHeight()), Image.SCALE_DEFAULT));
 		this.setIcon(this.icono);
-		this.setText(u.getNombre());
-		
+		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.getTitulo()+"</font></font><br><br>&emsp;&emsp;Descripcion</html>");
+		this.setFont(new Font("Arial", Font.PLAIN, 16));
+		this.setVerticalTextPosition(SwingConstants.NORTH);
 	}
 	public ImageIcon getImagen() {
 		return imagen;
@@ -55,5 +60,12 @@ public class Venta extends JLabel {
 	}
 	public void setU(Usuario u) {
 		this.u = u;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 }
