@@ -50,9 +50,17 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
-public class INTENTOMENU {
+public class MENU {
 	final Logger LOG = Logger.getLogger("paquete.NombreClase");
 	private static JFrame frame;
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		
+		this.frame = frame;
+	}
 	private static JPanel panel;
 	private JPanel PanelSuperior;
 	private JPanel PanelInferior;
@@ -84,12 +92,33 @@ public class INTENTOMENU {
 //	static Venta vvv=new Venta(ucc,ucv, null);
 	private static Venta[] lista;
 	
-	
-	
+	public static Venta[] getLista() {
+		return lista;
+	}
+
+	public static void setLista(Venta[] lista) {
+		MENU.cambModel(lista, table);
+		MENU.lista=lista;
+	}
 	static Venta[] nuevalista;
 	private static Venta vactual;
 	private static Usuario uactual=u;
-	private JTable table;
+	
+	public static Usuario getUactual() {
+		return uactual;
+	}
+
+	public static void setUactual(Usuario uactual) {
+		MENU.uactual = uactual;
+	}
+	private static JTable table;
+	public static JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		MENU.table = table;
+	}
 	private JButton Volver;
 	private static JScrollPane js=null;
 	private JMenuBar barraMenu;
@@ -110,8 +139,8 @@ public class INTENTOMENU {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					INTENTOMENU window = new INTENTOMENU();
-					window.frame.setVisible(true);
+					MENU m=new MENU();
+					m.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -128,7 +157,7 @@ public class INTENTOMENU {
 	 * Initialize the contents of the frame.
 	 * @throws IOException 
 	 */
-	INTENTOMENU() throws IOException {
+	MENU() throws IOException {
 		Connection con = BD.initBD("newton.db");
 		BD.crearTablas(con);
 		cargarListaBD();
@@ -213,7 +242,7 @@ public class INTENTOMENU {
 
 		
 		Volver = new JButton("");
-		Volver.setIcon(new ImageIcon(INTENTOMENU.class.getResource("/FOTOS/back.png")));
+		Volver.setIcon(new ImageIcon(MENU.class.getResource("/FOTOS/back.png")));
 		Volver.setVisible(false);
 		PanelInferior.add(Volver);
 		
@@ -473,12 +502,13 @@ public class INTENTOMENU {
 			nuevalista = new Venta[50];
 			pos=0;
 			for(int i=0;i<lista.length;i++) {
-				
+				if(lista[i]!=null) {
 				if(lista[i].getU().getNombre().equals(igual) || lista[i].getC().getMarca().equals(igual)) {
 					nuevalista[pos]=lista[i];
 					pos++;
 					ch=i;
 					
+				}
 				}
 				}
 			Volver.setVisible(true);

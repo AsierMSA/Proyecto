@@ -264,7 +264,7 @@ public class VentanaInicial2 extends JFrame {
 					if(c.equals(lu.get(i).getContrasenia()) && txtDNIInicioSesion.getText().equals(lu.get(i).getDni())) {
 						dispose();
 						try {
-							INTENTOMENU v=new INTENTOMENU();
+							MENU v=new MENU();
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

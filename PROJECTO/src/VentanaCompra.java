@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class VentanaCompra extends JFrame {
@@ -21,7 +22,7 @@ public class VentanaCompra extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
+
 
 	/**
 	 * Launch the application.
@@ -59,7 +60,7 @@ public class VentanaCompra extends JFrame {
 		JPanel pnl_medio = new JPanel();
 		contentPane.add(pnl_medio, BorderLayout.CENTER);
 		if(v!=null) {
-		JLabel jl=new JLabel(v.getU().toString());
+		JTextField jl=new JTextField(v.getC().getMarca()+","+v.getC().getModelo());
 		pnl_medio.add(jl);
 		}
 		

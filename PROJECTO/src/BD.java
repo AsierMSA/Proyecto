@@ -11,7 +11,10 @@ import java.util.logging.Logger;
 
 public class BD {
 	final Logger LOG = Logger.getLogger("paquete.NombreClase");
+	
 	static HashMap<String,ArrayList<Coche>> mapaVentas;
+	static HashMap<String,ArrayList<Coche>> mapaCompras;
+	
 	/**
 	 * Método que realiza la conexión con la base de datos
 	 * @param nombreBD : Nombre de la base de datos a la que nos vamos a conectar
@@ -23,6 +26,7 @@ public class BD {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
 			mapaVentas=new HashMap<String,ArrayList<Coche>>();
+			mapaCompras=new HashMap<String,ArrayList<Coche>>();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,8 +90,25 @@ public class BD {
 		}
 		if(!mapaVentas.containsKey(dni)) {
 			mapaVentas.put(dni, new ArrayList<Coche>());
+			mapaCompras.put(dni, new ArrayList<Coche>());
 		}
 	}
+	public static HashMap<String, ArrayList<Coche>> getMapaVentas() {
+		return mapaVentas;
+	}
+
+	public static void setMapaVentas(HashMap<String, ArrayList<Coche>> mapaVentas) {
+		BD.mapaVentas = mapaVentas;
+	}
+
+	public static HashMap<String, ArrayList<Coche>> getMapaCompras() {
+		return mapaCompras;
+	}
+
+	public static void setMapaCompras(HashMap<String, ArrayList<Coche>> mapaCompras) {
+		BD.mapaCompras = mapaCompras;
+	}
+
 	public static void Venta(Connection con,String DNI,String Modelo,int kilometros ) {
 		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+")";
 		try {
@@ -101,7 +122,7 @@ public class BD {
 		}
 	}
 	public static void rellenarTablas(Connection con) {
-		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","",1);
+		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","src\\FOTOS\\74472.png",1);
 		UsuarioRegular(con,"12034556S","2003/02/23","Markel","Askartza1","Bilbao","",0);
 		UsuarioRegular(con,"13423436X","2005/10/09","Anton","112223344","Barakaldo","",0);
 		UsuarioRegular(con,"13438430C","2002/04/17","Ane","2345435","Leioa","",0);
