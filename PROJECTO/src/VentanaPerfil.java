@@ -1,15 +1,20 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JLabel;
@@ -21,9 +26,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
-import java.awt.FlowLayout;
+import javax.swing.JTable;
+
 import java.awt.GridLayout;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 public class VentanaPerfil extends JFrame {
 
@@ -103,12 +110,13 @@ public class VentanaPerfil extends JFrame {
 			       System.out.println("You chose to open this file: " +
 			            chooser.getSelectedFile().getName());
 			       lblNewLabel_3.setText(chooser.getSelectedFile().getName());
+			       
 			    }
         	}
         });
         editar.add(panel_5,BorderLayout.WEST);
         
-        lblNewLabel_3 = new JLabel("New label");
+        lblNewLabel_3 = new JLabel("    ");
         panel_5.add(lblNewLabel_3);
         JPanel panel_2 = new JPanel();
         tabbedPane.addTab("VENTAS", null, panel_2, null);
@@ -131,7 +139,63 @@ public class VentanaPerfil extends JFrame {
 				
 			}
 		});
-        
+        JTable table=new JTable();
+        Venta[] compras=new Venta[10];
+        int i=0;
+        for(String s: BD.getMapaCompras().keySet()) {
+        	if(s.equals(u.getDni())) {
+        		ArrayList<Coche> comprasc=BD.getMapaCompras().get(s);
+        		for(Coche c: comprasc) {
+        			Venta v=new Venta(c, u, "");
+        			compras[i]=v;
+        			i++;
+        		}
+        	}
+        }
+ 
+        DefaultTableModel dtm=new DefaultTableModel();
+		dtm.addColumn("");
+		for(int j=0;j<compras.length;j++) {
+			if(compras[j]!=null) {	
+			Venta[] v= {compras[j]};
+			dtm.addRow(v);
+			}
+		}
+		
+		class Renderer extends DefaultTableCellRenderer {
+			/**
+			 * 
+			 */
+
+			private static final long serialVersionUID = 1L;
+			 //ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
+
+			 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+			  boolean hasFocus, int row, int column) {
+			
+			return compras[row];
+			}	 
+			}
+		
+			dtm.addColumn("");
+
+			table.setModel(dtm);
+		
+			   
+			table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
+			table.getColumnModel().getColumn(0).setPreferredWidth((int) (this.getWidth()*0.65));
+			table.getColumnModel().getColumn(0).setMaxWidth((int) (this.getWidth()*0.65));
+			
+			
+			
+			table.setRowHeight((int) (this.getHeight()*0.20));
+			
+			JScrollPane js=new JScrollPane(table);
+			  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		        panel_1.add(js);
+			
         JPanel panel_3 = new JPanel();
         editar.add(panel_3);
         panel_3.setLayout(new GridLayout(0, 2, 0, 0));

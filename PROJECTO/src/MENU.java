@@ -11,10 +11,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.EventObject;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -248,57 +250,93 @@ public class MENU {
 		
 		PanelCentral = new JPanel();
 		panel.add(PanelCentral, BorderLayout.CENTER);
-		PanelCentral.setLayout(new BorderLayout(0, 0));
+		PanelCentral.setLayout(new BorderLayout(3, 1));
 		
 		panel_2 = new JPanel();
 		PanelCentral.add(panel_2, BorderLayout.CENTER);
 						
-						precioRango = new JLabel("New label");
-						panel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-						
-						panel_4 = new JPanel();
-						panel_2.add(panel_4);
-														panel_4.setLayout(new GridLayout(0, 1, 1, 0));
+		precioRango = new JLabel("New label");
+		panel_2.setLayout(new GridLayout(0, 1, 0, 50));
+		
+		panel_4 = new JPanel();
+		panel_2.add(panel_4);
+		panel_4.setLayout(new GridLayout(7, 1, 0, 0));
 										
 												
-												comboBoxFiltrar = new JComboBox<String>(comboModel);
-												panel_4.add(comboBoxFiltrar);
+		comboBoxFiltrar = new JComboBox<String>(comboModel);
+		panel_4.add(comboBoxFiltrar);
 										
 												
 												
-												comboBoxFiltrar_1 = new JComboBox<String>(comboModel2);
-												panel_4.add(comboBoxFiltrar_1);
+		comboBoxFiltrar_1 = new JComboBox<String>(comboModel2);
+		panel_4.add(comboBoxFiltrar_1);
 										
-										precioSlider = new JSlider(0,100000);
-										panel_4.add(precioSlider);
-										precioSlider.setPaintTicks(true);
-										precioSlider.setSnapToTicks(true);
-										precioSlider.setMinorTickSpacing(1000);
-										precioSlider.setMajorTickSpacing(1000);
-										precioSlider.setToolTipText("Precio\r\n");
+		precioSlider = new JSlider(0,100000);
+		panel_4.add(precioSlider);
+		precioSlider.setPaintTicks(true);
+		precioSlider.setSnapToTicks(true);
+		precioSlider.setMinorTickSpacing(1000);
+		precioSlider.setMajorTickSpacing(1000);
+		precioSlider.setToolTipText("Precio\r\n");
 										
 												
 
 										
 
-										precioSlider.addChangeListener(new ChangeListener() {
+		precioSlider.addChangeListener(new ChangeListener() {
 											
-											@Override
-											public void stateChanged(ChangeEvent e) {
-												precioRango.setText(precioSlider.getValue()+"€");
+		@Override
+		public void stateChanged(ChangeEvent e) {
+		precioRango.setText(precioSlider.getValue()+"€");
 												
-											}
-										});
+						}
+				});
 						
 										
-										precioRango_1 = new JLabel("50000\u20AC");
-										precioRango_1.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_4.add(precioRango_1);
+		precioRango_1 = new JLabel("50000\u20AC");
+		precioRango_1.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_4.add(precioRango_1);
 						
-						JButton filtrar = new JButton("Filtrar");
-						panel_4.add(filtrar);
-						filtrar.setVerticalAlignment(SwingConstants.BOTTOM);
-						panel_3=new JPanel();
+		JButton filtrar = new JButton("Filtrar");
+		filtrar.setVerticalTextPosition(SwingConstants.CENTER);
+		panel_4.add(filtrar);
+		JPanel Anuncio=new JPanel();
+		JLabel anuncios=new JLabel();
+		Thread hilo=new Thread() {
+			@Override
+			public void run() {
+				
+				String[] fotos= {"src\\FOTOS\\anuncio1.png","src\\FOTOS\\anuncio12.png"};
+				int indiceImagen = 0;
+				while(true) {
+				
+				try {
+					BufferedImage img2 = ImageIO.read(new File(fotos[indiceImagen]));
+					indiceImagen = (indiceImagen + 1) % fotos.length;
+					Image dimg2 = img2.getScaledInstance(200, 160,
+					        Image.SCALE_SMOOTH);
+					ImageIcon logo2=new ImageIcon(dimg2);
+					anuncios.setIcon(logo2);
+					try {
+						TimeUnit.SECONDS.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			}
+		};
+		hilo.start();
+
+		anuncios.setVerticalAlignment(JLabel.BOTTOM);
+		Anuncio.add(anuncios);
+		panel_2.add(Anuncio);
+		filtrar.setVerticalAlignment(SwingConstants.BOTTOM);
+		panel_3=new JPanel();
 		panel_3.setLayout(new BorderLayout(0, 0));
 		PanelCentral.add(panel_3, BorderLayout.EAST);
 		
@@ -575,7 +613,7 @@ public class MENU {
 				  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				  panel_3.add(js);
 				  PanelC = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, panel_2, panel_3);
-					panel.add(PanelC, BorderLayout.CENTER);
+				  panel.add(PanelC, BorderLayout.CENTER);
 				}
 
 	}

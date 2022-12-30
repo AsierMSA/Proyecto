@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -10,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -71,10 +73,14 @@ public class VentanaVenta2 extends JFrame {
 		JLabel lblNewLabel = new JLabel("<html><font size='6'><font face='SansSerif'>&emsp;"+v.getC().getMarca()+" "+v.getC().getModelo()+"</font></font><br><br>&emsp;&emsp;Kilometros:&emsp;"+v.getC().getKilometros()+"<br><br>&emsp;&emsp;Año de compra:"+v.getC().getAnio()+"<br><br>&emsp;&emsp;Potencia: "+v.getC().getPotencia()+"cv"+"<br><br>&emsp;&emsp;Num. Puertas: "+v.getC().getPuertas()+"<br><br>&emsp;&emsp;Vendedor: "+v.getU().getNombre()+"</html>");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 16));
 		JLabel label=new JLabel();
+		
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		ImageIcon i1=new ImageIcon(v.getU().getFoto());
 		ImageIcon ic1= new ImageIcon(i1.getImage().getScaledInstance(100, (int) (jl.getHeight()*0.75), Image.SCALE_DEFAULT));
+		label.setPreferredSize(new Dimension(150,(int) (jl.getHeight()*0.75)));
 		label.setIcon(ic1);
+		label.setHorizontalAlignment(JLabel.RIGHT);
+
 		contentPane.add(lblNewLabel, BorderLayout.CENTER);
 		
 		JPanel pnl_oeste = new JPanel();
@@ -85,7 +91,9 @@ public class VentanaVenta2 extends JFrame {
 		pnl_abajo.add(label,BorderLayout.WEST);
 		contentPane.add(pnl_abajo, BorderLayout.SOUTH);
 		
+		JPanel botones=new JPanel();
 		JButton btn_salir = new JButton("SALIR");
+		btn_salir.setPreferredSize(new Dimension(100, 30));
 		btn_salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -93,29 +101,38 @@ public class VentanaVenta2 extends JFrame {
 		});
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-		pnl_abajo.add(btn_salir,BorderLayout.EAST);
+	
 		
 		JButton btnNewButton = new JButton("COMPRAR\r\n\r\n");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			MENU.getLista();
-			Venta[] nv=new Venta[20];
-			int j=0;
-			for(int i=0;i<MENU.getLista().length;i++) {
-				if(MENU.getLista()[i]!=null) {
-				if(!MENU.getLista()[i].equals(v)) {
-					nv[j]=MENU.getLista()[i];
-					j++;
-				}
-				}
-			}
-			
-			MENU.setLista(nv);
-			
+				int confirmado = JOptionPane.showConfirmDialog(
+						   
+						  contentPane, "¿Estas seguro de que quieres comprarlo?");
+
+						if (JOptionPane.OK_OPTION == confirmado) {
+						MENU.getLista();
+						Venta[] nv=new Venta[20];
+						int j=0;
+						for(int i=0;i<MENU.getLista().length;i++) {
+							if(MENU.getLista()[i]!=null) {
+							if(!MENU.getLista()[i].equals(v)) {
+								nv[j]=MENU.getLista()[i];
+								j++;
+							}
+							}
+						}
+						
+						MENU.setLista(nv);
+						dispose();
+						
+						}
 			}
 		});
-		pnl_abajo.add(btnNewButton,BorderLayout.CENTER);
-		
+		btnNewButton.setPreferredSize(new Dimension(200, 30));
+		botones.add(btnNewButton,BorderLayout.CENTER);
+		botones.add(btn_salir,BorderLayout.EAST);
+		pnl_abajo.add(botones);
 		JPanel pnl_este = new JPanel();
 		contentPane.add(pnl_este, BorderLayout.EAST);
 		contentPane.add(pnl_medio, BorderLayout.EAST);
