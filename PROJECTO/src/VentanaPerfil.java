@@ -2,6 +2,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +24,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTabbedPane;
@@ -44,7 +48,33 @@ public class VentanaPerfil extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JLabel lblNewLabel_3;
+	private static Venta vactual;
+	private static VentanaVenta2 vc;
+	static int fila=-1;
+	static int col=-1;
+	static int i=-1;
+	private static Usuario uactual;
+	private static Venta[] listad;
+	private static JScrollPane js=null;
+	private static int ch=-1;
+	private static Venta[] nuevalista;
 
+	public static Venta[] getNuevalista() {
+		return nuevalista;
+	}
+
+	public static void setNuevalista(Venta[] nuevalista) {
+		VentanaPerfil.nuevalista = nuevalista;
+	}
+
+	public int getCh() {
+		return ch;
+	}
+
+	public static void setCh(int ch) {
+		VentanaPerfil.ch = ch;
+	}
+	private static JTable table1;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -63,6 +93,7 @@ public class VentanaPerfil extends JFrame {
 	 * @throws IOException 
 	 */
 	public VentanaPerfil(Usuario  u) throws IOException {
+		VentanaPerfil.uactual=u;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 350);
 		contentPane = new JPanel();
@@ -152,49 +183,24 @@ public class VentanaPerfil extends JFrame {
         		}
         	}
         }
- 
-        DefaultTableModel dtm=new DefaultTableModel();
-		dtm.addColumn("");
-		for(int j=0;j<compras.length;j++) {
-			if(compras[j]!=null) {	
-			Venta[] v= {compras[j]};
-			dtm.addRow(v);
-			}
-		}
-		
-		class Renderer extends DefaultTableCellRenderer {
-			/**
-			 * 
-			 */
-
-			private static final long serialVersionUID = 1L;
-			 //ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
-
-			 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-			  boolean hasFocus, int row, int column) {
-			
-			return compras[row];
-			}	 
-			}
-		
-			dtm.addColumn("");
-
-			table.setModel(dtm);
-		
-			   
-			table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
-			table.getColumnModel().getColumn(0).setPreferredWidth((int) (this.getWidth()*0.65));
-			table.getColumnModel().getColumn(0).setMaxWidth((int) (this.getWidth()*0.65));
-			
-			
-			
-			table.setRowHeight((int) (this.getHeight()*0.20));
-			
-			JScrollPane js=new JScrollPane(table);
-			  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		        panel_1.add(js);
+       
+		        panel_1.add(crearTabla(table, compras,true));
+		        
+		        table1=new JTable();
+		        Venta[] ventas=new Venta[10];
+		        i=0;
+		        for(String s: BD.getMapaVentas().keySet()) {
+		        	if(s.equals(u.getDni())) {
+		        		ArrayList<Coche> ventasc=BD.getMapaVentas().get(s);
+		        		for(Coche c: ventasc) {
+		        			Venta v=new Venta(c, u, "");
+		        			ventas[i]=v;
+		        			i++;
+		        		}
+		        	}
+		        }
+		        panel_2.add(crearTabla(table1,ventas,true));
+		        
 			
         JPanel panel_3 = new JPanel();
         editar.add(panel_3);
@@ -228,6 +234,107 @@ public class VentanaPerfil extends JFrame {
         panel_3.add(textField_3);
         textField_3.setColumns(10);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
+
 	}
+
+
+		 public static JTable getTable1() {
+		return table1;
+	}
+
+	public void setTable1(JTable table1) {
+		VentanaPerfil.table1 = table1;
+	}
+
+		public static JScrollPane crearTabla(JTable table,Venta[] lista,boolean editar) {
+
+			 table.addMouseMotionListener(new MouseMotionListener() {
+					
+					@Override
+					public void mouseMoved(MouseEvent e) {
+						fila = table.rowAtPoint(e.getPoint());
+						col=table.columnAtPoint(e.getPoint());
+
+					}
+					
+					@Override
+					public void mouseDragged(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+
+
+			 
+			 DefaultTableModel dtm=new DefaultTableModel();
+				dtm.addColumn("");
+				for(int j=0;j<lista.length;j++) {
+					
+					if(lista[j]!=null) {
+					
+					if(lista[j].getU().getDni().equals(uactual.getDni())){
+					Venta[] v= {lista[j]};
+					dtm.addRow(v);
+					}
+					}
+				}
+				
+				class Renderer extends DefaultTableCellRenderer {
+					/**
+					 * 
+					 */
+
+					private static final long serialVersionUID = 1L;
+					 //ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
+					
+
+					 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					  boolean hasFocus, int row, int column) {
+							i=row;
+							if(col==column && fila==row) {
+			
+								i=row;
+								vactual=lista[i];
+							}
+						return lista[i];
+					}	 
+					}
+		
+					dtm.addColumn("");
+
+					table.setModel(dtm);
+				
+					   
+					table.getColumnModel().getColumn(0).setCellRenderer(new Renderer());
+					table.getColumnModel().getColumn(0).setPreferredWidth((int) (450*0.65));
+					table.getColumnModel().getColumn(0).setMaxWidth((int) (450.65));
+					
+					
+					
+					table.setRowHeight((int) (350*0.20));
+					if(editar) {
+						table.addMouseListener(new MouseAdapter() {
+							
+							@Override
+							public void mouseClicked(MouseEvent e) {
+						
+								vc=new VentanaVenta2(vactual, editar);	
+								vc.setVisible(true);
+									
+
+								
+							}
+						});
+					js=new JScrollPane(table);
+					  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+					  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					}
+					  return js;
+		
+		
+	}
+		 
+		 
 
 }

@@ -15,8 +15,8 @@ public class Venta extends JLabel {
 	private static final long serialVersionUID = 1L;
 	private Coche c;
 	private Usuario u;
-	private int x=350;
-	private int y=185;
+	private static int x=350;
+	private static int y=185;
 	private String titulo;
 	public Venta(Coche c, Usuario u,String d) {
 		this.c=c;
@@ -44,13 +44,13 @@ public class Venta extends JLabel {
 		return x;
 	}
 	public void setX(int x) {
-		this.x = x;
+		Venta.x = x;
 	}
 	public int getY() {
 		return y;
 	}
 	public void setY(int y) {
-		this.y = y;
+		Venta.y = y;
 	}
 	public void setC(Coche c) {
 		this.c = c;

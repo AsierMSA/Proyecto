@@ -15,7 +15,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -418,7 +420,7 @@ public class MENU {
 		
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vc= new VentanaVenta2(vactual);
+				vc= new VentanaVenta2(vactual,false);
 				
 				vc.setVisible(true);
 				

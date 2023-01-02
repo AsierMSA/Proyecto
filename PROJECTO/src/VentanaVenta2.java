@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
@@ -27,6 +30,13 @@ public class VentanaVenta2 extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JPanel pnl_abajo;
+	private JPanel botones;
+	private JButton btnNewButton;
+	private Venta venta;
+	int confirmado;
+	private static Venta[] nv;
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -34,7 +44,7 @@ public class VentanaVenta2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaVenta2 frame = new VentanaVenta2(null);
+					VentanaVenta2 frame = new VentanaVenta2(null, false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +56,8 @@ public class VentanaVenta2 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaVenta2(Venta v) {
+	public VentanaVenta2(Venta v,boolean editable) {
+		this.venta=v;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 400);
 		contentPane = new JPanel();
@@ -91,7 +102,7 @@ public class VentanaVenta2 extends JFrame {
 		pnl_abajo.add(label,BorderLayout.WEST);
 		contentPane.add(pnl_abajo, BorderLayout.SOUTH);
 		
-		JPanel botones=new JPanel();
+		botones=new JPanel();
 		JButton btn_salir = new JButton("SALIR");
 		btn_salir.setPreferredSize(new Dimension(100, 30));
 		btn_salir.addActionListener(new ActionListener() {
@@ -102,28 +113,74 @@ public class VentanaVenta2 extends JFrame {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 	
-		
-		JButton btnNewButton = new JButton("COMPRAR\r\n\r\n");
+		if(editable) {
+			btnNewButton=new JButton("BORRAR");
+		}else {
+		btnNewButton = new JButton("COMPRAR\r\n\r\n");
+		}
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int confirmado = JOptionPane.showConfirmDialog(
+				if(editable) {
+					confirmado = JOptionPane.showConfirmDialog(
+							   
+							  contentPane, "¿Estas seguro de que quieres borrarlo?");
+				}else {
+				confirmado = JOptionPane.showConfirmDialog(
 						   
 						  contentPane, "¿Estas seguro de que quieres comprarlo?");
-
+				}
 						if (JOptionPane.OK_OPTION == confirmado) {
 						MENU.getLista();
-						Venta[] nv=new Venta[20];
+						nv=new Venta[20];
 						int j=0;
+						if(!editable) {
 						for(int i=0;i<MENU.getLista().length;i++) {
 							if(MENU.getLista()[i]!=null) {
-							if(!MENU.getLista()[i].equals(v)) {
+							if(!MENU.getLista()[i].equals(venta)) {
+								if(!MENU.getLista()[i].getC().equals(venta.getC()) ) {
 								nv[j]=MENU.getLista()[i];
 								j++;
+								}
 							}
 							}
 						}
-						
+						}else {
+							for(int i=0;i<MENU.getLista().length;i++) {
+								if(MENU.getLista()[i]!=null) {
+								if(!MENU.getLista()[i].getC().equals(venta.getC()) ) {
+									nv[j]=MENU.getLista()[i];
+									j++;
+								}
+								}
+							}
+						}
+						if(!editable) {
+						ArrayList<Coche> cmp=BD.getMapaCompras().get(MENU.getUactual().getDni());
+						cmp.add(v.getC());
+						HashMap<String, ArrayList<Coche>> mapa=BD.getMapaCompras();
+						mapa.replace(MENU.getUactual().getDni(),cmp);
+						BD.setMapaCompras(mapa);
 						MENU.setLista(nv);
+						}else {
+							MENU.setLista(nv);
+							int pos=0;
+							Venta[] nuevo= new Venta[20];
+							for(Venta v: nv) {
+								if(v!=null) {
+								if(v.getU().getDni().equals(MENU.u.getDni())) {
+									nuevo[pos]=v;
+									pos++;
+								}
+								}
+							}
+							ArrayList<Coche> cochesu=BD.getMapaVentas().get(MENU.u.getDni());
+							cochesu.remove(v.getC());
+							HashMap<String, ArrayList<Coche>> mapa = BD.getMapaVentas();
+							mapa.replace(MENU.u.getDni(), cochesu);
+							BD.setMapaVentas(mapa);
+							VentanaPerfil.crearTabla(VentanaPerfil.getTable1(), nuevo, false);
+						}
+						
 						dispose();
 						
 						}
@@ -138,9 +195,17 @@ public class VentanaVenta2 extends JFrame {
 		contentPane.add(pnl_medio, BorderLayout.EAST);
 		}
 		
-		
 
 
 	}
 
+	public Venta[] getNv() {
+		return nv;
+	}
+
+	public void setNv(Venta[] nv) {
+		VentanaVenta2.nv = nv;
+	}
+	
+	
 }
