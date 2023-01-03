@@ -9,15 +9,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.EventObject;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +30,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+
+
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JMenu;
@@ -193,7 +194,7 @@ public class MENU {
 		panel.add(PanelSuperior, BorderLayout.NORTH);
 		
 		lblNewLabel = new JLabel();
-		Image img = ImageIO.read(new File("src\\\\FOTOS\\\\106829_05062017.jpg"));
+		Image img = ImageIO.read(new File("src\\FOTOS\\106829_05062017.jpg"));
 		Image dimg = img.getScaledInstance(130, 65,
 		        Image.SCALE_SMOOTH);
 		ImageIcon logo=new ImageIcon(dimg);
@@ -208,11 +209,11 @@ public class MENU {
 		panel_1.add(btnNewButton);
 		
 		
-		String [] marca= {"MARCA","BMW","AUDI"};
+		String [] marca= {"MARCA","BMW","AUDI","TESLA","MERCEDES"};
 		DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<String>(marca);
 		
 		
-		String[] km= {"MaxKm","10000","20000"};
+		String[] km= {"MaxKm","10000","20000","30000","100000"};
 		DefaultComboBoxModel<String> comboModel2 = new DefaultComboBoxModel<String>(km);
 		PanelInferior = new JPanel();
 		panel.add(PanelInferior, BorderLayout.SOUTH);
@@ -289,7 +290,8 @@ public class MENU {
 											
 		@Override
 		public void stateChanged(ChangeEvent e) {
-		precioRango.setText(precioSlider.getValue()+"€");
+		
+			precioRango.setText(precioSlider.getValue()+"€");
 												
 						}
 				});
@@ -434,6 +436,7 @@ public class MENU {
 				cambModel(lista, table);
 				Volver.setVisible(false);
 				lblNewLabel_2.setText("");
+				btnNewButton_2.setVisible(true);
 				
 			}
 		} );
@@ -543,14 +546,17 @@ public class MENU {
 			pos=0;
 			for(int i=0;i<lista.length;i++) {
 				if(lista[i]!=null) {
-				if(lista[i].getU().getNombre().equals(igual) || lista[i].getC().getMarca().equals(igual)) {
+				if(lista[i].getU().getNombre().equals(igual) || lista[i].getC().getMarca().equals(igual) || lista[i].getC().getModelo().equals(igual) ) {
 					nuevalista[pos]=lista[i];
 					pos++;
 					ch=i;
 					
 				}
+				
+					
 				}
 				}
+			btnNewButton_2.setVisible(false);
 			Volver.setVisible(true);
 			cambModel(nuevalista, table);
 			lblNewLabel_2.setText(pos+" articulos encontrados");
@@ -596,7 +602,7 @@ public class MENU {
 				}	 
 				}
 			
-				dtm.addColumn("");
+				
 
 				table.setModel(dtm);
 			
@@ -619,7 +625,7 @@ public class MENU {
 				}
 
 	}
-			private void cargarListaBD() {
+			private void cargarListaBD() throws MalformedURLException {
 				Connection con = BD.initBD("todoCoches.db");
 				BD.borrarTabla(con, "Coche");
 				BD.borrarTabla(con, "Usuario");

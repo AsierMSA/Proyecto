@@ -1,3 +1,6 @@
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
 
 
 public class BD {
@@ -126,18 +131,49 @@ public class BD {
 		UsuarioRegular(con,"12034556S","2003/02/23","Markel","Askartza1","Bilbao","",0);
 		UsuarioRegular(con,"13423436X","2005/10/09","Anton","112223344","Barakaldo","",0);
 		UsuarioRegular(con,"13438430C","2002/04/17","Ane","2345435","Leioa","",0);
+		UsuarioRegular(con,"12345678A", "01/01/1995", "Juan Pérez", "password1", "Madrid", "https://www.example.com/foto1.jpg", 0);
+		UsuarioRegular(con,"87654321B", "02/02/1996", "María Rodríguez", "password2", "Barcelona", "https://www.example.com/foto2.jpg", 0);
+		UsuarioRegular(con,"23456789C", "03/03/1997", "Pablo Martín", "password3", "Valencia", "https://www.example.com/foto3.jpg", 0);
+		UsuarioRegular(con,"56789123D", "04/04/1998", "Sara Gómez", "password4", "Sevilla", "https://www.example.com/foto4.jpg", 0);
+		UsuarioRegular(con,"89123456E", "05/05/1999", "Laura Sánchez", "password5", "Zaragoza", "https://www.example.com/foto5.jpg", 0);
+		UsuarioRegular(con,"34567890F", "06/06/2000", "Carlos Moreno", "password6", "Málaga", "https://www.example.com/foto6.jpg", 0);
+		UsuarioRegular(con,"67890ABC", "07/07/2001", "Alberto Jiménez", "password7", "Bilbao", "https://www.example.com/foto7.jpg", 0);
+		UsuarioRegular(con,"90123CDE", "08/08/2002", "Ana Díaz", "password8", "Murcia", "https://www.example.com/foto8.jpg", 0);
+		UsuarioRegular(con,"01234FGH", "09/09/2003", "Javier Ruiz", "password9", "Palma de Mallorca", "https://www.example.com/foto9.jpg", 0);
+		UsuarioRegular(con,"56789IJK", "10/10/2004", "Elena Ortiz", "password10", "Las Palmas de Gran Canaria", "https://www.example.com/foto10.jpg", 0);
 		
 		
 		insertarCoche(con,"R8","Tesla",2,0,2022,300,"src\\FOTOS\\tesla.jpg");
 		insertarCoche(con,"R7","Audi",2,0,2022,200,"src\\FOTOS\\audi r8.jpg");
 		insertarCoche(con,"Arona","Seat",4,1000,2022,120,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
+		insertarCoche(con,"Mazda 3", "Mazda", 4, 20000, 2018, 150, "https://www.mazda.com/content/dam/Mazda/global-site/cars/3/overview/3-hero-image-desktop.jpg");
+		insertarCoche(con,"Toyota Camry", "Toyota", 4, 50000, 2020, 200, "https://www.toyota.com/content/toyota/en/vehicles/new/2020/camry/trims/xse.html/jcr:content/heroCarousel/hero/image.adaptive.full.jpg/1561130073907.jpg");
+		insertarCoche(con,"Nissan Altima", "Nissan", 4, 30000, 2019, 180, "https://www.nissanusa.com/content/dam/nissan/vehicles/altima/2019/overview/Altima_2019_OVERVIEW_HERO_DESKTOP.jpg");
+		insertarCoche(con,"Ford Fusion", "Ford", 4, 35000, 2017, 190, "https://www.ford.com/content/dam/ford-com/global/nameplate-assets/fusion/2019/overview/2019-Ford-Fusion-Overview-Hero.jpg");
+		insertarCoche(con,"Hyundai Sonata", "Hyundai", 4, 40000, 2020, 160, "https://www.hyundaiusa.com/content/dam/hyundai/global/en/vehicles/2020/sonata/overview/2020-sonata-overview-hero-desktop.jpg");
+		insertarCoche(con,"Subaru Legacy", "Subaru", 4, 25000, 2018, 170, "https://www.subaru.com/content/subaru/en/vehicles/legacy/2018/overview/overview.html/jcr:content/heroCarousel/hero/image.adaptive.full.jpg/1481919860260.jpg");
+		insertarCoche(con,"Honda Civic", "Honda", 4, 45000, 2019, 140, "https://www.honda.com/content/dam/honda/vehicles/2019/civic/2019-civic-hero.jpg");
+		insertarCoche(con,"Kia Optima", "Kia", 4, 30000, 2017, 180, "https://www.kia.com/content/dam/kwcms/us/en/index/index.desktop.new.image.image1.jpg/1587203378379.jpg");
+		insertarCoche(con,"Chevrolet Malibu", "Chevrolet", 4, 40000, 2018, 150, "https://www.chevrolet.com/content/dam/chevrolet/northamerica/us/english/index/vehicles/cars/malibu/2019/overview/1920x1080/2019-malibu-overview-hero.jpg");
+		insertarCoche(con,"BMW 3 Series", "BMW", 4, 50000, 2020, 250, "https://www.bmw.com/content/dam/bmw/common/all-models/3-series/sedan/2020/at-a-glance/3-series-at-a-glance.jpg");
+		
+		
 		
 		Venta(con,"16097385F","R8",0);
 		Venta(con,"12034556S","R7",0);
 		Venta(con,"16097385F","Arona",1000);
-		
+		Venta(con,"12345678A", "Mazda 3", 20000);
+		Venta(con,"87654321B", "Toyota Camry", 50000);
+		Venta(con,"23456789C", "Nissan Altima", 30000);
+//		Venta(con,"56789123D", "Ford Fusion", 35000);
+//		Venta(con,"89123456E", "Hyundai Sonata", 40000);
+//		Venta(con,"34567890F", "Subaru Legacy", 25000);
+//		Venta(con,"67890ABC", "Honda Civic", 45000);
+//		Venta(con,"90123CDE", "Kia Optima", 30000);
+//		Venta(con,"01234FGH", "Chevrolet Malibu", 40000);
+//		Venta(con,"56789IJK", "BMW 3 Series", 50000);
 	}
-	public static Venta[] BDaMapa(Connection con) {
+	public static Venta[] BDaMapa(Connection con) throws MalformedURLException {
 		Coche c;
 		String sql="SELECT c.* FROM Coche c,Venta v WHERE c.modelo=v.modelo AND c.kms=v.kms";
 		Venta[] lista = null;
@@ -177,7 +213,7 @@ public class BD {
 			st.close();
 
 			int i=0;
-			lista= new Venta[3];
+			lista= new Venta[20];
 			for(String s: mapaVentas.keySet()) {
 			ArrayList<Coche> ar=mapaVentas.get(s);
 			Usuario us=UsuarioPorDni(con, s);
@@ -237,6 +273,16 @@ public class BD {
 		}
 		
 	}
+	
+		public static boolean esURL(String urlString) {
+		    try {
+		        URL url = new URL(urlString);
+		        url.toURI();
+		        return true;
+		    } catch (MalformedURLException | URISyntaxException e) {
+		        return false;
+		    }
+		}
 
 }
 	

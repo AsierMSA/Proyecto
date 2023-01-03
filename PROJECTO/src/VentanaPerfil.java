@@ -95,7 +95,7 @@ public class VentanaPerfil extends JFrame {
 	public VentanaPerfil(Usuario  u) throws IOException {
 		VentanaPerfil.uactual=u;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 350);
+		setBounds(1250, 100, 500, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -122,7 +122,7 @@ public class VentanaPerfil extends JFrame {
         JPanel editar=new JPanel();
         
         JPanel panel_1 = new JPanel();
-        tabbedPane.addTab("COMPRAS", null, panel_1, null);
+       
         editar.setLayout(new BorderLayout(0, 0));
         JPanel panel_5=new JPanel();
         
@@ -150,7 +150,7 @@ public class VentanaPerfil extends JFrame {
         lblNewLabel_3 = new JLabel("    ");
         panel_5.add(lblNewLabel_3);
         JPanel panel_2 = new JPanel();
-        tabbedPane.addTab("VENTAS", null, panel_2, null);
+        
  
         tabbedPane.addTab("EDITAR", editar);
         
@@ -184,7 +184,8 @@ public class VentanaPerfil extends JFrame {
         	}
         }
        
-		        panel_1.add(crearTabla(table, compras,true));
+		        panel_1.add(crearTabla(table, compras,true),BorderLayout.CENTER);
+		        tabbedPane.addTab("COMPRAS", null, panel_1, null);
 		        
 		        table1=new JTable();
 		        Venta[] ventas=new Venta[10];
@@ -199,8 +200,8 @@ public class VentanaPerfil extends JFrame {
 		        		}
 		        	}
 		        }
-		        panel_2.add(crearTabla(table1,ventas,true));
-		        
+		        panel_2.add(crearTabla(table1,ventas,true),BorderLayout.CENTER);
+		        tabbedPane.addTab("VENTAS", null, panel_2, null);
 			
         JPanel panel_3 = new JPanel();
         editar.add(panel_3);
@@ -300,7 +301,7 @@ public class VentanaPerfil extends JFrame {
 					}	 
 					}
 		
-					dtm.addColumn("");
+					
 
 					table.setModel(dtm);
 				
@@ -311,7 +312,7 @@ public class VentanaPerfil extends JFrame {
 					
 					
 					
-					table.setRowHeight((int) (350*0.20));
+					table.setRowHeight((int) (400*0.20));
 					if(editar) {
 						table.addMouseListener(new MouseAdapter() {
 							
@@ -326,9 +327,10 @@ public class VentanaPerfil extends JFrame {
 							}
 						});
 					js=new JScrollPane(table);
-					  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					  table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 					  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 					  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					  table.setFillsViewportHeight(false);
 					}
 					  return js;
 		

@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class VentanaVenta extends JFrame {
@@ -152,6 +153,41 @@ public class VentanaVenta extends JFrame {
 			       	jl.setText(chooser.getSelectedFile().getName());
 			    }
 			    
+				
+			}
+		});
+		btnNewButton_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(txt_modelo.getText().equals("") || txt_marca.getText().equals("") || txt_puertas.getText().equals("")
+						|| txt_potencia.getText().equals("")  || txt_kilometros.getText().equals("") || txt_anios.getText().equals("")) {
+					JOptionPane.showMessageDialog(btnNewButton, "Rellena todos los campos", "Error", JOptionPane.INFORMATION_MESSAGE, null);
+				}else {
+					
+					try {
+						Coche c=new Coche(txt_modelo.getText(),txt_marca.getText(), Integer.parseInt(txt_puertas.getText()),
+								Integer.parseInt(txt_kilometros.getText()),Integer.parseInt(txt_potencia.getText()),Integer.parseInt(txt_anios.getText()),jl.getText());
+						Venta v=new Venta(c,MENU.getUactual(),"");
+						Venta[] nuevalista=new Venta[20];
+						for(int i=0;i<MENU.getLista().length+1;i++) {
+
+							if(i==MENU.getLista().length) {
+								nuevalista[i]=v;
+		
+							}else {
+								nuevalista[i]=MENU.getLista()[i];
+							}
+						}
+						
+						MENU.setLista(nuevalista);
+						dispose();
+					}catch(Exception ex) {
+						ex.printStackTrace();
+					}
+					
+				}
 				
 			}
 		});

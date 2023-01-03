@@ -86,6 +86,7 @@ public class VentanaVenta2 extends JFrame {
 		JLabel label=new JLabel();
 		
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.LEFT);
+		System.out.println(v.getU());
 		ImageIcon i1=new ImageIcon(v.getU().getFoto());
 		ImageIcon ic1= new ImageIcon(i1.getImage().getScaledInstance(100, (int) (jl.getHeight()*0.75), Image.SCALE_DEFAULT));
 		label.setPreferredSize(new Dimension(150,(int) (jl.getHeight()*0.75)));
