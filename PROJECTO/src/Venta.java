@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.MalformedURLException;
@@ -42,8 +43,9 @@ public class Venta extends JLabel {
 		this.imagen=new ImageIcon("src\\FOTOS\\default.png");
 		c.setFoto("src\\FOTOS\\default.png");
 		}
-		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance((int) (this.getWidth()), (int) (this.getHeight()), Image.SCALE_DEFAULT));
+		
 		}
+		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance((int) (this.getWidth()), (int) (this.getHeight()), Image.SCALE_DEFAULT));
 		this.setIcon(this.icono);
 		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.getTitulo()+"</font></font><br><br>&emsp;&emsp;Descripcion</html>");
 		this.setFont(new Font("Arial", Font.PLAIN, 16));

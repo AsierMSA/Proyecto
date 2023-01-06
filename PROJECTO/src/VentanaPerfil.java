@@ -1,6 +1,7 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -319,7 +320,12 @@ public class VentanaPerfil extends JFrame {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 						
-								vc=new VentanaVenta2(vactual, editar);	
+								try {
+									vc=new VentanaVenta2(vactual);
+								} catch (MalformedURLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}	
 								vc.setVisible(true);
 									
 

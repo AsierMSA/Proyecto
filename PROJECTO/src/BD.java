@@ -146,16 +146,16 @@ public class BD {
 		insertarCoche(con,"R8","Tesla",2,0,2022,300,"src\\FOTOS\\tesla.jpg");
 		insertarCoche(con,"R7","Audi",2,0,2022,200,"src\\FOTOS\\audi r8.jpg");
 		insertarCoche(con,"Arona","Seat",4,1000,2022,120,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
-		insertarCoche(con,"Mazda 3", "Mazda", 4, 20000, 2018, 150, "https://www.mazda.com/content/dam/Mazda/global-site/cars/3/overview/3-hero-image-desktop.jpg");
-		insertarCoche(con,"Toyota Camry", "Toyota", 4, 50000, 2020, 200, "https://www.toyota.com/content/toyota/en/vehicles/new/2020/camry/trims/xse.html/jcr:content/heroCarousel/hero/image.adaptive.full.jpg/1561130073907.jpg");
-		insertarCoche(con,"Nissan Altima", "Nissan", 4, 30000, 2019, 180, "https://www.nissanusa.com/content/dam/nissan/vehicles/altima/2019/overview/Altima_2019_OVERVIEW_HERO_DESKTOP.jpg");
-		insertarCoche(con,"Ford Fusion", "Ford", 4, 35000, 2017, 190, "https://www.ford.com/content/dam/ford-com/global/nameplate-assets/fusion/2019/overview/2019-Ford-Fusion-Overview-Hero.jpg");
-		insertarCoche(con,"Hyundai Sonata", "Hyundai", 4, 40000, 2020, 160, "https://www.hyundaiusa.com/content/dam/hyundai/global/en/vehicles/2020/sonata/overview/2020-sonata-overview-hero-desktop.jpg");
-		insertarCoche(con,"Subaru Legacy", "Subaru", 4, 25000, 2018, 170, "https://www.subaru.com/content/subaru/en/vehicles/legacy/2018/overview/overview.html/jcr:content/heroCarousel/hero/image.adaptive.full.jpg/1481919860260.jpg");
-		insertarCoche(con,"Honda Civic", "Honda", 4, 45000, 2019, 140, "https://www.honda.com/content/dam/honda/vehicles/2019/civic/2019-civic-hero.jpg");
-		insertarCoche(con,"Kia Optima", "Kia", 4, 30000, 2017, 180, "https://www.kia.com/content/dam/kwcms/us/en/index/index.desktop.new.image.image1.jpg/1587203378379.jpg");
-		insertarCoche(con,"Chevrolet Malibu", "Chevrolet", 4, 40000, 2018, 150, "https://www.chevrolet.com/content/dam/chevrolet/northamerica/us/english/index/vehicles/cars/malibu/2019/overview/1920x1080/2019-malibu-overview-hero.jpg");
-		insertarCoche(con,"BMW 3 Series", "BMW", 4, 50000, 2020, 250, "https://www.bmw.com/content/dam/bmw/common/all-models/3-series/sedan/2020/at-a-glance/3-series-at-a-glance.jpg");
+		insertarCoche(con,"Mazda 3", "Mazda", 4, 20000, 2018, 150, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mazda.es%2Fgama%2Fmazda3%2F&psig=AOvVaw3cPAM1HS9eAK5wIaUUcVqP&ust=1673093622534000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKjahcr1svwCFQAAAAAdAAAAABAD");
+		insertarCoche(con,"Toyota Camry", "Toyota", 4, 50000, 2020, 200, "https://upload.wikimedia.org/wikipedia/commons/b/bd/2022_Toyota_Camry_Hybrid_XLE_in_Midnight_Black_Metallic%2C_Front_Right%2C_12-25-2021.jpg");
+		insertarCoche(con,"Nissan Altima", "Nissan", 4, 30000, 2019, 180, "https://cdn-images.motor.es/image/m/1280w/fotos-noticias/2022/06/nissan-altima-2023-202287661-1654970785_1.jpg");
+		insertarCoche(con,"Ford Fusion", "Ford", 4, 35000, 2017, 190, "https://upload.wikimedia.org/wikipedia/commons/c/ca/2013_Ford_Fusion_Hybrid_trim.jpg");
+		insertarCoche(con,"Hyundai Sonata", "Hyundai", 4, 40000, 2020, 160, "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/2018_Hyundai_Sonata_%28LF4_MY18%29_Active_2.4_sedan_%282018-10-22%29_01.jpg/800px-2018_Hyundai_Sonata_%28LF4_MY18%29_Active_2.4_sedan_%282018-10-22%29_01.jpg");
+		insertarCoche(con,"Subaru Legacy", "Subaru", 4, 25000, 2018, 170, "https://upload.wikimedia.org/wikipedia/commons/1/17/%2703-%2704_Subaru_Legacy_Sedan.JPG");
+		insertarCoche(con,"Honda Civic", "Honda", 4, 45000, 2019, 140, "https://upload.wikimedia.org/wikipedia/commons/e/e1/2022_Honda_Civic_LX%2C_Front_Right%2C_06-20-2021.jpg");
+		insertarCoche(con,"Kia Optima", "Kia", 4, 30000, 2017, 180, "https://upload.wikimedia.org/wikipedia/commons/1/1a/2018_Kia_Optima_2_CRDi_ISG_1.6_facelift_Front.jpg");
+		insertarCoche(con,"Chevrolet Malibu", "Chevrolet", 4, 40000, 2018, 150, "https://upload.wikimedia.org/wikipedia/commons/0/01/2019_Chevrolet_Malibu_%28facelift%29_LT%2C_front_10.19.19.jpg");
+		insertarCoche(con,"BMW 3 Series", "BMW", 4, 50000, 2020, 250, "https://upload.wikimedia.org/wikipedia/commons/7/7a/2020_BMW_530d_M_Sport_facelift.jpg");
 		
 		
 		
@@ -165,13 +165,13 @@ public class BD {
 		Venta(con,"12345678A", "Mazda 3", 20000);
 		Venta(con,"87654321B", "Toyota Camry", 50000);
 		Venta(con,"23456789C", "Nissan Altima", 30000);
-//		Venta(con,"56789123D", "Ford Fusion", 35000);
-//		Venta(con,"89123456E", "Hyundai Sonata", 40000);
-//		Venta(con,"34567890F", "Subaru Legacy", 25000);
-//		Venta(con,"67890ABC", "Honda Civic", 45000);
-//		Venta(con,"90123CDE", "Kia Optima", 30000);
-//		Venta(con,"01234FGH", "Chevrolet Malibu", 40000);
-//		Venta(con,"56789IJK", "BMW 3 Series", 50000);
+		Venta(con,"56789123D", "Ford Fusion", 35000);
+		Venta(con,"89123456E", "Hyundai Sonata", 40000);
+		Venta(con,"34567890F", "Subaru Legacy", 25000);
+		Venta(con,"67890ABC", "Honda Civic", 45000);
+		Venta(con,"90123CDE", "Kia Optima", 30000);
+		Venta(con,"01234FGH", "Chevrolet Malibu", 40000);
+		Venta(con,"56789IJK", "BMW 3 Series", 50000);
 	}
 	public static Venta[] BDaMapa(Connection con) throws MalformedURLException {
 		Coche c;

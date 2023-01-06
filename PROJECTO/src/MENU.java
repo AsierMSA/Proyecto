@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -384,8 +385,11 @@ public class MENU {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buscarLista(comboModel.getSelectedItem());
-				
+				if(!comboModel.getSelectedItem().equals("MARCA") && !comboModel2.getSelectedItem().equals("MaxKm")) {
+				buscarLista(comboModel.getSelectedItem(), Integer.parseInt((String) comboModel2.getSelectedItem()));
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecciona un filtro");
+				}
 			}
 		});
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -422,7 +426,12 @@ public class MENU {
 		
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vc= new VentanaVenta2(vactual,false);
+				try {
+					vc= new VentanaVenta2(vactual);
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				vc.setVisible(true);
 				
@@ -525,7 +534,7 @@ public class MENU {
 			if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 				String buscar=new String(textField.getText());
 				textField.setText("");
-				buscarLista(buscar);
+				buscarLista(buscar,0);
 			}
 			
 			
@@ -541,19 +550,27 @@ public class MENU {
 	}
 		//Metodo para buscar un elemento de la lista y cambiar la tabla
 	
-		private void buscarLista(Object igual) {
+		private void buscarLista(Object igual,int numero) {
 			nuevalista = new Venta[50];
 			pos=0;
 			for(int i=0;i<lista.length;i++) {
 				if(lista[i]!=null) {
-				if(lista[i].getU().getNombre().equals(igual) || lista[i].getC().getMarca().equals(igual) || lista[i].getC().getModelo().equals(igual) ) {
+				if(numero==0) {
+					if(lista[i].getU().getNombre().toLowerCase().equals(igual.toString().toLowerCase()) || lista[i].getC().getMarca().toLowerCase().equals(igual.toString().toLowerCase()) || lista[i].getC().getModelo().toLowerCase().equals(igual.toString().toLowerCase()) 
+					 ) {
 					nuevalista[pos]=lista[i];
 					pos++;
 					ch=i;
 					
 				}
-				
+				}else {
+					if(lista[i].getC().getMarca().toLowerCase().equals(igual.toString().toLowerCase()) && lista[i].getC().getKilometros()>numero) {
+						nuevalista[pos]=lista[i];
+						pos++;
+						ch=i;
+					}
 					
+				}
 				}
 				}
 			btnNewButton_2.setVisible(false);
@@ -586,7 +603,11 @@ public class MENU {
 				 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 				  boolean hasFocus, int row, int column) {
 					i=row;
-				if(col==column && fila==row) {
+//					if(lista[i].getU().getDni().equals(MENU.getUactual().getDni())) {
+//						lista[i].setBackground(Color.DARK_GRAY);
+//					}
+				
+					if(col==column && fila==row) {
 					if(ch!=-1) {
 						vactual= nuevalista[i];
 					}else {

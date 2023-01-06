@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,7 +37,8 @@ public class VentanaVenta2 extends JFrame {
 	private Venta venta;
 	int confirmado;
 	private static Venta[] nv;
-
+	boolean editable=false;
+	ImageIcon i1;
 
 	/**
 	 * Launch the application.
@@ -44,7 +47,7 @@ public class VentanaVenta2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaVenta2 frame = new VentanaVenta2(null, false);
+					VentanaVenta2 frame = new VentanaVenta2(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,9 +58,13 @@ public class VentanaVenta2 extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws MalformedURLException 
 	 */
-	public VentanaVenta2(Venta v,boolean editable) {
+	public VentanaVenta2(Venta v) throws MalformedURLException {
 		this.venta=v;
+		if(MENU.getUactual().getDni().equals(v.getU().getDni())) {
+			editable=true;
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 400);
 		contentPane = new JPanel();
@@ -76,7 +83,7 @@ public class VentanaVenta2 extends JFrame {
 		if(v!=null) {
 		JLabel jl=new JLabel();
 		jl.setSize(450, 100);
-		ImageIcon i=new ImageIcon(v.getC().getFoto());
+		ImageIcon i=v.getImagen();
 		ImageIcon ic= new ImageIcon(i.getImage().getScaledInstance(250, (int) (jl.getHeight()*1.25), Image.SCALE_DEFAULT));
 		jl.setIcon(ic);
 		pnl_medio.add(jl);
@@ -86,8 +93,7 @@ public class VentanaVenta2 extends JFrame {
 		JLabel label=new JLabel();
 		
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-		System.out.println(v.getU());
-		ImageIcon i1=new ImageIcon(v.getU().getFoto());
+		i1=new ImageIcon(v.getU().getFoto());
 		ImageIcon ic1= new ImageIcon(i1.getImage().getScaledInstance(100, (int) (jl.getHeight()*0.75), Image.SCALE_DEFAULT));
 		label.setPreferredSize(new Dimension(150,(int) (jl.getHeight()*0.75)));
 		label.setIcon(ic1);
