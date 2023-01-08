@@ -28,6 +28,7 @@ public class VentanaVenta extends JFrame {
 	private JTextField txt_anios;
 	private JTextField txt_kilometros;
 	private JTextField txt_potencia;
+	private JTextField txt_precio;
 
 	/**
 	 * Launch the application.
@@ -60,7 +61,7 @@ public class VentanaVenta extends JFrame {
 		
 		JPanel pnl_centro = new JPanel();
 		contentPane.add(pnl_centro, BorderLayout.CENTER);
-		pnl_centro.setLayout(new GridLayout(6, 2, 0, 0));
+		pnl_centro.setLayout(new GridLayout(7, 2, 0, 0));
 		
 		JLabel lbl_modelo = new JLabel("MODELO");
 		pnl_centro.add(lbl_modelo);
@@ -96,6 +97,12 @@ public class VentanaVenta extends JFrame {
 		txt_anios = new JTextField();
 		pnl_centro.add(txt_anios);
 		txt_anios.setColumns(10);
+		
+		JLabel precio=new JLabel("Precio");
+		pnl_centro.add(precio);
+		
+		txt_precio=new JTextField();
+		pnl_centro.add(txt_precio);
 		
 		JLabel lbl_kilometros = new JLabel("KILOMETROS");
 		pnl_centro.add(lbl_kilometros);
@@ -162,14 +169,14 @@ public class VentanaVenta extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(txt_modelo.getText().equals("") || txt_marca.getText().equals("") || txt_puertas.getText().equals("")
-						|| txt_potencia.getText().equals("")  || txt_kilometros.getText().equals("") || txt_anios.getText().equals("")) {
+						|| txt_potencia.getText().equals("")  || txt_kilometros.getText().equals("") || txt_anios.getText().equals("") ||txt_precio.getText().equals("")) {
 					JOptionPane.showMessageDialog(btnNewButton, "Rellena todos los campos", "Error", JOptionPane.INFORMATION_MESSAGE, null);
 				}else {
 					
 					try {
 						Coche c=new Coche(txt_modelo.getText(),txt_marca.getText(), Integer.parseInt(txt_puertas.getText()),
 								Integer.parseInt(txt_kilometros.getText()),Integer.parseInt(txt_potencia.getText()),Integer.parseInt(txt_anios.getText()),jl.getText());
-						Venta v=new Venta(c,MENU.getUactual(),"");
+						Venta v=new Venta(c,MENU.getUactual(),"",Integer.parseInt(txt_precio.getText()));
 						Venta[] nuevalista=new Venta[20];
 						for(int i=0;i<MENU.getLista().length+1;i++) {
 

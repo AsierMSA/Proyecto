@@ -87,7 +87,7 @@ public class MENU {
 	private VentanaVenta2 vc;
 	
 //	static Coche c=new Coche("R8","AUDI",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
-	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo","",true);
+	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo","",100000, true);
 //	static Coche cu=new Coche("R8","Tesla",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
 //	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo","");
 //	static Coche ucc=new Coche("Arona","Seat",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
@@ -136,7 +136,7 @@ public class MENU {
 	private JLabel precioRango;
 	private JLabel precioRango_1;
 	private JPanel panel_4;
-	private JLabel Perfil;
+	static JLabel Perfil;
 
 	/**
 	 * Launch the application.
@@ -237,7 +237,7 @@ public class MENU {
 		        Image.SCALE_SMOOTH);
 		ImageIcon logo1=new ImageIcon(dimg1);
 		Perfil.setIcon(logo1);
-		Perfil.setText(uactual.getNombre());
+		Perfil.setText(uactual.getCartera()+"€          "+uactual.getNombre());
 		PanelSuperior.add(Perfil);
 		
 		lblNewLabel_2 = new JLabel("");
@@ -259,7 +259,7 @@ public class MENU {
 		panel_2 = new JPanel();
 		PanelCentral.add(panel_2, BorderLayout.CENTER);
 						
-		precioRango = new JLabel("New label");
+		precioRango = new JLabel("Añadir fondos");
 		panel_2.setLayout(new GridLayout(0, 1, 0, 50));
 		
 		panel_4 = new JPanel();

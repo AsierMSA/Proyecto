@@ -5,8 +5,9 @@ public class Usuario{
 	private String contrasenia;
 	private String ciudad;
 	protected String foto;
+	private int cartera;
 	private Boolean admin;
-	public Usuario(String dni, String fechaNacimiento, String nombre, String contrasenia, String ciudad,String foto,Boolean admin) {
+	public Usuario(String dni, String fechaNacimiento, String nombre, String contrasenia, String ciudad,String foto,int cartera,Boolean admin) {
 		super();
 		this.dni = dni;
 		this.fechaNacimiento = fechaNacimiento;
@@ -15,6 +16,7 @@ public class Usuario{
 		this.ciudad = ciudad;
 		this.foto=foto;
 		this.setAdmin(admin);
+		this.setCartera(cartera);
 
 	}
 	public String getDni() {
@@ -63,6 +65,12 @@ public class Usuario{
 	}
 	public void setAdmin(Boolean admin) {
 		this.admin = admin;
+	}
+	public int getCartera() {
+		return cartera;
+	}
+	public void setCartera(int cartera) {
+		this.cartera = cartera;
 	}
 
 	

@@ -80,7 +80,7 @@ public class VentanaPerfil extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPerfil frame = new VentanaPerfil(new Usuario("", "", "", "", "", "", true));
+					VentanaPerfil frame = new VentanaPerfil(new Usuario("", "", "", "", "", "",0, true));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -174,11 +174,12 @@ public class VentanaPerfil extends JFrame {
         JTable table=new JTable();
         Venta[] compras=new Venta[10];
         int i=0;
+        
         for(String s: BD.getMapaCompras().keySet()) {
         	if(s.equals(u.getDni())) {
         		ArrayList<Coche> comprasc=BD.getMapaCompras().get(s);
         		for(Coche c: comprasc) {
-        			Venta v=new Venta(c, u, "");
+        			Venta v=new Venta(c, u, "",BD.precios.get(i));
         			compras[i]=v;
         			i++;
         		}
@@ -195,7 +196,7 @@ public class VentanaPerfil extends JFrame {
 		        	if(s.equals(u.getDni())) {
 		        		ArrayList<Coche> ventasc=BD.getMapaVentas().get(s);
 		        		for(Coche c: ventasc) {
-		        			Venta v=new Venta(c, u, "");
+		        			Venta v=new Venta(c, u, "",BD.precios.get(i));
 		        			ventas[i]=v;
 		        			i++;
 		        		}

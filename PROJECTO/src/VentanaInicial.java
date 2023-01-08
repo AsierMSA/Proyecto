@@ -219,4 +219,12 @@ public class VentanaInicial extends JFrame {
 		});
 	}
 
+	public JTextField getTxtNumero() {
+		return txtNumero;
+	}
+
+	public void setTxtNumero(JTextField txtNumero) {
+		this.txtNumero = txtNumero;
+	}
+
 }

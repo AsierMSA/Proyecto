@@ -137,7 +137,8 @@ public class VentanaVenta2 extends JFrame {
 						  contentPane, "¿Estas seguro de que quieres comprarlo?");
 				}
 						if (JOptionPane.OK_OPTION == confirmado) {
-						MENU.getLista();
+							if(BD.comprable(v.getDinero())) {
+							MENU.getLista();
 						nv=new Venta[20];
 						int j=0;
 						if(!editable) {
@@ -189,7 +190,7 @@ public class VentanaVenta2 extends JFrame {
 						}
 						
 						dispose();
-						
+							}
 						}
 			}
 		});

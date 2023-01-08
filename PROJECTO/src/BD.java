@@ -12,11 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 public class BD {
 	final Logger LOG = Logger.getLogger("paquete.NombreClase");
-	
+	public static ArrayList<Integer> precios;
 	static HashMap<String,ArrayList<Coche>> mapaVentas;
 	static HashMap<String,ArrayList<Coche>> mapaCompras;
 	
@@ -32,6 +33,7 @@ public class BD {
 			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
 			mapaVentas=new HashMap<String,ArrayList<Coche>>();
 			mapaCompras=new HashMap<String,ArrayList<Coche>>();
+			precios=new ArrayList<Integer>();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,9 +57,9 @@ public class BD {
 	}
 	
 	public static void crearTablas(Connection con) {
-		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (dni String,fechaNacimiento String,  nom String, con String, ciudad String, foto String,admin Boolean)";
+		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (dni String,fechaNacimiento String,  nom String, con String, ciudad String, foto String,cartera Integer,admin Boolean)";
 		String sql2 = "CREATE TABLE IF NOT EXISTS Coche ( modelo String,marca String, puertas Integer, kms Integer, anio Integer, potencia Integer,foto String)";
-		String sql3 = "CREATE TABLE IF NOT EXISTS Venta (dni String,modelo String,kms Integer)";
+		String sql3 = "CREATE TABLE IF NOT EXISTS Venta (dni String,modelo String,kms Integer,precio Integer)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql1);
@@ -82,8 +84,8 @@ public class BD {
 		}
 	}
 	
-	public static void UsuarioRegular(Connection con, String dni, String fechaNacimiento, String nombre, String contraseña, String ciudad,String foto,int admin) {
-		String sql = "INSERT INTO Usuario VALUES('"+dni+"','"+fechaNacimiento+"','"+nombre+"','"+contraseña+"','"+ciudad+"','"+foto+"',"+admin+")";
+	public static void UsuarioRegular(Connection con, String dni, String fechaNacimiento, String nombre, String contraseña, String ciudad,String foto,int cartera,int admin) {
+		String sql = "INSERT INTO Usuario VALUES('"+dni+"','"+fechaNacimiento+"','"+nombre+"','"+contraseña+"','"+ciudad+"','"+foto+"',"+cartera+","+admin+")";
 		try {
 			Logger.getGlobal().log(Level.INFO, sql);
 			Statement st = con.createStatement();
@@ -114,33 +116,35 @@ public class BD {
 		BD.mapaCompras = mapaCompras;
 	}
 
-	public static void Venta(Connection con,String DNI,String Modelo,int kilometros ) {
-		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+")";
+	public static void Venta(Connection con,String DNI,String Modelo,int kilometros,int dinero ) {
+		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+","+dinero+")";
 		try {
 			Logger.getGlobal().log(Level.INFO, sql);
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
 			st.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		precios.add(dinero);
 	}
 	public static void rellenarTablas(Connection con) {
-		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","src\\FOTOS\\74472.png",1);
-		UsuarioRegular(con,"12034556S","2003/02/23","Markel","Askartza1","Bilbao","",0);
-		UsuarioRegular(con,"13423436X","2005/10/09","Anton","112223344","Barakaldo","",0);
-		UsuarioRegular(con,"13438430C","2002/04/17","Ane","2345435","Leioa","",0);
-		UsuarioRegular(con,"12345678A", "01/01/1995", "Juan Pérez", "password1", "Madrid", "https://www.example.com/foto1.jpg", 0);
-		UsuarioRegular(con,"87654321B", "02/02/1996", "María Rodríguez", "password2", "Barcelona", "https://www.example.com/foto2.jpg", 0);
-		UsuarioRegular(con,"23456789C", "03/03/1997", "Pablo Martín", "password3", "Valencia", "https://www.example.com/foto3.jpg", 0);
-		UsuarioRegular(con,"56789123D", "04/04/1998", "Sara Gómez", "password4", "Sevilla", "https://www.example.com/foto4.jpg", 0);
-		UsuarioRegular(con,"89123456E", "05/05/1999", "Laura Sánchez", "password5", "Zaragoza", "https://www.example.com/foto5.jpg", 0);
-		UsuarioRegular(con,"34567890F", "06/06/2000", "Carlos Moreno", "password6", "Málaga", "https://www.example.com/foto6.jpg", 0);
-		UsuarioRegular(con,"67890ABC", "07/07/2001", "Alberto Jiménez", "password7", "Bilbao", "https://www.example.com/foto7.jpg", 0);
-		UsuarioRegular(con,"90123CDE", "08/08/2002", "Ana Díaz", "password8", "Murcia", "https://www.example.com/foto8.jpg", 0);
-		UsuarioRegular(con,"01234FGH", "09/09/2003", "Javier Ruiz", "password9", "Palma de Mallorca", "https://www.example.com/foto9.jpg", 0);
-		UsuarioRegular(con,"56789IJK", "10/10/2004", "Elena Ortiz", "password10", "Las Palmas de Gran Canaria", "https://www.example.com/foto10.jpg", 0);
+		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","src\\FOTOS\\74472.png",1, 0);
+		UsuarioRegular(con,"12034556S","2003/02/23","Markel","Askartza1","Bilbao","",0, 0);
+		UsuarioRegular(con,"13423436X","2005/10/09","Anton","112223344","Barakaldo","",0, 0);
+		UsuarioRegular(con,"13438430C","2002/04/17","Ane","2345435","Leioa","",0, 0);
+		UsuarioRegular(con,"12345678A", "01/01/1995", "Juan Pérez", "password1", "Madrid", "https://www.example.com/foto1.jpg", 0, 0);
+		UsuarioRegular(con,"87654321B", "02/02/1996", "María Rodríguez", "password2", "Barcelona", "https://www.example.com/foto2.jpg", 0, 0);
+		UsuarioRegular(con,"23456789C", "03/03/1997", "Pablo Martín", "password3", "Valencia", "https://www.example.com/foto3.jpg", 0, 0);
+		UsuarioRegular(con,"56789123D", "04/04/1998", "Sara Gómez", "password4", "Sevilla", "https://www.example.com/foto4.jpg", 0, 0);
+		UsuarioRegular(con,"89123456E", "05/05/1999", "Laura Sánchez", "password5", "Zaragoza", "https://www.example.com/foto5.jpg", 0, 0);
+		UsuarioRegular(con,"34567890F", "06/06/2000", "Carlos Moreno", "password6", "Málaga", "https://www.example.com/foto6.jpg", 0, 0);
+		UsuarioRegular(con,"67890ABC", "07/07/2001", "Alberto Jiménez", "password7", "Bilbao", "https://www.example.com/foto7.jpg", 0, 0);
+		UsuarioRegular(con,"90123CDE", "08/08/2002", "Ana Díaz", "password8", "Murcia", "https://www.example.com/foto8.jpg", 0, 0);
+		UsuarioRegular(con,"01234FGH", "09/09/2003", "Javier Ruiz", "password9", "Palma de Mallorca", "https://www.example.com/foto9.jpg", 0, 0);
+		UsuarioRegular(con,"56789IJK", "10/10/2004", "Elena Ortiz", "password10", "Las Palmas de Gran Canaria", "https://www.example.com/foto10.jpg", 0, 0);
 		
 		
 		insertarCoche(con,"R8","Tesla",2,0,2022,300,"src\\FOTOS\\tesla.jpg");
@@ -159,19 +163,20 @@ public class BD {
 		
 		
 		
-		Venta(con,"16097385F","R8",0);
-		Venta(con,"12034556S","R7",0);
-		Venta(con,"16097385F","Arona",1000);
-		Venta(con,"12345678A", "Mazda 3", 20000);
-		Venta(con,"87654321B", "Toyota Camry", 50000);
-		Venta(con,"23456789C", "Nissan Altima", 30000);
-		Venta(con,"56789123D", "Ford Fusion", 35000);
-		Venta(con,"89123456E", "Hyundai Sonata", 40000);
-		Venta(con,"34567890F", "Subaru Legacy", 25000);
-		Venta(con,"67890ABC", "Honda Civic", 45000);
-		Venta(con,"90123CDE", "Kia Optima", 30000);
-		Venta(con,"01234FGH", "Chevrolet Malibu", 40000);
-		Venta(con,"56789IJK", "BMW 3 Series", 50000);
+		Venta(con,"16097385F","R8",0,15000);
+		Venta(con,"12034556S","R7",0,70000);
+		Venta(con,"16097385F","Arona",1000,40000);
+		Venta(con,"12345678A", "Mazda 3", 20000,30000);
+		Venta(con,"87654321B", "Toyota Camry", 50000,25000);
+		Venta(con,"23456789C", "Nissan Altima", 30000,20000);
+		Venta(con,"56789123D", "Ford Fusion", 35000,15000);
+		Venta(con,"89123456E", "Hyundai Sonata", 40000,14000);
+		Venta(con,"34567890F", "Subaru Legacy", 25000,16000);
+		Venta(con,"67890ABC", "Honda Civic", 45000,18000);
+		Venta(con,"90123CDE", "Kia Optima", 30000,15000);
+		Venta(con,"01234FGH", "Chevrolet Malibu", 40000,17000);
+		Venta(con,"56789IJK", "BMW 3 Series", 50000,50000);
+		
 	}
 	public static Venta[] BDaMapa(Connection con) throws MalformedURLException {
 		Coche c;
@@ -219,7 +224,7 @@ public class BD {
 			Usuario us=UsuarioPorDni(con, s);
 			
 				for(Coche co: ar) {
-					Venta v=new Venta(co, us, "");
+					Venta v=new Venta(co, us, "",precios.get(i));
 					lista[i]=v;
 					i++;
 			}
@@ -248,8 +253,9 @@ public class BD {
 				String cont=rs.getString("con");
 				String ciudad=rs.getString("ciudad");
 				String foto=rs.getString("foto");
+				int cartera=rs.getInt("cartera");
 				Boolean admin=rs.getBoolean("admin");
-				u=new Usuario(dni,fechaNacimiento,nom,cont,ciudad,foto,admin );
+				u=new Usuario(dni,fechaNacimiento,nom,cont,ciudad,foto,cartera,admin );
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -273,7 +279,20 @@ public class BD {
 		}
 		
 	}
-	
+		public static boolean comprable(int dinero) {
+			if(MENU.getUactual().getCartera()>=dinero) {
+				
+				MENU.getUactual().setCartera(MENU.getUactual().getCartera()-dinero);
+				MENU.Perfil.setText(MENU.getUactual().getCartera()+"€          "+MENU.getUactual().getNombre());
+				System.out.println(MENU.getUactual().getCartera());
+				return true;
+				
+			}else {
+			JOptionPane.showMessageDialog(null, "No tienes suficiente dinero");
+			return false;
+			}
+			
+		}
 		public static boolean esURL(String urlString) {
 		    try {
 		        URL url = new URL(urlString);
