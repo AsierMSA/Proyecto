@@ -176,7 +176,7 @@ public class VentanaVenta extends JFrame {
 					try {
 						Coche c=new Coche(txt_modelo.getText(),txt_marca.getText(), Integer.parseInt(txt_puertas.getText()),
 								Integer.parseInt(txt_kilometros.getText()),Integer.parseInt(txt_potencia.getText()),Integer.parseInt(txt_anios.getText()),jl.getText());
-						Venta v=new Venta(c,MENU.getUactual(),"",Integer.parseInt(txt_precio.getText()));
+						Venta v=new Venta(c,MENU.getUactual(),"",Integer.parseInt(txt_precio.getText()), 0);
 						Venta[] nuevalista=new Venta[20];
 						for(int i=0;i<MENU.getLista().length+1;i++) {
 

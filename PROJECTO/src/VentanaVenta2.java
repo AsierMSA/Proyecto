@@ -39,7 +39,7 @@ public class VentanaVenta2 extends JFrame {
 	private static Venta[] nv;
 	boolean editable=false;
 	ImageIcon i1;
-
+	static boolean comprado=false;
 	/**
 	 * Launch the application.
 	 */
@@ -110,6 +110,12 @@ public class VentanaVenta2 extends JFrame {
 		contentPane.add(pnl_abajo, BorderLayout.SOUTH);
 		
 		botones=new JPanel();
+		JLabel vistas = new JLabel();
+		
+		ImageIcon i2=new ImageIcon("src//FOTOS//ojo.png");
+		ImageIcon ic2= new ImageIcon(i2.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+		
+		vistas.setIcon(ic2);
 		JButton btn_salir = new JButton("SALIR");
 		btn_salir.setPreferredSize(new Dimension(100, 30));
 		btn_salir.addActionListener(new ActionListener() {
@@ -124,7 +130,10 @@ public class VentanaVenta2 extends JFrame {
 			btnNewButton=new JButton("BORRAR");
 		}else {
 		btnNewButton = new JButton("COMPRAR\r\n\r\n");
+		v.setVistas(v.getVistas()+1);
+		
 		}
+		vistas.setText(v.getVistas()+"");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(editable) {
@@ -197,6 +206,7 @@ public class VentanaVenta2 extends JFrame {
 		btnNewButton.setPreferredSize(new Dimension(200, 30));
 		botones.add(btnNewButton,BorderLayout.CENTER);
 		botones.add(btn_salir,BorderLayout.EAST);
+		botones.add(vistas);
 		pnl_abajo.add(botones);
 		JPanel pnl_este = new JPanel();
 		contentPane.add(pnl_este, BorderLayout.EAST);

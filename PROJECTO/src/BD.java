@@ -20,7 +20,6 @@ public class BD {
 	public static ArrayList<Integer> precios;
 	static HashMap<String,ArrayList<Coche>> mapaVentas;
 	static HashMap<String,ArrayList<Coche>> mapaCompras;
-	
 	/**
 	 * Método que realiza la conexión con la base de datos
 	 * @param nombreBD : Nombre de la base de datos a la que nos vamos a conectar
@@ -59,7 +58,7 @@ public class BD {
 	public static void crearTablas(Connection con) {
 		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (dni String,fechaNacimiento String,  nom String, con String, ciudad String, foto String,cartera Integer,admin Boolean)";
 		String sql2 = "CREATE TABLE IF NOT EXISTS Coche ( modelo String,marca String, puertas Integer, kms Integer, anio Integer, potencia Integer,foto String)";
-		String sql3 = "CREATE TABLE IF NOT EXISTS Venta (dni String,modelo String,kms Integer,precio Integer)";
+		String sql3 = "CREATE TABLE IF NOT EXISTS Venta (dni String,modelo String,kms Integer,precio Integer,vistas Integer)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql1);
@@ -116,8 +115,8 @@ public class BD {
 		BD.mapaCompras = mapaCompras;
 	}
 
-	public static void Venta(Connection con,String DNI,String Modelo,int kilometros,int dinero ) {
-		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+","+dinero+")";
+	public static void Venta(Connection con,String DNI,String Modelo,int kilometros,int dinero ,int vistas) {
+		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+","+dinero+","+vistas+")";
 		try {
 			Logger.getGlobal().log(Level.INFO, sql);
 			Statement st = con.createStatement();
@@ -163,19 +162,19 @@ public class BD {
 		
 		
 		
-		Venta(con,"16097385F","R8",0,15000);
-		Venta(con,"12034556S","R7",0,70000);
-		Venta(con,"16097385F","Arona",1000,40000);
-		Venta(con,"12345678A", "Mazda 3", 20000,30000);
-		Venta(con,"87654321B", "Toyota Camry", 50000,25000);
-		Venta(con,"23456789C", "Nissan Altima", 30000,20000);
-		Venta(con,"56789123D", "Ford Fusion", 35000,15000);
-		Venta(con,"89123456E", "Hyundai Sonata", 40000,14000);
-		Venta(con,"34567890F", "Subaru Legacy", 25000,16000);
-		Venta(con,"67890ABC", "Honda Civic", 45000,18000);
-		Venta(con,"90123CDE", "Kia Optima", 30000,15000);
-		Venta(con,"01234FGH", "Chevrolet Malibu", 40000,17000);
-		Venta(con,"56789IJK", "BMW 3 Series", 50000,50000);
+		Venta(con,"16097385F","R8",0,15000, 0);
+		Venta(con,"12034556S","R7",0,70000, 0);
+		Venta(con,"16097385F","Arona",1000,40000, 0);
+		Venta(con,"12345678A", "Mazda 3", 20000,30000, 0);
+		Venta(con,"87654321B", "Toyota Camry", 50000,25000, 0);
+		Venta(con,"23456789C", "Nissan Altima", 30000,20000, 0);
+		Venta(con,"56789123D", "Ford Fusion", 35000,15000, 0);
+		Venta(con,"89123456E", "Hyundai Sonata", 40000,14000, 0);
+		Venta(con,"34567890F", "Subaru Legacy", 25000,16000, 0);
+		Venta(con,"67890ABC", "Honda Civic", 45000,18000, 0);
+		Venta(con,"90123CDE", "Kia Optima", 30000,15000, 0);
+		Venta(con,"01234FGH", "Chevrolet Malibu", 40000,17000, 0);
+		Venta(con,"56789IJK", "BMW 3 Series", 50000,50000, 0);
 		
 	}
 	public static Venta[] BDaMapa(Connection con) throws MalformedURLException {
@@ -224,7 +223,7 @@ public class BD {
 			Usuario us=UsuarioPorDni(con, s);
 			
 				for(Coche co: ar) {
-					Venta v=new Venta(co, us, "",precios.get(i));
+					Venta v=new Venta(co, us, "",precios.get(i),0);
 					lista[i]=v;
 					i++;
 			}

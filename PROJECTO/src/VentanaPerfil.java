@@ -179,7 +179,7 @@ public class VentanaPerfil extends JFrame {
         	if(s.equals(u.getDni())) {
         		ArrayList<Coche> comprasc=BD.getMapaCompras().get(s);
         		for(Coche c: comprasc) {
-        			Venta v=new Venta(c, u, "",BD.precios.get(i));
+        			Venta v=new Venta(c, u, "",BD.precios.get(i), 0);
         			compras[i]=v;
         			i++;
         		}
@@ -196,7 +196,7 @@ public class VentanaPerfil extends JFrame {
 		        	if(s.equals(u.getDni())) {
 		        		ArrayList<Coche> ventasc=BD.getMapaVentas().get(s);
 		        		for(Coche c: ventasc) {
-		        			Venta v=new Venta(c, u, "",BD.precios.get(i));
+		        			Venta v=new Venta(c, u, "",BD.precios.get(i), 0);
 		        			ventas[i]=v;
 		        			i++;
 		        		}

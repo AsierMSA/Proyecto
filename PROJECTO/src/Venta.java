@@ -31,10 +31,12 @@ public class Venta extends JLabel {
 	private static int y=185;
 	private String titulo;
 	URL url;
+	private int vistas;
 	private int dinero;
-	public Venta(Coche c, Usuario u,String d, int dinero) throws MalformedURLException {
+	public Venta(Coche c, Usuario u,String d, int dinero,int vistas) throws MalformedURLException {
 		this.c=c;
 		this.u=u;
+		this.setVistas(vistas);
 		this.setTitulo(d);
 		this.setSize(x,y);
 		this.setDinero(dinero);
@@ -109,6 +111,12 @@ public class Venta extends JLabel {
 	}
 	public void setDinero(int dinero) {
 		this.dinero = dinero;
+	}
+	public int getVistas() {
+		return vistas;
+	}
+	public void setVistas(int vistas) {
+		this.vistas = vistas;
 	}
 	
 }
