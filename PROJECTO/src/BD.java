@@ -20,19 +20,22 @@ public class BD {
 	public static ArrayList<Integer> precios;
 	static HashMap<String,ArrayList<Coche>> mapaVentas;
 	static HashMap<String,ArrayList<Coche>> mapaCompras;
+	static int cont=0;
 	/**
 	 * Método que realiza la conexión con la base de datos
 	 * @param nombreBD : Nombre de la base de datos a la que nos vamos a conectar
 	 * @return Devuelve la conexión a la base de datos
 	 */
-	public static Connection initBD(String nombreBD) {
+	public static Connection initBD(String nombreBD,boolean inicio) {
 		Connection con = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
+			if(inicio) {
 			mapaVentas=new HashMap<String,ArrayList<Coche>>();
 			mapaCompras=new HashMap<String,ArrayList<Coche>>();
 			precios=new ArrayList<Integer>();
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,6 +189,7 @@ public class BD {
 			ResultSet rs = st.executeQuery( sql );
 			Logger.getGlobal().log( Level.INFO, "BD tipo buscado\t" + sql);
 			while(rs.next()) {
+				cont++;
 				String modelo=rs.getString("modelo");
 				String marca=rs.getString("marca");
 				int puertas=rs.getInt("puertas");
@@ -217,7 +221,7 @@ public class BD {
 			st.close();
 
 			int i=0;
-			lista= new Venta[20];
+			lista= new Venta[cont];
 			for(String s: mapaVentas.keySet()) {
 			ArrayList<Coche> ar=mapaVentas.get(s);
 			Usuario us=UsuarioPorDni(con, s);
@@ -278,18 +282,51 @@ public class BD {
 		}
 		
 	}
-		public static boolean comprable(int dinero) {
+	public static void borrarVenta(Connection con, Venta v) {
+		String sql="DELETE FROM Venta WHERE dni='"+v.getU().getDni()+"' AND modelo='"+v.getC().getModelo()+"' AND kms="+v.getC().getKilometros();
+		Statement st;
+		try {
+			st = con.createStatement();
+			st.executeUpdate(sql);
+			Logger.getGlobal().log( Level.INFO,sql);
+			st.close();
+			
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void aniadirVenta(Connection con, Venta v){
+		String sql="INSERT INTO Venta VALUES('"+v.getU().getDni()+"','"+v.getC().getModelo()+"',"+v.getC().getKilometros()+","+v.getDinero()+","+v.getVistas()+")";
+		Statement st;
+		try {
+			st = con.createStatement();
+			st.executeUpdate(sql);
+			Logger.getGlobal().log( Level.INFO,sql);
+			st.close();
+			
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	
+	}
+		public static boolean comprable(int dinero, boolean editable) {
+			if(!editable) {
 			if(MENU.getUactual().getCartera()>=dinero) {
 				
 				MENU.getUactual().setCartera(MENU.getUactual().getCartera()-dinero);
 				MENU.Perfil.setText(MENU.getUactual().getCartera()+"�          "+MENU.getUactual().getNombre());
-				System.out.println(MENU.getUactual().getCartera());
 				return true;
 				
 			}else {
 			JOptionPane.showMessageDialog(null, "No tienes suficiente dinero");
 			return false;
 			}
+			}
+			return false;
+			
 			
 		}
 		public static boolean esURL(String urlString) {
@@ -301,6 +338,8 @@ public class BD {
 		        return false;
 		    }
 		}
+		
+		
 
 }
 	

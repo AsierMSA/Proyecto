@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -58,14 +59,14 @@ import javax.swing.SwingConstants;
 
 public class MENU {
 	final Logger LOG = Logger.getLogger("paquete.NombreClase");
-	private static JFrame frame;
-	public JFrame getFrame() {
+	static JFrame frame;
+	public static JFrame getFrame() {
 		return frame;
 	}
 
 	public void setFrame(JFrame frame) {
 		
-		this.frame = frame;
+		MENU.frame = frame;
 	}
 	private static JPanel panel;
 	private JPanel PanelSuperior;
@@ -164,12 +165,12 @@ public class MENU {
 	 * @throws IOException 
 	 */
 	MENU() throws IOException {
-		Connection con = BD.initBD("newton.db");
-		BD.crearTablas(con);
 		cargarListaBD();
 		
 		
 		frame = new JFrame();
+		ImageIcon icono= new ImageIcon("src//FOTOS//window.png");
+		frame.setIconImage(icono.getImage());
 		LOG.log(Level.INFO, uactual.getNombre()+" sesion iniciada");
 		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
 		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
@@ -589,6 +590,7 @@ public class MENU {
 				if(listad[i]!=null) {	
 				Venta[] v= {listad[i]};
 				dtm.addRow(v);
+				
 				}
 			}
 
@@ -606,20 +608,22 @@ public class MENU {
 //					if(lista[i].getU().getDni().equals(MENU.getUactual().getDni())) {
 //						lista[i].setBackground(Color.DARK_GRAY);
 //					}
-				
+					
 					if(col==column && fila==row) {
 					if(ch!=-1) {
 						vactual= nuevalista[i];
 					}else {
 					i=row;
-					vactual=lista[i];
+					vactual=listad[i];
 					}
 					
 				}
 				if(ch!=-1) {
 					return nuevalista[i];
+					
 				}
-				return lista[i];
+				
+				return listad[i];
 				}	 
 				}
 			
@@ -640,6 +644,7 @@ public class MENU {
 				  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 				  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				  js.getVerticalScrollBar().setUnitIncrement(18);
 				  panel_3.add(js);
 				  PanelC = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, panel_2, panel_3);
 				  panel.add(PanelC, BorderLayout.CENTER);
@@ -647,7 +652,7 @@ public class MENU {
 
 	}
 			private void cargarListaBD() throws MalformedURLException {
-				Connection con = BD.initBD("todoCoches.db");
+				Connection con = BD.initBD("todoCoches.db",true);
 				BD.borrarTabla(con, "Coche");
 				BD.borrarTabla(con, "Usuario");
 				BD.borrarTabla(con, "Venta");
@@ -656,4 +661,6 @@ public class MENU {
 				lista=BD.BDaMapa(con);
 				BD.closeBD(con);
 			}
+
+		
 }

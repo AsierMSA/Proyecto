@@ -177,11 +177,14 @@ public class VentanaVenta extends JFrame {
 						Coche c=new Coche(txt_modelo.getText(),txt_marca.getText(), Integer.parseInt(txt_puertas.getText()),
 								Integer.parseInt(txt_kilometros.getText()),Integer.parseInt(txt_potencia.getText()),Integer.parseInt(txt_anios.getText()),jl.getText());
 						Venta v=new Venta(c,MENU.getUactual(),"",Integer.parseInt(txt_precio.getText()), 0);
-						Venta[] nuevalista=new Venta[20];
+						BD.aniadirVenta(BD.initBD("todoCoches.db", false), v);
+						
+						Venta[] nuevalista=new Venta[MENU.getLista().length+1];
 						for(int i=0;i<MENU.getLista().length+1;i++) {
 
 							if(i==MENU.getLista().length) {
 								nuevalista[i]=v;
+							
 		
 							}else {
 								nuevalista[i]=MENU.getLista()[i];

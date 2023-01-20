@@ -250,7 +250,7 @@ public class VentanaPerfil extends JFrame {
 	}
 
 		public static JScrollPane crearTabla(JTable table,Venta[] lista,boolean editar) {
-
+			if(table!=null) {
 			 table.addMouseMotionListener(new MouseMotionListener() {
 					
 					@Override
@@ -266,7 +266,7 @@ public class VentanaPerfil extends JFrame {
 						
 					}
 				});
-
+			
 
 			 
 			 DefaultTableModel dtm=new DefaultTableModel();
@@ -336,6 +336,7 @@ public class VentanaPerfil extends JFrame {
 					js=new JScrollPane(table);
 					  table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 					  js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+					  js.getVerticalScrollBar().setUnitIncrement(18);
 					  js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					  table.setFillsViewportHeight(false);
 					}
@@ -343,6 +344,8 @@ public class VentanaPerfil extends JFrame {
 		
 		
 	}
+			return null;
+		}
 		 
 		 
 

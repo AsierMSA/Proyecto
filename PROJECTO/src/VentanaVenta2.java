@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -146,11 +147,12 @@ public class VentanaVenta2 extends JFrame {
 						  contentPane, "¿Estas seguro de que quieres comprarlo?");
 				}
 						if (JOptionPane.OK_OPTION == confirmado) {
-							if(BD.comprable(v.getDinero())) {
-							MENU.getLista();
-						nv=new Venta[20];
-						int j=0;
-						if(!editable) {
+						
+							if(BD.comprable(v.getDinero(),editable)) {
+								MENU.getLista();
+								nv=new Venta[20];
+								int j=0;
+						
 						for(int i=0;i<MENU.getLista().length;i++) {
 							if(MENU.getLista()[i]!=null) {
 							if(!MENU.getLista()[i].equals(venta)) {
@@ -161,7 +163,13 @@ public class VentanaVenta2 extends JFrame {
 							}
 							}
 						}
-						}else {
+						Connection con = BD.initBD("todoCoches.db",false);
+						BD.borrarVenta(con, v);
+						}
+							else if(editable) {
+							MENU.getLista();
+							nv=new Venta[20];
+							int j=0;
 							for(int i=0;i<MENU.getLista().length;i++) {
 								if(MENU.getLista()[i]!=null) {
 								if(!MENU.getLista()[i].getC().equals(venta.getC()) ) {
@@ -170,7 +178,8 @@ public class VentanaVenta2 extends JFrame {
 								}
 								}
 							}
-						}
+						Connection con = BD.initBD("todoCoches.db",false);
+						BD.borrarVenta(con, v);}
 						if(!editable) {
 						ArrayList<Coche> cmp=BD.getMapaCompras().get(MENU.getUactual().getDni());
 						cmp.add(v.getC());
@@ -197,9 +206,11 @@ public class VentanaVenta2 extends JFrame {
 							BD.setMapaVentas(mapa);
 							VentanaPerfil.crearTabla(VentanaPerfil.getTable1(), nuevo, false);
 						}
-						
+				
 						dispose();
-							}
+						
+						
+							
 						}
 			}
 		});
