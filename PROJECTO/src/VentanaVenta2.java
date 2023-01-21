@@ -41,6 +41,7 @@ public class VentanaVenta2 extends JFrame {
 	boolean editable=false;
 	ImageIcon i1;
 	static boolean comprado=false;
+	private static JLabel lblNewLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -89,7 +90,7 @@ public class VentanaVenta2 extends JFrame {
 		jl.setIcon(ic);
 		pnl_medio.add(jl);
 		
-		JLabel lblNewLabel = new JLabel("<html><font size='6'><font face='SansSerif'>&emsp;"+v.getC().getMarca()+" "+v.getC().getModelo()+"</font></font><br><br>&emsp;&emsp;Kilometros:&emsp;"+v.getC().getKilometros()+"<br><br>&emsp;&emsp;Año de compra:"+v.getC().getAnio()+"<br><br>&emsp;&emsp;Potencia: "+v.getC().getPotencia()+"cv"+"<br><br>&emsp;&emsp;Num. Puertas: "+v.getC().getPuertas()+"<br><br>&emsp;&emsp;Vendedor: "+v.getU().getNombre()+"</html>");
+		lblNewLabel = new JLabel("<html><font size='6'><font face='SansSerif'>&emsp;"+v.getC().getMarca()+" "+v.getC().getModelo()+"</font></font><br><br>&emsp;&emsp;Kilometros:&emsp;"+v.getC().getKilometros()+"<br><br>&emsp;&emsp;Año de compra:"+v.getC().getAnio()+"<br><br>&emsp;&emsp;Potencia: "+v.getC().getPotencia()+"cv"+"<br><br>&emsp;&emsp;Num. Puertas: "+v.getC().getPuertas()+"<br><br>&emsp;&emsp;Vendedor: "+v.getU().getNombre()+"</html>");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 16));
 		JLabel label=new JLabel();
 		
@@ -129,7 +130,11 @@ public class VentanaVenta2 extends JFrame {
 	
 		if(editable) {
 			btnNewButton=new JButton("BORRAR");
-		}else {
+			if(comprado) {
+			lblNewLabel.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+v.getC().getMarca()+" "+v.getC().getModelo()+"</font></font><br><br>&emsp;&emsp;Kilometros:&emsp;"+v.getC().getKilometros()+"<br><br>&emsp;&emsp;Año de compra:"+v.getC().getAnio()+"<br><br>&emsp;&emsp;Potencia: "+v.getC().getPotencia()+"cv"+"<br><br>&emsp;&emsp;Num. Puertas: "+v.getC().getPuertas()+"<br><br>&emsp;&emsp;Comprador: "+v.getU().getNombre()+"</html>");
+			}
+			}
+		else {
 		btnNewButton = new JButton("COMPRAR\r\n\r\n");
 		v.setVistas(v.getVistas()+1);
 		
@@ -149,8 +154,8 @@ public class VentanaVenta2 extends JFrame {
 						if (JOptionPane.OK_OPTION == confirmado) {
 						
 							if(BD.comprable(v.getDinero(),editable)) {
-								MENU.getLista();
-								nv=new Venta[20];
+								comprado=true;
+								nv=new Venta[MENU.getLista().length];
 								int j=0;
 						
 						for(int i=0;i<MENU.getLista().length;i++) {
@@ -165,10 +170,11 @@ public class VentanaVenta2 extends JFrame {
 						}
 						Connection con = BD.initBD("todoCoches.db",false);
 						BD.borrarVenta(con, v);
+					
 						}
 							else if(editable) {
-							MENU.getLista();
-							nv=new Venta[20];
+							
+							nv=new Venta[MENU.getLista().length];
 							int j=0;
 							for(int i=0;i<MENU.getLista().length;i++) {
 								if(MENU.getLista()[i]!=null) {
@@ -179,7 +185,8 @@ public class VentanaVenta2 extends JFrame {
 								}
 							}
 						Connection con = BD.initBD("todoCoches.db",false);
-						BD.borrarVenta(con, v);}
+						BD.borrarVenta(con, v);
+						}
 						if(!editable) {
 						ArrayList<Coche> cmp=BD.getMapaCompras().get(MENU.getUactual().getDni());
 						cmp.add(v.getC());
@@ -190,7 +197,7 @@ public class VentanaVenta2 extends JFrame {
 						}else {
 							MENU.setLista(nv);
 							int pos=0;
-							Venta[] nuevo= new Venta[20];
+							Venta[] nuevo= new Venta[MENU.getLista().length];
 							for(Venta v: nv) {
 								if(v!=null) {
 								if(v.getU().getDni().equals(MENU.u.getDni())) {

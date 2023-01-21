@@ -3,7 +3,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,7 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,16 +89,9 @@ public class MENU {
 	private static int ch=-1;
 	private VentanaVenta2 vc;
 	
-//	static Coche c=new Coche("R8","AUDI",2,0,2022,400,"src\\FOTOS\\audi r8.jpg");
+
 	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo","",100000, true);
-//	static Coche cu=new Coche("R8","Tesla",2,0,2022,400,"src\\FOTOS\\tesla.jpg");
-//	static Usuario uc=new Usuario("16097385F","2002/03/11","Ernesto","Teresa00","Getxo","");
-//	static Coche ucc=new Coche("Arona","Seat",2,0,2022,400,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
-//	static Usuario ucv=new Usuario("16097385F","2002/03/11","Speed","Teresa00","Getxo","");
-//	
-//	static Venta v=new Venta(c,u, "Se vende Audi barato");
-//	static Venta vv=new Venta(cu,uc, null);
-//	static Venta vvv=new Venta(ucc,ucv, null);
+
 	private static Venta[] lista;
 	
 	public static Venta[] getLista() {
@@ -138,7 +133,7 @@ public class MENU {
 	private JLabel precioRango_1;
 	private JPanel panel_4;
 	static JLabel Perfil;
-
+	static Boolean reset=false;
 	/**
 	 * Launch the application.
 	 */
@@ -207,7 +202,7 @@ public class MENU {
 		PanelSuperior.add(panel_1);
 		panel_1.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		btnNewButton = new JButton("New button");
+		btnNewButton = new JButton("Recomendaciones");
 		panel_1.add(btnNewButton);
 		
 		
@@ -393,6 +388,18 @@ public class MENU {
 				}
 			}
 		});
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				reset=false;
+				cambModel(recomendacionRecursiva(BD.mapaCompras.get(uactual.getDni()),getLista(),new Venta[5],0,0,0, new HashSet<Coche>()),table);
+				Volver.setVisible(true);
+				btnNewButton_2.setVisible(false);
+			}
+		});
+		
 		btnNewButton_2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -442,6 +449,7 @@ public class MENU {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				reset=true;
 				ch=-1;
 				cambModel(lista, table);
 				Volver.setVisible(false);
@@ -587,7 +595,10 @@ public class MENU {
 			DefaultTableModel dtm=new DefaultTableModel();
 			dtm.addColumn("");
 			for(int i=0;i<listad.length;i++) {
-				if(listad[i]!=null) {	
+				if(listad[i]!=null) {
+					if(reset) {
+						listad[i].resetText();
+					}
 				Venta[] v= {listad[i]};
 				dtm.addRow(v);
 				
@@ -660,6 +671,47 @@ public class MENU {
 				BD.rellenarTablas(con);
 				lista=BD.BDaMapa(con);
 				BD.closeBD(con);
+
+			}
+			private Venta[] recomendacionRecursiva(ArrayList<Coche> compras, Venta[] listaActual, Venta[] nuevalista,int indiceCompra,int indiceLista,int indiceNueva,HashSet<Coche> repetidos) {
+			
+				
+				if(compras.size()==0 || indiceCompra==compras.size() || indiceNueva == nuevalista.length|| compras.get(indiceCompra)==null ) {
+					return nuevalista;
+				}
+				System.out.println(indiceLista+","+listaActual.length);
+				if(indiceLista==listaActual.length || listaActual[indiceLista]==null) {
+					
+					return recomendacionRecursiva(compras, listaActual, nuevalista, indiceCompra+1,0,indiceNueva, repetidos);
+				}
+
+				if(compras.get(indiceCompra).getAnio()==listaActual[indiceLista].getC().getAnio() && !listaActual[indiceLista].getU().getDni().equals(uactual.getDni())&& !repetidos.contains(listaActual[indiceLista].getC())) {
+					
+					nuevalista[indiceNueva]=listaActual[indiceLista];
+					nuevalista[indiceNueva].setText("Porque has comprado previamente un coche de "+compras.get(indiceCompra).getAnio());
+					repetidos.add(listaActual[indiceLista].getC());
+					return recomendacionRecursiva(compras, listaActual, nuevalista, indiceCompra,indiceLista+1,indiceNueva+1, repetidos);
+				}else if(compras.get(indiceCompra).getMarca().equals(listaActual[indiceLista].getC().getMarca())&& !listaActual[indiceLista].getU().getDni().equals(uactual.getDni())&& !repetidos.contains(listaActual[indiceLista].getC())) {
+					nuevalista[indiceNueva]=listaActual[indiceLista];
+					nuevalista[indiceNueva].setText("Porque has comprado previamente un "+listaActual[indiceLista].getC().getMarca());
+					repetidos.add(listaActual[indiceLista].getC());
+					return recomendacionRecursiva(compras, listaActual, nuevalista, indiceCompra,indiceLista+1,indiceNueva+1, repetidos);	
+					
+				}
+				else if(compras.get(indiceCompra).getKilometros()==listaActual[indiceLista].getC().getKilometros()&& !listaActual[indiceLista].getU().getDni().equals(uactual.getDni()) && !repetidos.contains(listaActual[indiceLista].getC())) {
+					
+					nuevalista[indiceNueva]=listaActual[indiceLista];
+					nuevalista[indiceNueva].setText("Porque has comprado previamente un coche con "+listaActual[indiceLista].getC().getKilometros()+" kms");
+					repetidos.add(listaActual[indiceLista].getC());
+					return recomendacionRecursiva(compras, listaActual, nuevalista, indiceCompra,indiceLista+1,indiceNueva+1, repetidos);
+				}
+				
+				else {
+					
+					return recomendacionRecursiva(compras, listaActual, nuevalista, indiceCompra,indiceLista+1, indiceNueva, repetidos);
+				}
+				
+				
 			}
 
 		

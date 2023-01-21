@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -16,10 +21,12 @@ import javax.swing.JOptionPane;
 
 
 public class BD {
+	
 	final Logger LOG = Logger.getLogger("paquete.NombreClase");
 	public static ArrayList<Integer> precios;
 	static HashMap<String,ArrayList<Coche>> mapaVentas;
 	static HashMap<String,ArrayList<Coche>> mapaCompras;
+	static HashMap<String,Usuario>mapaUsuarios;
 	static int cont=0;
 	/**
 	 * Método que realiza la conexión con la base de datos
@@ -97,7 +104,7 @@ public class BD {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(!mapaVentas.containsKey(dni)) {
+		if(!mapaVentas.containsKey(dni)) {	
 			mapaVentas.put(dni, new ArrayList<Coche>());
 			mapaCompras.put(dni, new ArrayList<Coche>());
 		}
@@ -118,6 +125,13 @@ public class BD {
 		BD.mapaCompras = mapaCompras;
 	}
 
+	public static HashMap<String, Usuario> getMapaUsuarios() {
+		return mapaUsuarios;
+	}
+
+	public static void setMapaUsuarios(HashMap<String, Usuario> mapaUsuarios) {
+		BD.mapaUsuarios = mapaUsuarios;
+	}
 	public static void Venta(Connection con,String DNI,String Modelo,int kilometros,int dinero ,int vistas) {
 		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+","+dinero+","+vistas+")";
 		try {
@@ -178,11 +192,11 @@ public class BD {
 		Venta(con,"90123CDE", "Kia Optima", 30000,15000, 0);
 		Venta(con,"01234FGH", "Chevrolet Malibu", 40000,17000, 0);
 		Venta(con,"56789IJK", "BMW 3 Series", 50000,50000, 0);
-		
+		Venta(con,"56789IJK","R8",0,15000, 0);
 	}
 	public static Venta[] BDaMapa(Connection con) throws MalformedURLException {
 		Coche c;
-		String sql="SELECT c.* FROM Coche c,Venta v WHERE c.modelo=v.modelo AND c.kms=v.kms";
+		String sql="SELECT c.*,v.dni FROM Coche c,Venta v,Usuario u WHERE c.modelo=v.modelo AND c.kms=v.kms AND v.dni=u.dni";
 		Venta[] lista = null;
 		try {
 			Statement st = con.createStatement();
@@ -197,13 +211,10 @@ public class BD {
 				int anio=rs.getInt("anio");
 				int potencia=rs.getInt("potencia");
 				String foto=rs.getString("foto");
+				String dni=rs.getString("dni");
 				c=new Coche(modelo, marca, puertas, kms, anio, potencia, foto);
-				Statement st1 = con.createStatement();
-				String sql1="SELECT * FROM Venta WHERE modelo='"+modelo+"' and kms="+kms;
-				Logger.getGlobal().log( Level.INFO,sql1);
-				ResultSet rs1 = st1.executeQuery( sql1 );
-				if(rs1.next()) {
-				String dni=rs1.getString(1);
+				
+				
 				for(String s: mapaVentas.keySet()) {
 					if(s.equals(dni)) {
 						ArrayList<Coche> co=mapaVentas.get(dni);
@@ -214,9 +225,8 @@ public class BD {
 				}
 				}
 				}
-				rs1.close();
-				st1.close();
-			}
+				
+			
 			rs.close();
 			st.close();
 
@@ -225,7 +235,6 @@ public class BD {
 			for(String s: mapaVentas.keySet()) {
 			ArrayList<Coche> ar=mapaVentas.get(s);
 			Usuario us=UsuarioPorDni(con, s);
-			
 				for(Coche co: ar) {
 					Venta v=new Venta(co, us, "",precios.get(i),0);
 					lista[i]=v;
@@ -268,6 +277,40 @@ public class BD {
 		return u;
 		
 	}
+	public static void guardaUsuarios() {
+		File f= new File("DOCUMENTOS/usuarios.txt");
+		try {
+			FileWriter fw=new FileWriter(f);
+			for(Usuario u:mapaUsuarios.values()) {
+				fw.write(u.getDni()+","+u.getFechaNacimiento()+","+u.getNombre() +","+u.getContrasenia()+","
+				+u.getCiudad()+","+u.getFoto()+","+u.getCartera()+","+u.getAdmin()+"\n");
+			}
+			fw.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void cargaUsuarios() {
+		mapaUsuarios=new HashMap<String,Usuario>();
+		File f= new File("DOCUMENTOS/usuarios.txt");
+		try {
+			BufferedReader bf= new BufferedReader(new FileReader(f));
+			String linea;
+			while((linea = bf.readLine()) != null) {
+				String[] us=linea.split(",");
+				mapaUsuarios.putIfAbsent(us[0], new Usuario(us[0],us[1],us[2],us[3],us[4],us[5],Integer.parseInt(us[6]),Boolean.parseBoolean(us[7])));
+				
+			}
+			bf.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+	}
+	
 	public static void borrarTabla(Connection con,String nombreTabla) {
 		String sql="DROP TABLE IF EXISTS "+nombreTabla;
 

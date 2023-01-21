@@ -1,0 +1,14 @@
+56789123D,04/04/1998,Sara Gómez,password4,Sevilla,https://www.example.com/foto4.jpg,0,false
+13438430C,2002/04/17,Ane,2345435,Leioa,,0,false
+13423436X,2005/10/09,Anton,112223344,Barakaldo,,0,false
+89123456E,05/05/1999,Laura Sánchez,password5,Zaragoza,https://www.example.com/foto5.jpg,0,false
+87654321B,02/02/1996,María Rodríguez,password2,Barcelona,https://www.example.com/foto2.jpg,0,false
+56789IJK,10/10/2004,Elena Ortiz,password10,Las Palmas de Gran Canaria,https://www.example.com/foto10.jpg,0,false
+67890ABC,07/07/2001,Alberto Jiménez,password7,Bilbao,https://www.example.com/foto7.jpg,0,false
+90123CDE,08/08/2002,Ana Díaz,password8,Murcia,https://www.example.com/foto8.jpg,0,false
+12345678A,01/01/1995,Juan Pérez,password1,Madrid,https://www.example.com/foto1.jpg,0,false
+12034556S,2003/02/23,Markel,Askartza1,Bilbao,,0,false
+01234FGH,09/09/2003,Javier Ruiz,password9,Palma de Mallorca,https://www.example.com/foto9.jpg,0,false
+16097385F,2002/03/11,Asier,Teresa00,Getxo,src\FOTOS\74472.png,1,false
+34567890F,06/06/2000,Carlos Moreno,password6,Málaga,https://www.example.com/foto6.jpg,0,false
+23456789C,03/03/1997,Pablo Martín,password3,Valencia,https://www.example.com/foto3.jpg,0,false

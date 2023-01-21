@@ -118,6 +118,10 @@ public class Venta extends JLabel {
 	public void setVistas(int vistas) {
 		this.vistas = vistas;
 	}
+	public void resetText() {
+		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.getTitulo()+"</font></font><br><br>&emsp;&emsp;Descripcion&emsp;&emsp;&emsp;&emsp;&emsp;"+this.dinero+"€</html>");
+		
+	}
 	
 }
 class RoundedBorder implements Border {

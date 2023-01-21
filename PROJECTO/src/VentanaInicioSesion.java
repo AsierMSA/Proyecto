@@ -40,42 +40,43 @@ public class VentanaInicioSesion extends JFrame {
 	        setLocationRelativeTo(null);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	        // Crear panel
+	        
 	        panel = new JPanel();
 	        panel.setLayout(null);
 
-	        // Crear etiquetas
+
 	        labelUsername = new JLabel("Nombre de usuario:");
 	        labelUsername.setBounds(30, 50, 150, 25);
 	        labelPassword = new JLabel("Contraseña:");
 	        labelPassword.setBounds(30, 100, 150, 25);
-	        linkLabel = new JLabel("<html><a href=''>Haz clic aquí para ir a otra pestaña</a></html>");
+	        linkLabel = new JLabel("<html><a href=''>Crear nuevo usuario</a></html>");
 	        linkLabel.setBounds(30, 200, 350, 25);
 	        
-	        // Crear campos de texto
+	     
 	        textUsername = new JTextField();
 	        textUsername.setBounds(200, 50, 150, 25);
 	        textPassword = new JPasswordField();
 	        textPassword.setBounds(200, 100, 150, 25);
 
-	     // Crear botones
+	
 	     buttonLogin = new JButton("Iniciar sesión");
 	     buttonLogin.setBounds(100, 150, 120, 30);
 	     buttonCancel = new JButton("Cancelar");
 	     buttonCancel.setBounds(240, 150, 120, 30);
 
-	     // Añadir evento al botón de iniciar sesión
+
 	     buttonLogin.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	             String username = textUsername.getText();
 	             String password = new String(textPassword.getPassword());
-	             // Aquí puedes añadir código para verificar las credenciales de inicio de sesión
+	            
 	             System.out.println("Nombre de usuario: " + username);
 	             System.out.println("Contraseña: " + password);
+	             
 	         }
 	     });
 
-	     // Añadir evento al botón de cancelar
+	
 	     buttonCancel.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	             System.exit(0);
@@ -85,18 +86,12 @@ public class VentanaInicioSesion extends JFrame {
 	    
 	        linkLabel.addMouseListener(new MouseAdapter() {
 	            public void mouseClicked(MouseEvent e) {
-	                try {
-	                    // Establecer la dirección URL del enlace
-	                    URI link = new URI("https://www.example.com");
-	                    // Abrir el enlace en el navegador por defecto
-	                    Desktop.getDesktop().browse(link);
-	                } catch (URISyntaxException | IOException ex) {
-	                    ex.printStackTrace();
-	                }
+	            	dispose();
+	            	AnimacionCarga.main(null);
 	            }
 	        });
 	     
-	     // Añadir componentes al panel
+	    
 	     panel.add(labelUsername);
 	     panel.add(labelPassword);
 	     panel.add(textUsername);
@@ -105,10 +100,10 @@ public class VentanaInicioSesion extends JFrame {
 	     panel.add(buttonLogin);
 	     panel.add(buttonCancel);
 
-	     // Añadir panel a la ventana
+
 	     add(panel);
 
-	     // Mostrar ventana
+
 	     setVisible(true);
 	     }
 
