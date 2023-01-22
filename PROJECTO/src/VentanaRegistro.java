@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
-
-public class VentanaInicial2 extends JFrame {
+import EXCEPCIONES.FechaException;
+import EXCEPCIONES.Fecha;
+import EXCEPCIONES.PasswordException;
+public class VentanaRegistro extends JFrame {
 
 	/**
 	 * 
@@ -37,11 +39,9 @@ public class VentanaInicial2 extends JFrame {
 	private JPanel panelOeste;
 	private JPanel panelEste;
 	private JPanel panelCentro;
-	private JButton btnInicioSesion;
 	private JButton btnRegistro;
 	private JButton btnSalir;
 	private JPanel panelIzda;
-	private JPanel panelDcha;
 	private JLabel lblDni;
 	private JTextField txtDni;
 	private JLabel lblNombre;
@@ -49,15 +49,10 @@ public class VentanaInicial2 extends JFrame {
 	private JLabel lblContrasenia;
 	private JPasswordField txtContrasenia;
 	private JLabel lblRegistro;
-	private JLabel lblInicioSesion;
-	private JLabel lblDNIInicioSesion;
-	private JTextField txtDNIInicioSesion;
-	private JLabel lblContraseniaInicioSesion;
-	private JPasswordField txtContraseniaInicioSesion;
-	private JTextField txtNumero;
 	private JLabel lblCiudad;
+	private JLabel lblFecha;
+	private JTextField txtFecha;
 	private JTextField textField_1;
-	private static ArrayList<Usuario> lu;
 	private JButton btnNewButton;
 	/**
 	 * Launch the application.
@@ -66,7 +61,7 @@ public class VentanaInicial2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaInicial2 frame = new VentanaInicial2();
+					VentanaRegistro frame = new VentanaRegistro();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,10 +73,10 @@ public class VentanaInicial2 extends JFrame {
 	/**
 	 * Crear el frame
 	 */
-	public VentanaInicial2() {
+	public VentanaRegistro() {
 		
 		
-		setTitle("INICIO SESION");
+		setTitle("REGISTRO");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -99,13 +94,7 @@ public class VentanaInicial2 extends JFrame {
 		btnRegistro.setBackground(Color.GREEN);
 		btnRegistro.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 		panelSur.add(btnRegistro);
-		
-		btnInicioSesion = new JButton("INICIO SESION");
-	
-		btnInicioSesion.setBackground(Color.CYAN);
-		btnInicioSesion.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
-		panelSur.add(btnInicioSesion);
-		
+
 		btnSalir = new JButton("CERRAR SESION");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -124,9 +113,6 @@ public class VentanaInicial2 extends JFrame {
 		lblRegistro = new JLabel("REGISTRO");
 		panelNorte.add(lblRegistro);
 		
-		lblInicioSesion = new JLabel("INICIO SESION");
-		panelNorte.add(lblInicioSesion);
-		
 		panelOeste = new JPanel();
 		contentPane.add(panelOeste, BorderLayout.WEST);
 		
@@ -139,7 +125,7 @@ public class VentanaInicial2 extends JFrame {
 		
 		panelIzda = new JPanel();
 		panelCentro.add(panelIzda);
-		panelIzda.setLayout(new GridLayout(5, 2, 0, 0));
+		panelIzda.setLayout(new GridLayout(6, 2, 0, 0));
 		
 		lblDni = new JLabel("DNI");
 		panelIzda.add(lblDni);
@@ -167,8 +153,17 @@ public class VentanaInicial2 extends JFrame {
 
 		lblContrasenia = new JLabel("CONTRASENIA");
 		
+		lblFecha=new JLabel("FECHA");
+		panelIzda.add(lblFecha);
+		
+		txtFecha = new JTextField();
+		panelIzda.add(txtFecha);
+		
 		lblCiudad = new JLabel("CIUDAD");
 		panelIzda.add(lblCiudad);
+		
+		
+		
 		
 		txtCiudad = new JTextField();
 		panelIzda.add(txtCiudad);
@@ -181,38 +176,10 @@ public class VentanaInicial2 extends JFrame {
 		
 		btnNewButton = new JButton("SELECCIONAR\r\n\r\n");
 		panelIzda.add(btnNewButton);
-
-		//lblNumero = new JLabel("Introduce un número:;");
-		//panelIzda.add(lblNumero);
-
-		
-		//textField = new JTextField();
-		//panelIzda.add(textField);
-		//textField.setColumns(10);
-
-		panelDcha = new JPanel();
-		panelCentro.add(panelDcha);
-		panelDcha.setLayout(new GridLayout(2, 2, 0, 0));
-		
-		lblDNIInicioSesion = new JLabel("DNI\r\n");
-		panelDcha.add(lblDNIInicioSesion);
-		
-		txtDNIInicioSesion = new JTextField();
-		panelDcha.add(txtDNIInicioSesion);
-		txtDNIInicioSesion.setColumns(10);
 		
 
 
-		lblContraseniaInicioSesion = new JLabel("Introduce tu contrasenia:");
-
-		lblContraseniaInicioSesion = new JLabel("CONTRASE\u00D1A\r\n");
-
-		panelDcha.add(lblContraseniaInicioSesion);
-
-		
-		txtContraseniaInicioSesion = new JPasswordField();
-		panelDcha.add(txtContraseniaInicioSesion);
-		txtContraseniaInicioSesion.setColumns(10);
+		new JLabel("Introduce tu contrasenia:");
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			
@@ -227,7 +194,7 @@ public class VentanaInicial2 extends JFrame {
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			       System.out.println("You chose to open this file: " +
 			            chooser.getSelectedFile().getName());
-			       btnNewButton.setText(chooser.getSelectedFile().getName());
+			       btnNewButton.setText(chooser.getSelectedFile().getAbsolutePath());
 			    }
 			    
 				
@@ -241,47 +208,52 @@ public class VentanaInicial2 extends JFrame {
 				for(int j=0;j<txtContrasenia.getPassword().length;j++) {
 					c=c.concat(String.valueOf(txtContrasenia.getPassword()[j]));
 				}
-				if(!textField_1.getText().equals("") && !txtDni.getText().equals("") && !c.equals("") && !txtCiudad.getText().equals("")) {
-					System.out.println("hecho");
-					
+				if(!textField_1.getText().equals("") && !txtDni.getText().equals("") && !txtCiudad.getText().equals("")
+						&& comprobarFecha(txtFecha.getText())!=null ) {
+			        try {
+			            comprobarPassword(c);
+			            System.out.println("La contraseña es válida.");
+			            new Usuario(txtDni.getText(), c, textField_1.getText(), c,txtCiudad.getText(), btnNewButton.getText(), 0, false);
+			        } catch (PasswordException ea) {
+			            System.out.println(ea.getMessage());
+			        }
 				}else {
 					JOptionPane.showMessageDialog(rootPane, "Rellena todos los campos obligatorios");
 				}
 				
 			}
 		});
-		btnInicioSesion.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			if(txtContraseniaInicioSesion.getPassword().length!=0 && !txtDNIInicioSesion.getText().equals("") ) {
-				String c="";
-				for(int j=0;j<txtContraseniaInicioSesion.getPassword().length;j++) {
-					c=c.concat(String.valueOf(txtContraseniaInicioSesion.getPassword()[j]));
-				}
-				System.out.println(c);
-				for(int i=0;i<lu.size();i++) {
-					if(c.equals(lu.get(i).getContrasenia()) && txtDNIInicioSesion.getText().equals(lu.get(i).getDni())) {
-						dispose();
-						try {
-							MENU v=new MENU();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
-					}
-				}
-				
-					
-				
-				}else {
-					JOptionPane.showMessageDialog(rootPane, "Rellena todos los campos");
-					
-				}
-				
-			}
-		});
+
+	}
+	public String comprobarFecha(String fecha) {
+        try {
+            new Fecha(fecha);
+        } catch (FechaException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return fecha; 
+	}
+	
+    public String comprobarPassword(String password) throws PasswordException {
+        if(password.length() < 8) {
+        	password=null;
+            throw new PasswordException("La contraseña debe tener al menos 8 caracteres.");
+        }
+        if(!password.matches(".*\\d.*")) {
+        	password=null;
+            throw new PasswordException("La contraseña debe tener al menos un número.");
+        }
+        return password;
+
+    }
+
+	public JLabel getLblFecha() {
+		return lblFecha;
+	}
+
+	public void setLblFecha(JLabel lblFecha) {
+		this.lblFecha = lblFecha;
 	}
 
 }

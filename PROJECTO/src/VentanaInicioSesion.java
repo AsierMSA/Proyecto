@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 public class VentanaInicioSesion extends JFrame {
 	 /**
@@ -32,6 +34,7 @@ public class VentanaInicioSesion extends JFrame {
 	    private JButton buttonLogin;
 	    private JButton buttonCancel;
 	    private JLabel linkLabel;
+	    private static HashMap<String,Usuario> usuarios=null;
 	    
 	    public VentanaInicioSesion() {
 	        // Configurar la ventana
@@ -69,10 +72,34 @@ public class VentanaInicioSesion extends JFrame {
 	         public void actionPerformed(ActionEvent e) {
 	             String username = textUsername.getText();
 	             String password = new String(textPassword.getPassword());
-	            
-	             System.out.println("Nombre de usuario: " + username);
-	             System.out.println("Contraseña: " + password);
-	             
+	             if(usuarios==null) {
+	             BD.cargaUsuarios();
+	             }
+	             Boolean correctocon=false;
+	             Boolean correctou=false;
+	             Usuario correcto = null;
+	             usuarios=BD.getMapaUsuarios();
+	             for(Usuario u:  BD.getMapaUsuarios().values()) {
+	            	 if(u.getNombre().equals(username)) {
+	            		 correctou=true;
+	            		 if(u.getContrasenia().equals(password)) {
+		            		 correctocon=true;
+		            		 correcto=u;
+		            	 }
+	            	 }
+	            	 
+	             }
+	             if(correctocon && correctou) {
+	            	 dispose();
+		            AnimacionCarga.main(correcto);
+	             }else if(correctou) {
+	            	 JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
+	            	 textPassword.setText("");
+	             }else {
+	            	 JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+	            	 textPassword.setText("");
+	            	 textUsername.setText("");
+	             }
 	         }
 	     });
 
@@ -86,8 +113,7 @@ public class VentanaInicioSesion extends JFrame {
 	    
 	        linkLabel.addMouseListener(new MouseAdapter() {
 	            public void mouseClicked(MouseEvent e) {
-	            	dispose();
-	            	AnimacionCarga.main(null);
+	            	
 	            }
 	        });
 	     

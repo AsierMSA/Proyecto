@@ -147,8 +147,8 @@ public class BD {
 		precios.add(dinero);
 	}
 	public static void rellenarTablas(Connection con) {
-		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","src\\FOTOS\\74472.png",1, 0);
-		UsuarioRegular(con,"12034556S","2003/02/23","Markel","Askartza1","Bilbao","",0, 0);
+		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","src\\FOTOS\\74472.png",1000000, 10000);
+		UsuarioRegular(con,"12034556S","2003/02/23","Markel","Askartza1","Bilbao","",100000, 0);
 		UsuarioRegular(con,"13423436X","2005/10/09","Anton","112223344","Barakaldo","",0, 0);
 		UsuarioRegular(con,"13438430C","2002/04/17","Ane","2345435","Leioa","",0, 0);
 		UsuarioRegular(con,"12345678A", "01/01/1995", "Juan Pérez", "password1", "Madrid", "https://www.example.com/foto1.jpg", 0, 0);

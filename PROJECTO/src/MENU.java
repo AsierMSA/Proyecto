@@ -89,6 +89,7 @@ public class MENU {
 	private static int ch=-1;
 	private VentanaVenta2 vc;
 	
+	//Usuario por defecto
 
 	static Usuario u=new Usuario("16097385F","2002/03/11","Asier","Teresa00","Getxo","",100000, true);
 
@@ -104,7 +105,7 @@ public class MENU {
 	}
 	static Venta[] nuevalista;
 	private static Venta vactual;
-	private static Usuario uactual=u;
+	private static Usuario uactual;
 	
 	public static Usuario getUactual() {
 		return uactual;
@@ -141,7 +142,7 @@ public class MENU {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MENU m=new MENU();
+					MENU m=new MENU(u);
 					m.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -159,14 +160,14 @@ public class MENU {
 	 * Initialize the contents of the frame.
 	 * @throws IOException 
 	 */
-	MENU() throws IOException {
+	MENU(Usuario us) throws IOException {
+		us=MENU.uactual;
 		cargarListaBD();
-		
 		
 		frame = new JFrame();
 		ImageIcon icono= new ImageIcon("src//FOTOS//window.png");
 		frame.setIconImage(icono.getImage());
-		LOG.log(Level.INFO, uactual.getNombre()+" sesion iniciada");
+		LOG.log(Level.INFO, MENU.uactual.getNombre()+" sesion iniciada");
 		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
 		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
 		
@@ -233,7 +234,7 @@ public class MENU {
 		        Image.SCALE_SMOOTH);
 		ImageIcon logo1=new ImageIcon(dimg1);
 		Perfil.setIcon(logo1);
-		Perfil.setText(uactual.getCartera()+"€          "+uactual.getNombre());
+		Perfil.setText(MENU.uactual.getCartera()+"€          "+MENU.uactual.getNombre());
 		PanelSuperior.add(Perfil);
 		
 		lblNewLabel_2 = new JLabel("");

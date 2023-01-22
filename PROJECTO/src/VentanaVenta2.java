@@ -200,16 +200,16 @@ public class VentanaVenta2 extends JFrame {
 							Venta[] nuevo= new Venta[MENU.getLista().length];
 							for(Venta v: nv) {
 								if(v!=null) {
-								if(v.getU().getDni().equals(MENU.u.getDni())) {
+								if(v.getU().getDni().equals(MENU.getUactual().getDni())) {
 									nuevo[pos]=v;
 									pos++;
 								}
 								}
 							}
-							ArrayList<Coche> cochesu=BD.getMapaVentas().get(MENU.u.getDni());
+							ArrayList<Coche> cochesu=BD.getMapaVentas().get(MENU.getUactual().getDni());
 							cochesu.remove(v.getC());
 							HashMap<String, ArrayList<Coche>> mapa = BD.getMapaVentas();
-							mapa.replace(MENU.u.getDni(), cochesu);
+							mapa.replace(MENU.getUactual().getDni(), cochesu);
 							BD.setMapaVentas(mapa);
 							VentanaPerfil.crearTabla(VentanaPerfil.getTable1(), nuevo, false);
 						}
