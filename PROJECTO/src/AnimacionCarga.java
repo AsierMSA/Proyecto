@@ -43,7 +43,7 @@ public class AnimacionCarga {
                 thread.start();
                
                
-                Timer timer = new Timer(56, new ActionListener() {
+                Timer timer = new Timer(57, new ActionListener() {
                     int progress = 0;
                     @Override
                     public void actionPerformed(ActionEvent e) {

@@ -1,8 +1,14 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -12,7 +18,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -277,6 +286,41 @@ public class BD {
 		return u;
 		
 	}
+	public static void guardaCompras() {
+
+		try {
+			
+			FileOutputStream fos=new FileOutputStream("DOCUMENTOS/compras.dat",false);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(mapaCompras);
+			oos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void cargaCompras() throws FileNotFoundException {
+		mapaCompras=new HashMap<String,ArrayList<Coche>>();
+		FileInputStream f= new FileInputStream("DOCUMENTOS/compras.dat");
+		try {
+			ObjectInputStream ois= new ObjectInputStream(f);
+			Object obj = ois.readObject();
+			if (obj.getClass() == HashMap.class) {
+			    HashMap<String, ArrayList<Coche>> map = (HashMap<String, ArrayList<Coche>>) obj;
+			    BD.setMapaCompras(map);
+			}
+			ois.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+	}
+	
 	public static void guardaUsuarios() {
 		File f= new File("DOCUMENTOS/usuarios.txt");
 		try {
@@ -325,6 +369,24 @@ public class BD {
 			e.printStackTrace();
 		}
 		
+	}
+	public static void ActualizarVistas(Connection con) {
+		for(Venta v: MENU.getLista()) {
+			Statement st;
+			try {
+				st = con.createStatement();
+				String sql="UPDATE Venta SET vistas="+v.getVistas()+" WHERE dni='"+v.getU()+"' AND modelo='"+v.getC().getModelo()
+						+"' AND kms="+v.getC().getKilometros();
+				st.executeUpdate(sql);
+				Logger.getGlobal().log( Level.INFO,sql);
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
 	}
 	public static void borrarVenta(Connection con, Venta v) {
 		String sql="DELETE FROM Venta WHERE dni='"+v.getU().getDni()+"' AND modelo='"+v.getC().getModelo()+"' AND kms="+v.getC().getKilometros();
@@ -382,6 +444,7 @@ public class BD {
 		        return false;
 		    }
 		}
+
 		
 		
 

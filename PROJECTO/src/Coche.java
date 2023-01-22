@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Coche {
+public class Coche implements Serializable{
 	private String modelo;
 	private String marca;
 	private int puertas;

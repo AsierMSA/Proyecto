@@ -10,8 +10,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.Connection;
@@ -81,6 +85,7 @@ public class MENU {
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_1;
 	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
 	private static JPanel panel_2;
 	private static JPanel panel_3;
 	private static int fila=-1;
@@ -163,7 +168,6 @@ public class MENU {
 	MENU(Usuario us) throws IOException {
 		us=MENU.uactual;
 		cargarListaBD();
-		
 		frame = new JFrame();
 		ImageIcon icono= new ImageIcon("src//FOTOS//window.png");
 		frame.setIconImage(icono.getImage());
@@ -178,7 +182,6 @@ public class MENU {
 		
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 	
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		panel = new JPanel();
@@ -206,6 +209,20 @@ public class MENU {
 		btnNewButton = new JButton("Recomendaciones");
 		panel_1.add(btnNewButton);
 		
+		btnNewButton_3 = new JButton("Estadisticas");
+		panel_1.add(btnNewButton_3);
+		if(!uactual.getAdmin()) {
+			btnNewButton_3.setVisible(false);
+		}
+		btnNewButton_3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			VentanaEstadistica ve= new VentanaEstadistica();
+			ve.setVisible(true);
+				
+			}
+		});
 		
 		String [] marca= {"MARCA","BMW","AUDI","TESLA","MERCEDES"};
 		DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<String>(marca);
@@ -299,7 +316,8 @@ public class MENU {
 						}
 				});
 						
-										
+		
+		
 		precioRango_1 = new JLabel("50000");
 		precioRango_1.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_4.add(precioRango_1);
@@ -373,14 +391,16 @@ public class MENU {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				BD.ActualizarVistas(BD.initBD("todoCoches.db", false));
 			}
 		});
 		mSalirCerrarSesion.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				MENU.getFrame().dispose();
+				VentanaInicioSesion vi= new VentanaInicioSesion();
+				vi.setVisible(true);
 			}
 		});
 		filtrar.addActionListener(new ActionListener() {
@@ -687,6 +707,12 @@ public class MENU {
 				BD.rellenarTablas(con);
 				lista=BD.BDaMapa(con);
 				BD.closeBD(con);
+				try {
+					BD.cargaCompras();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 			private Venta[] recomendacionRecursiva(ArrayList<Coche> compras, Venta[] listaActual, Venta[] nuevalista,int indiceCompra,int indiceLista,int indiceNueva,HashSet<Coche> repetidos) {

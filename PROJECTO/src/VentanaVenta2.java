@@ -216,7 +216,7 @@ public class VentanaVenta2 extends JFrame {
 						}
 				
 						dispose();
-						
+						BD.guardaCompras();
 						
 							
 						}
