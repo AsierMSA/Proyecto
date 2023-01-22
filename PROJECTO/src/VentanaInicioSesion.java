@@ -7,6 +7,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -66,25 +67,26 @@ public class VentanaInicioSesion extends JFrame {
 	     buttonLogin.setBounds(100, 150, 120, 30);
 	     buttonCancel = new JButton("Cancelar");
 	     buttonCancel.setBounds(240, 150, 120, 30);
-
+	     if(usuarios==null) {
+             BD.cargaUsuarios();
+             }
 
 	     buttonLogin.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	             String username = textUsername.getText();
 	             String password = new String(textPassword.getPassword());
-	             if(usuarios==null) {
-	             BD.cargaUsuarios();
-	             }
 	             Boolean correctocon=false;
 	             Boolean correctou=false;
 	             Usuario correcto = null;
 	             usuarios=BD.getMapaUsuarios();
 	             for(Usuario u:  BD.getMapaUsuarios().values()) {
+	            	 System.out.println(u);
 	            	 if(u.getNombre().equals(username)) {
 	            		 correctou=true;
 	            		 if(u.getContrasenia().equals(password)) {
 		            		 correctocon=true;
 		            		 correcto=u;
+		            		 LoggerTodoCoches.logInicioSesion(u);
 		            	 }
 	            	 }
 	            	 
@@ -113,7 +115,9 @@ public class VentanaInicioSesion extends JFrame {
 	    
 	        linkLabel.addMouseListener(new MouseAdapter() {
 	            public void mouseClicked(MouseEvent e) {
-	            	
+	            	dispose();
+	            	VentanaRegistro vr= new VentanaRegistro();
+	            	vr.setVisible(true);
 	            }
 	        });
 	     

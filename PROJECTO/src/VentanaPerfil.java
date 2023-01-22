@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -59,6 +60,7 @@ public class VentanaPerfil extends JFrame {
 	private static JScrollPane js=null;
 	private static int ch=-1;
 	private static Venta[] nuevalista;
+	private static ImageIcon logo1;
 
 	public static Venta[] getNuevalista() {
 		return nuevalista;
@@ -108,10 +110,15 @@ public class VentanaPerfil extends JFrame {
 		
 		JLabel Perfil = new JLabel();
 		Perfil.setText(u.getNombre());
-		Image img1 = ImageIO.read(new File("src\\\\FOTOS\\\\74472.png"));
+		try {
+		Image img1 = ImageIO.read(new File(u.getFoto()));
 		Image dimg1 = img1.getScaledInstance(85, 75,
-		        Image.SCALE_SMOOTH);
-		ImageIcon logo1=new ImageIcon(dimg1);
+		Image.SCALE_SMOOTH);
+		logo1=new ImageIcon(dimg1);
+		}catch(IIOException e) {
+			
+		}
+		
 		panelSuperior.setLayout(new BorderLayout(0, 0));
 		Perfil.setIcon(logo1);
 		panelSuperior.add(Perfil, BorderLayout.WEST);
@@ -141,7 +148,7 @@ public class VentanaPerfil extends JFrame {
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			       System.out.println("You chose to open this file: " +
 			            chooser.getSelectedFile().getName());
-			       lblNewLabel_3.setText(chooser.getSelectedFile().getName());
+			       lblNewLabel_3.setText(chooser.getSelectedFile().getAbsolutePath());
 			       
 			    }
         	}
@@ -166,7 +173,18 @@ public class VentanaPerfil extends JFrame {
 				if(textField.getText().isEmpty() && textField_1.getText().isEmpty() && textField_2.getText().isEmpty() && textField_3.getText().isEmpty() ) {
 					JOptionPane.showMessageDialog(rootPane, "Rellena todos los campos obligatorios");
 				}else {
-					
+					if(lblNewLabel_3.getText().equals("")) {
+						lblNewLabel_3.setText("src\\FOTOS\\74472.png");
+					}
+					Usuario ch=MENU.getUactual();
+					ch.setNombre(textField.getText());
+					ch.setContrasenia(textField_1.getText());
+					ch.setCiudad(textField_2.getText());
+					ch.setFoto( lblNewLabel_3.getText());
+					ch.setDni(textField_3.getText());
+					MENU.setUactual(ch);
+					MENU.getFrame().repaint();
+					dispose();
 				}
 				
 			}

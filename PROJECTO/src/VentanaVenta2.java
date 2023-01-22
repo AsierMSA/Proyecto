@@ -154,6 +154,7 @@ public class VentanaVenta2 extends JFrame {
 						if (JOptionPane.OK_OPTION == confirmado) {
 						
 							if(BD.comprable(v.getDinero(),editable)) {
+								LoggerTodoCoches.logVenta(v, MENU.getUactual());
 								comprado=true;
 								nv=new Venta[MENU.getLista().length];
 								int j=0;

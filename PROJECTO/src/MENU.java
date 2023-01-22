@@ -58,6 +58,7 @@ import javax.swing.JComboBox;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class MENU {
 	final Logger LOG = Logger.getLogger("paquete.NombreClase");
@@ -130,7 +131,6 @@ public class MENU {
 	private static JSplitPane PanelC;
 	private JLabel lblNewLabel_2;
 	private JSlider precioSlider;
-	private JLabel precioRango;
 	private JLabel precioRango_1;
 	private JPanel panel_4;
 	static JLabel Perfil;
@@ -256,7 +256,7 @@ public class MENU {
 		panel_2 = new JPanel();
 		PanelCentral.add(panel_2, BorderLayout.CENTER);
 						
-		precioRango = new JLabel("Añadir fondos");
+		new JLabel("Añadir fondos");
 		panel_2.setLayout(new GridLayout(0, 1, 0, 50));
 		
 		panel_4 = new JPanel();
@@ -271,14 +271,14 @@ public class MENU {
 												
 		comboBoxFiltrar_1 = new JComboBox<String>(comboModel2);
 		panel_4.add(comboBoxFiltrar_1);
-										
+									
 		precioSlider = new JSlider(0,100000);
 		panel_4.add(precioSlider);
 		precioSlider.setPaintTicks(true);
 		precioSlider.setSnapToTicks(true);
 		precioSlider.setMinorTickSpacing(1000);
 		precioSlider.setMajorTickSpacing(1000);
-		precioSlider.setToolTipText("Precio\r\n");
+		precioSlider.setToolTipText("Precio");
 										
 												
 
@@ -288,14 +288,19 @@ public class MENU {
 											
 		@Override
 		public void stateChanged(ChangeEvent e) {
-		
-			precioRango.setText(precioSlider.getValue()+"€");
-												
+			JSlider source = (JSlider) e.getSource();
+			final int value = source.getValue();
+			SwingUtilities.invokeLater(new Runnable() {
+			    @Override
+			    public void run() {
+			    	precioRango_1.setText(Integer.toString(value));
+			    }
+			});					
 						}
 				});
 						
 										
-		precioRango_1 = new JLabel("50000\u20AC");
+		precioRango_1 = new JLabel("50000");
 		precioRango_1.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_4.add(precioRango_1);
 						
@@ -383,7 +388,9 @@ public class MENU {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!comboModel.getSelectedItem().equals("MARCA") && !comboModel2.getSelectedItem().equals("MaxKm")) {
-				buscarLista(comboModel.getSelectedItem(), Integer.parseInt((String) comboModel2.getSelectedItem()));
+					System.out.println(precioRango_1.getText());
+					buscarLista(comboModel.getSelectedItem(), Integer.parseInt((String) comboModel2.getSelectedItem()),Integer.parseInt(precioRango_1.getText().split(";")[0]));
+				
 				}else {
 					JOptionPane.showMessageDialog(null, "Selecciona un filtro");
 				}
@@ -544,7 +551,7 @@ public class MENU {
 			if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 				String buscar=new String(textField.getText());
 				textField.setText("");
-				buscarLista(buscar,0);
+				buscarLista(buscar,0, 0);
 			}
 			
 			
@@ -560,12 +567,12 @@ public class MENU {
 	}
 		//Metodo para buscar un elemento de la lista y cambiar la tabla
 	
-		private void buscarLista(Object igual,int numero) {
+		private void buscarLista(Object igual,int numero,int precio) {
 			nuevalista = new Venta[50];
 			pos=0;
 			for(int i=0;i<lista.length;i++) {
 				if(lista[i]!=null) {
-				if(numero==0) {
+				if(numero==0 && precio==0) {
 					if(lista[i].getU().getNombre().toLowerCase().equals(igual.toString().toLowerCase()) || lista[i].getC().getMarca().toLowerCase().equals(igual.toString().toLowerCase()) || lista[i].getC().getModelo().toLowerCase().equals(igual.toString().toLowerCase()) 
 					 ) {
 					nuevalista[pos]=lista[i];
@@ -573,8 +580,16 @@ public class MENU {
 					ch=i;
 					
 				}
+				}else if(precio==0){
+					if(lista[i].getC().getMarca().toLowerCase().equals(igual.toString().toLowerCase()) && lista[i].getC().getKilometros()==numero) {
+						nuevalista[pos]=lista[i];
+						pos++;
+						ch=i;
+					}
+					
 				}else {
-					if(lista[i].getC().getMarca().toLowerCase().equals(igual.toString().toLowerCase()) && lista[i].getC().getKilometros()>numero) {
+					if(lista[i].getC().getMarca().toLowerCase().equals(igual.toString().toLowerCase()) && lista[i].getC().getKilometros()<numero
+							&& lista[i].getDinero()==precio){
 						nuevalista[pos]=lista[i];
 						pos++;
 						ch=i;

@@ -281,6 +281,7 @@ public class BD {
 		File f= new File("DOCUMENTOS/usuarios.txt");
 		try {
 			FileWriter fw=new FileWriter(f);
+			fw.write("");
 			for(Usuario u:mapaUsuarios.values()) {
 				fw.write(u.getDni()+","+u.getFechaNacimiento()+","+u.getNombre() +","+u.getContrasenia()+","
 				+u.getCiudad()+","+u.getFoto()+","+u.getCartera()+","+u.getAdmin()+"\n");

@@ -21,6 +21,8 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
@@ -210,10 +212,21 @@ public class VentanaRegistro extends JFrame {
 				}
 				if(!textField_1.getText().equals("") && !txtDni.getText().equals("") && !txtCiudad.getText().equals("")
 						&& comprobarFecha(txtFecha.getText())!=null ) {
+					if(btnNewButton.getText().equals("SELECCIONAR\r\n\r\n")) {
+						btnNewButton.setText("src\\FOTOS\\74472.png");
+					}
 			        try {
 			            comprobarPassword(c);
 			            System.out.println("La contraseña es válida.");
-			            new Usuario(txtDni.getText(), c, textField_1.getText(), c,txtCiudad.getText(), btnNewButton.getText(), 0, false);
+			            dispose();
+			            HashMap<String,Usuario> m=BD.getMapaUsuarios();
+			            Usuario u= new Usuario(txtDni.getText(), c, textField_1.getText(), c,txtCiudad.getText(), btnNewButton.getText(), 0, false);
+			            m.put(txtDni.getText(), u);
+			            BD.setMapaUsuarios(m);
+			           VentanaInicioSesion vr= new VentanaInicioSesion();
+			           vr.setVisible(true);
+			           BD.guardaUsuarios();
+			           LoggerTodoCoches.logCreacionUsuario(u);
 			        } catch (PasswordException ea) {
 			            System.out.println(ea.getMessage());
 			        }
