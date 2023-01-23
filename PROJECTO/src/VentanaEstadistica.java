@@ -56,12 +56,14 @@ public class VentanaEstadistica extends JFrame {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		 Map<String,Integer> mapa= new HashMap<String,Integer>();
 		 for(Venta v: MENU.getLista()) {
+			 if(v!=null) {
 		     if(!mapa.containsKey(v.getU().getNombre())) {
 		         mapa.put(v.getU().getNombre(), v.getVistas());
 		     }else {
 		         mapa.replace(v.getU().getNombre(), mapa.get(v.getU().getNombre())+ v.getVistas());
 		     }
 		 } 
+		 }
 		for (Map.Entry<String, Integer> entry : mapa.entrySet()) {
 		    dataset.addValue(entry.getValue(), "Visit", entry.getKey());
 		}

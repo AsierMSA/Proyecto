@@ -20,6 +20,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ public class BD {
 	static HashMap<String,ArrayList<Coche>> mapaVentas;
 	static HashMap<String,ArrayList<Coche>> mapaCompras;
 	static HashMap<String,Usuario>mapaUsuarios;
+	static List<String> descripciones = new ArrayList<String>();
 	static int cont=0;
 	/**
 	 * MÃ©todo que realiza la conexiÃ³n con la base de datos
@@ -116,6 +118,7 @@ public class BD {
 		if(!mapaVentas.containsKey(dni)) {	
 			mapaVentas.put(dni, new ArrayList<Coche>());
 			mapaCompras.put(dni, new ArrayList<Coche>());
+			
 		}
 	}
 	public static HashMap<String, ArrayList<Coche>> getMapaVentas() {
@@ -141,7 +144,7 @@ public class BD {
 	public static void setMapaUsuarios(HashMap<String, Usuario> mapaUsuarios) {
 		BD.mapaUsuarios = mapaUsuarios;
 	}
-	public static void Venta(Connection con,String DNI,String Modelo,int kilometros,int dinero ,int vistas) {
+	public static void Venta(Connection con,String DNI,String Modelo,int kilometros,int dinero ,int vistas,String descripcion) {
 		String sql = "INSERT INTO Venta VALUES('"+DNI+"','"+Modelo+"',"+kilometros+","+dinero+","+vistas+")";
 		try {
 			Logger.getGlobal().log(Level.INFO, sql);
@@ -154,6 +157,7 @@ public class BD {
 			e.printStackTrace();
 		}
 		precios.add(dinero);
+		descripciones.add(descripcion);
 	}
 	public static void rellenarTablas(Connection con) {
 		UsuarioRegular(con,"16097385F","2002/03/11","Asier","Teresa00","Getxo","src\\FOTOS\\74472.png",1000000, 10000);
@@ -175,33 +179,33 @@ public class BD {
 		insertarCoche(con,"R8","Tesla",2,0,2022,300,"src\\FOTOS\\tesla.jpg");
 		insertarCoche(con,"R7","Audi",2,0,2022,200,"src\\FOTOS\\audi r8.jpg");
 		insertarCoche(con,"Arona","Seat",4,1000,2022,120,"src\\FOTOS\\Seat-arona-red-line-e1657284471337-1200x676.jpg");
-		insertarCoche(con,"Mazda 3", "Mazda", 4, 20000, 2018, 150, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mazda.es%2Fgama%2Fmazda3%2F&psig=AOvVaw3cPAM1HS9eAK5wIaUUcVqP&ust=1673093622534000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKjahcr1svwCFQAAAAAdAAAAABAD");
-		insertarCoche(con,"Toyota Camry", "Toyota", 4, 50000, 2020, 200, "https://upload.wikimedia.org/wikipedia/commons/b/bd/2022_Toyota_Camry_Hybrid_XLE_in_Midnight_Black_Metallic%2C_Front_Right%2C_12-25-2021.jpg");
-		insertarCoche(con,"Nissan Altima", "Nissan", 4, 30000, 2019, 180, "https://cdn-images.motor.es/image/m/1280w/fotos-noticias/2022/06/nissan-altima-2023-202287661-1654970785_1.jpg");
-		insertarCoche(con,"Ford Fusion", "Ford", 4, 35000, 2017, 190, "https://upload.wikimedia.org/wikipedia/commons/c/ca/2013_Ford_Fusion_Hybrid_trim.jpg");
-		insertarCoche(con,"Hyundai Sonata", "Hyundai", 4, 40000, 2020, 160, "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/2018_Hyundai_Sonata_%28LF4_MY18%29_Active_2.4_sedan_%282018-10-22%29_01.jpg/800px-2018_Hyundai_Sonata_%28LF4_MY18%29_Active_2.4_sedan_%282018-10-22%29_01.jpg");
-		insertarCoche(con,"Subaru Legacy", "Subaru", 4, 25000, 2018, 170, "https://upload.wikimedia.org/wikipedia/commons/1/17/%2703-%2704_Subaru_Legacy_Sedan.JPG");
-		insertarCoche(con,"Honda Civic", "Honda", 4, 45000, 2019, 140, "https://upload.wikimedia.org/wikipedia/commons/e/e1/2022_Honda_Civic_LX%2C_Front_Right%2C_06-20-2021.jpg");
-		insertarCoche(con,"Kia Optima", "Kia", 4, 30000, 2017, 180, "https://upload.wikimedia.org/wikipedia/commons/1/1a/2018_Kia_Optima_2_CRDi_ISG_1.6_facelift_Front.jpg");
-		insertarCoche(con,"Chevrolet Malibu", "Chevrolet", 4, 40000, 2018, 150, "https://upload.wikimedia.org/wikipedia/commons/0/01/2019_Chevrolet_Malibu_%28facelift%29_LT%2C_front_10.19.19.jpg");
-		insertarCoche(con,"BMW 3 Series", "BMW", 4, 50000, 2020, 250, "https://upload.wikimedia.org/wikipedia/commons/7/7a/2020_BMW_530d_M_Sport_facelift.jpg");
+		insertarCoche(con,"3", "Mazda", 4, 20000, 2018, 150, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mazda.es%2Fgama%2Fmazda3%2F&psig=AOvVaw3cPAM1HS9eAK5wIaUUcVqP&ust=1673093622534000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKjahcr1svwCFQAAAAAdAAAAABAD");
+		insertarCoche(con,"Camry", "Toyota", 4, 50000, 2020, 200, "https://upload.wikimedia.org/wikipedia/commons/b/bd/2022_Toyota_Camry_Hybrid_XLE_in_Midnight_Black_Metallic%2C_Front_Right%2C_12-25-2021.jpg");
+		insertarCoche(con," ltima", "Nissan", 4, 30000, 2019, 180, "https://cdn-images.motor.es/image/m/1280w/fotos-noticias/2022/06/nissan-altima-2023-202287661-1654970785_1.jpg");
+		insertarCoche(con,"Focus", "Ford", 4, 35000, 2017, 190, "https://upload.wikimedia.org/wikipedia/commons/c/ca/2013_Ford_Fusion_Hybrid_trim.jpg");
+		insertarCoche(con,"Sonata", "Hyundai", 4, 40000, 2020, 160, "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/2018_Hyundai_Sonata_%28LF4_MY18%29_Active_2.4_sedan_%282018-10-22%29_01.jpg/800px-2018_Hyundai_Sonata_%28LF4_MY18%29_Active_2.4_sedan_%282018-10-22%29_01.jpg");
+		insertarCoche(con,"Legacy", "Subaru", 4, 25000, 2018, 170, "https://upload.wikimedia.org/wikipedia/commons/1/17/%2703-%2704_Subaru_Legacy_Sedan.JPG");
+		insertarCoche(con,"Civic", "Honda", 4, 45000, 2019, 140, "https://upload.wikimedia.org/wikipedia/commons/e/e1/2022_Honda_Civic_LX%2C_Front_Right%2C_06-20-2021.jpg");
+		insertarCoche(con,"Optima", "Kia", 4, 30000, 2017, 180, "https://upload.wikimedia.org/wikipedia/commons/1/1a/2018_Kia_Optima_2_CRDi_ISG_1.6_facelift_Front.jpg");
+		insertarCoche(con,"Malibu", "Chevrolet", 4, 40000, 2018, 150, "https://upload.wikimedia.org/wikipedia/commons/0/01/2019_Chevrolet_Malibu_%28facelift%29_LT%2C_front_10.19.19.jpg");
+		insertarCoche(con,"3 Series", "BMW", 4, 50000, 2020, 250, "https://upload.wikimedia.org/wikipedia/commons/7/7a/2020_BMW_530d_M_Sport_facelift.jpg");
 		
 		
 		
-		Venta(con,"16097385F","R8",0,15000, 0);
-		Venta(con,"12034556S","R7",0,70000, 0);
-		Venta(con,"16097385F","Arona",1000,40000, 0);
-		Venta(con,"12345678A", "Mazda 3", 20000,30000, 0);
-		Venta(con,"87654321B", "Toyota Camry", 50000,25000, 0);
-		Venta(con,"23456789C", "Nissan Altima", 30000,20000, 0);
-		Venta(con,"56789123D", "Ford Fusion", 35000,15000, 0);
-		Venta(con,"89123456E", "Hyundai Sonata", 40000,14000, 0);
-		Venta(con,"34567890F", "Subaru Legacy", 25000,16000, 0);
-		Venta(con,"67890ABC", "Honda Civic", 45000,18000, 0);
-		Venta(con,"90123CDE", "Kia Optima", 30000,15000, 0);
-		Venta(con,"01234FGH", "Chevrolet Malibu", 40000,17000, 0);
-		Venta(con,"56789IJK", "BMW 3 Series", 50000,50000, 0);
-		Venta(con,"56789IJK","R8",0,15000, 0);
+		Venta(con,"16097385F","R8",0,15000, 0,"R8 en venta, con poco uso y equipamiento deportivo");
+		Venta(con,"12034556S","R7",0,70000, 0,"R7 en venta, con poco uso y mantenimiento al día");
+		Venta(con,"16097385F","Arona",1000,40000, 0,"Vendo Arona en excelentes condiciones, con pocos kilómetros recorridos");
+		Venta(con,"12345678A", "3", 20000,30000, 0,"Mazda 3 en venta, con bajo kilometraje y poco uso");
+		Venta(con,"87654321B", "Camry", 50000,25000, 0,"Toyota Camry en venta, con equipamiento completo y poco uso");
+		Venta(con,"23456789C", "Altima", 30000,20000, 0,"Nissan Altima en venta, con bajo kilometraje y poco uso");
+		Venta(con,"56789123D", "Fusion", 35000,15000, 0,"Ford en venta, con equipamiento completo y poco uso");
+		Venta(con,"89123456E", "Sonata", 40000,14000, 0,"Subaru Legacy en venta, con tracción total y poco uso");
+		Venta(con,"34567890F", "Legacy", 25000,16000, 0,"Honda Civic en venta, con bajo kilometraje y poco uso");
+		Venta(con,"67890ABC", "Civic", 45000,18000, 0,"Honda Civic en venta, con bajo kilometraje y poco uso");
+		Venta(con,"90123CDE", "Optima", 30000,15000, 0,"Kia Optima en venta, con equipamiento completo y poco uso");
+		Venta(con,"01234FGH", "Malibu", 40000,17000, 0,"Chevrolet Malibu a precio de ocasión, con poco uso y mantenimiento al día");
+		Venta(con,"56789IJK", "3 Series", 50000,50000, 0,"Vendo BMW 3 Series en excelentes condiciones, con pocos kilómetros recorridos");
+		Venta(con,"56789IJK","R8",0,15000, 0,"Se vende barato");
 	}
 	public static Venta[] BDaMapa(Connection con) throws MalformedURLException {
 		Coche c;
@@ -222,12 +226,13 @@ public class BD {
 				String foto=rs.getString("foto");
 				String dni=rs.getString("dni");
 				c=new Coche(modelo, marca, puertas, kms, anio, potencia, foto);
-				
+			
 				
 				for(String s: mapaVentas.keySet()) {
 					if(s.equals(dni)) {
 						ArrayList<Coche> co=mapaVentas.get(dni);
 						co.add(c);	
+						
 						mapaVentas.replace(dni,co);
 						
 					
@@ -245,7 +250,7 @@ public class BD {
 			ArrayList<Coche> ar=mapaVentas.get(s);
 			Usuario us=UsuarioPorDni(con, s);
 				for(Coche co: ar) {
-					Venta v=new Venta(co, us, "",precios.get(i),0);
+					Venta v=new Venta(co, us,"",precios.get(i),0,descripciones.get(i));
 					lista[i]=v;
 					i++;
 			}
@@ -308,6 +313,7 @@ public class BD {
 			if (obj.getClass() == HashMap.class) {
 			    HashMap<String, ArrayList<Coche>> map = (HashMap<String, ArrayList<Coche>>) obj;
 			    BD.setMapaCompras(map);
+			    System.out.println(map);
 			}
 			ois.close();
 			
@@ -354,6 +360,10 @@ public class BD {
 			e.printStackTrace();
 		} 
 		
+	}
+	public static void resetCompras(){
+		mapaCompras=new HashMap<String,ArrayList<Coche>>();
+		guardaCompras();
 	}
 	
 	public static void borrarTabla(Connection con,String nombreTabla) {

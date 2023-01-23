@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -29,6 +30,7 @@ public class VentanaVenta extends JFrame {
 	private JTextField txt_kilometros;
 	private JTextField txt_potencia;
 	private JTextField txt_precio;
+	private JTextField txt_desc;
 
 	/**
 	 * Launch the application.
@@ -61,7 +63,7 @@ public class VentanaVenta extends JFrame {
 		
 		JPanel pnl_centro = new JPanel();
 		contentPane.add(pnl_centro, BorderLayout.CENTER);
-		pnl_centro.setLayout(new GridLayout(7, 2, 0, 0));
+		pnl_centro.setLayout(new GridLayout(8, 2, 0, 0));
 		
 		JLabel lbl_modelo = new JLabel("MODELO");
 		pnl_centro.add(lbl_modelo);
@@ -103,6 +105,13 @@ public class VentanaVenta extends JFrame {
 		
 		txt_precio=new JTextField();
 		pnl_centro.add(txt_precio);
+		
+		JLabel desc=new JLabel("DESCRIPCION");
+		pnl_centro.add(desc);
+		
+		txt_desc=new JTextField();
+		pnl_centro.add(txt_desc);
+		
 		
 		JLabel lbl_kilometros = new JLabel("KILOMETROS");
 		pnl_centro.add(lbl_kilometros);
@@ -176,7 +185,7 @@ public class VentanaVenta extends JFrame {
 					try {
 						Coche c=new Coche(txt_modelo.getText(),txt_marca.getText(), Integer.parseInt(txt_puertas.getText()),
 								Integer.parseInt(txt_kilometros.getText()),Integer.parseInt(txt_potencia.getText()),Integer.parseInt(txt_anios.getText()),jl.getText());
-						Venta v=new Venta(c,MENU.getUactual(),"",Integer.parseInt(txt_precio.getText()), 0);
+						Venta v=new Venta(c,MENU.getUactual(),"",Integer.parseInt(txt_precio.getText()), 0,txt_desc.getText());
 						BD.aniadirVenta(BD.initBD("todoCoches.db", false), v);
 						
 						Venta[] nuevalista=new Venta[MENU.getLista().length+1];
@@ -193,8 +202,8 @@ public class VentanaVenta extends JFrame {
 						
 						MENU.setLista(nuevalista);
 						dispose();
-					}catch(Exception ex) {
-						ex.printStackTrace();
+					}catch(NumberFormatException | MalformedURLException ex) {
+						JOptionPane.showMessageDialog(btnNewButton, "Introduce los numeros correspondientes", "Error", JOptionPane.INFORMATION_MESSAGE, null);
 					}
 					
 				}

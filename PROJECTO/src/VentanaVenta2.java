@@ -62,7 +62,7 @@ public class VentanaVenta2 extends JFrame {
 	 * Create the frame.
 	 * @throws MalformedURLException 
 	 */
-	public VentanaVenta2(Venta v) throws MalformedURLException {
+	public VentanaVenta2(Venta v) throws MalformedURLException  {
 		this.venta=v;
 		if(MENU.getUactual().getDni().equals(v.getU().getDni())) {
 			editable=true;
@@ -163,7 +163,7 @@ public class VentanaVenta2 extends JFrame {
 							if(MENU.getLista()[i]!=null) {
 							if(!MENU.getLista()[i].equals(venta)) {
 								if(!MENU.getLista()[i].getC().equals(venta.getC()) ) {
-								nv[j]=MENU.getLista()[i];
+								nv[j]=MENU.getLista()[i];						
 								j++;
 								}
 							}

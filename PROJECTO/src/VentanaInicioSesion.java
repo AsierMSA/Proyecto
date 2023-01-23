@@ -80,7 +80,7 @@ public class VentanaInicioSesion extends JFrame {
 	             Usuario correcto = null;
 	             usuarios=BD.getMapaUsuarios();
 	             for(Usuario u:  BD.getMapaUsuarios().values()) {
-	            	 System.out.println(u);
+	            	 
 	            	 if(u.getNombre().equals(username)) {
 	            		 correctou=true;
 	            		 if(u.getContrasenia().equals(password)) {

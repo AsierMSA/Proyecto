@@ -31,11 +31,13 @@ public class Venta extends JLabel {
 	private static int y=185;
 	private String titulo;
 	URL url;
+	String desc;
 	private int vistas;
 	private int dinero;
-	public Venta(Coche c, Usuario u,String d, int dinero,int vistas) throws MalformedURLException {
+	public Venta(Coche c, Usuario u,String d, int dinero,int vistas,String desc) throws MalformedURLException {
 		this.c=c;
 		this.u=u;
+		this.desc=desc;
 		this.setVistas(vistas);
 		this.setTitulo(d);
 		this.setSize(x,y);
@@ -59,7 +61,7 @@ public class Venta extends JLabel {
 		}
 		this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance((int) (this.getWidth()), (int) (this.getHeight()), Image.SCALE_DEFAULT));
 		this.setIcon(this.icono);
-		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.getTitulo()+"</font></font><br><br>&emsp;&emsp;Descripcion&emsp;&emsp;&emsp;&emsp;&emsp;"+this.dinero+"€</html>");
+		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.c.getMarca()+" "+this.c.getModelo()+"</font></font><br><br>&emsp;&emsp;"+this.desc+"&emsp;&emsp;&emsp;&emsp;&emsp;"+this.dinero+"€</html>");
 		this.setFont(new Font("Arial", Font.PLAIN, 16));
 		
 		this.setVerticalTextPosition(SwingConstants.NORTH);
@@ -119,7 +121,7 @@ public class Venta extends JLabel {
 		this.vistas = vistas;
 	}
 	public void resetText() {
-		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.getTitulo()+"</font></font><br><br>&emsp;&emsp;Descripcion&emsp;&emsp;&emsp;&emsp;&emsp;"+this.dinero+"€</html>");
+		this.setText("<html><font size='6'><font face='SansSerif'>&emsp;"+this.getTitulo()+"</font></font><br><br>&emsp;&emsp;"+this.desc+"&emsp;&emsp;&emsp;&emsp;&emsp;"+this.dinero+"€</html>");
 		
 	}
 	

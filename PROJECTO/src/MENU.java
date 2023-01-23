@@ -372,10 +372,10 @@ public class MENU {
 		JMenu mSalir = new JMenu("Salir");
 		barraMenu.add(mFicheros);
 		barraMenu.add(mSalir);
-		JMenuItem mFicherosCargarFichero = new JMenuItem("Cargar Fichero");
+		JMenuItem mFicherosCargarFichero = new JMenuItem("Borrar compras");
 		mFicherosCargarFichero.setMnemonic(KeyEvent.VK_C);
-		JMenuItem mFicherosGuardarFicheros = new JMenuItem("Guardar Fichero");
-		JMenuItem mSalirCerrarSesion = new JMenuItem("Cerrar Sesion");
+		JMenuItem mFicherosGuardarFicheros = new JMenuItem("Guardar");
+		JMenuItem mSalirCerrarSesion = new JMenuItem("Cerrar Sesion ");
 		mFicheros.add(mFicherosCargarFichero);
 		mFicheros.add(mFicherosGuardarFicheros);
 		mSalir.add(mSalirCerrarSesion);
@@ -384,7 +384,7 @@ public class MENU {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				BD.resetCompras();
 			}
 		});
 		mFicherosGuardarFicheros.addActionListener(new ActionListener() {
@@ -707,18 +707,13 @@ public class MENU {
 				BD.rellenarTablas(con);
 				lista=BD.BDaMapa(con);
 				BD.closeBD(con);
-				try {
-					BD.cargaCompras();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 
 			}
 			private Venta[] recomendacionRecursiva(ArrayList<Coche> compras, Venta[] listaActual, Venta[] nuevalista,int indiceCompra,int indiceLista,int indiceNueva,HashSet<Coche> repetidos) {
 			
 				
-				if(compras.size()==0 || indiceCompra==compras.size() || indiceNueva == nuevalista.length|| compras.get(indiceCompra)==null ) {
+				if(compras==null || indiceCompra==compras.size() || indiceNueva == nuevalista.length|| compras.get(indiceCompra)==null ) {
 					return nuevalista;
 				}
 				System.out.println(indiceLista+","+listaActual.length);

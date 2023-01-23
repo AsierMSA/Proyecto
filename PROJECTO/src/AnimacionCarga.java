@@ -43,14 +43,14 @@ public class AnimacionCarga {
                 thread.start();
                
                
-                Timer timer = new Timer(57, new ActionListener() {
+                Timer timer = new Timer(50, new ActionListener() {
                     int progress = 0;
                     @Override
                     public void actionPerformed(ActionEvent e) {
                       pb.setValue(progress);
                       progress++;
                       if(progress == 100) {
-                         pb.setVisible(false);
+                         loading.setVisible(false);
                          
                       }
                     }
